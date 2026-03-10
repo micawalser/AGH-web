@@ -14,17 +14,44 @@
   const menuBtn = document.querySelector('.menu-btn');
   const nav = document.querySelector('.nav');
 
-  // Scroll: header más sólido al bajar
-  function onScroll() {
-    if (window.scrollY > 40) {
-      header.style.background = 'rgba(10, 10, 10, 0.95)';
+  // Header transparente desde el inicio hasta que FINALICE la sección del video; luego fondo negro
+  var heroSection = document.querySelector('.video-section.hero') || document.querySelector('.hero');
+  function setHeaderTransparent() {
+    if (!header) return;
+    header.style.setProperty('background', 'transparent', 'important');
+    header.style.setProperty('backdrop-filter', 'none', 'important');
+    header.style.setProperty('-webkit-backdrop-filter', 'none', 'important');
+    header.style.borderBottomColor = 'transparent';
+  }
+  function setHeaderSolid() {
+    if (!header) return;
+    header.style.setProperty('background', '#0a0a0a', 'important');
+    header.style.setProperty('backdrop-filter', 'blur(12px)', 'important');
+    header.style.setProperty('-webkit-backdrop-filter', 'blur(12px)', 'important');
+    header.style.borderBottomColor = 'rgba(255,255,255,0.06)';
+  }
+  function updateHeaderBg() {
+    if (!header) return;
+    // Transparente mientras la sección del video siga visible (su borde inferior no haya salido del viewport)
+    if (heroSection) {
+      var rect = heroSection.getBoundingClientRect();
+      var seccionTermino = rect.bottom;
+      if (seccionTermino > 80) {
+        setHeaderTransparent();
+      } else {
+        setHeaderSolid();
+      }
     } else {
-      header.style.background = 'rgba(10, 10, 10, 0.8)';
+      setHeaderSolid();
     }
   }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  if (header) {
+    setHeaderTransparent();
+  }
+  window.addEventListener('scroll', updateHeaderBg, { passive: true });
+  window.addEventListener('load', updateHeaderBg);
+  updateHeaderBg();
 
   // Menú móvil
   if (menuBtn && nav) {
@@ -82,7 +109,7 @@
   }
 
   // Reveal suave al hacer scroll (opcional)
-  const reveal = document.querySelectorAll('.section-title, .feature-card, .benefit, .cta-box, .machine-card');
+  const reveal = document.querySelectorAll('.section-title, .feature-card, .benefit, .cta-box, .machine-card, .software-title, .software-window');
   const observer = new IntersectionObserver(
     function (entries) {
       entries.forEach(function (entry) {

@@ -1,13 +1,14 @@
-tg<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AGH DIMENSIONADORES | Medición precisa de cajas y paquetes</title>
   <meta name="description" content="Soluciones de dimensionado y pesaje para logística. Precisión, velocidad y eficiencia en preparación de pedidos.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Ctext x='16' y='22' font-size='18' font-weight='bold' fill='%2334c98a' text-anchor='middle' font-family='sans-serif'%3EA%3C/text%3E%3C/svg%3E" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Oxanium:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,20 +16,33 @@ tg<!DOCTYPE html>
 
   <header class="header">
     <div class="header-inner">
-      <a href="#" class="logo">
+      <a href="index.html" class="logo">
         <img src="assets/agh.png" alt="AGH Dimensionadores" class="logo-img">
       </a>
       <nav class="nav">
-        <a href="#">Inicio</a>
+        <a href="index.html">Inicio</a>
         <div class="nav-dropdown">
           <span class="nav-dropdown-trigger">Productos</span>
           <div class="nav-dropdown-menu">
-            <a href="#odc">ODC</a>
-            <a href="#pdc">PDC</a>
-            <a href="#pdl">PDL</a>
+            <a href="productos.html#odc" class="nav-dropdown-link nav-dropdown-link--with-icon">
+              <img src="assets/dibujoodc.png" alt="" class="nav-dropdown-icon">
+              <span class="nav-dropdown-link-content">
+                <span class="nav-dropdown-link-title">ODC</span>
+                <span class="nav-dropdown-link-desc">Object Dimensional Camera</span>
+              </span>
+            </a>
+            <a href="productos.html#pdc" class="nav-dropdown-link nav-dropdown-link--with-icon">
+              <img src="assets/pdcdibujo.png" alt="" class="nav-dropdown-icon">
+              <span class="nav-dropdown-link-content">
+                <span class="nav-dropdown-link-title">PDC</span>
+                <span class="nav-dropdown-link-desc">Pallet Dimensional Camera</span>
+              </span>
+            </a>
+            <a href="productos.html#pdl" class="nav-dropdown-link">PDL</a>
+            <a href="productos.html#software" class="nav-dropdown-link">SOFTWARE</a>
           </div>
         </div>
-        <a href="#contacto" class="nav-cta">Contacto</a>
+        <a href="index.html#contacto" class="nav-cta">Contacto</a>
       </nav>
       <button class="menu-btn" aria-label="Abrir menú">
         <span></span><span></span><span></span>
@@ -38,48 +52,10 @@ tg<!DOCTYPE html>
 
   <div id="main-wrap">
   <main>
-    <section class="hero">
-      <div class="hero-bg">
-        <div class="hero-grid"></div>
-        <div class="hero-glow"></div>
-      </div>
-      <div class="hero-content">
-        <p class="hero-label">Medición y pesaje inteligente</p>
-        <h1 class="hero-logo-wrap">
-          <img src="assets/aghblanco.png" alt="AGH Dimensionadores" class="hero-logo">
-        </h1>
-        <p class="hero-desc">Precisión en cada paquete. Integración con tu flujo de preparación de pedidos. Menos errores, más velocidad.</p>
-        <div class="hero-actions">
-          <a href="#producto" class="btn btn-primary">Ver solución</a>
-          <a href="#contacto" class="btn btn-ghost">Solicitar información</a>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-render" aria-hidden="true">
-          <!-- Base negra -->
-          <div class="render-base"></div>
-          <!-- Columna vertical (perfiles aluminio) -->
-          <div class="render-column">
-            <div class="render-column-face"></div>
-            <div class="render-column-edge"></div>
-          </div>
-          <!-- Brazo horizontal -->
-          <div class="render-arm">
-            <div class="render-arm-bar"></div>
-            <!-- Caja del sensor -->
-            <div class="render-sensor">
-              <div class="render-sensor-body"></div>
-              <div class="render-sensor-lens"></div>
-              <div class="render-scan-line"></div>
-            </div>
-          </div>
-          <!-- Plataforma de medición (suelo bajo el sensor) -->
-          <div class="render-platform"></div>
-        </div>
-      </div>
-      <div class="hero-scroll">
-        <span>Scroll</span>
-        <div class="hero-scroll-line"></div>
+    <section class="section video-section hero">
+      <div class="video-section-inner">
+        <video class="video-section-player" src="assets/videohero.mp4" autoplay loop muted playsinline></video>
+        <img src="assets/giflogo.gif" alt="" class="video-section-gif">
       </div>
     </section>
 
@@ -100,12 +76,12 @@ tg<!DOCTYPE html>
           <div class="machines-strip" id="machines-strip">
             <article class="machine-card">
               <div class="machine-card-image">
-                <img src="assets/maquina.png" alt="Dimensionador estación">
+                <img src="assets/renderodc1.png" alt="ODC - Object Dimensional Camera">
               </div>
               <div class="machine-card-text">
                 <h3 class="machine-card-title">ODC</h3>
                 <p class="machine-card-desc">Object Dimensional Camera. Medición dimensional por cámara para objetos y bultos.</p>
-                <a href="#odc" class="machine-card-btn">Ver más</a>
+                <a href="productos.html#odc" class="machine-card-btn">Ver más</a>
               </div>
               <div class="machine-card-line" aria-hidden="true"></div>
             </article>
@@ -239,8 +215,6 @@ tg<!DOCTYPE html>
       </div>
     </section>
 
-    <section class="section section-fondo-prueba">
-    </section>
   </main>
 
   <footer class="footer">
@@ -254,36 +228,6 @@ tg<!DOCTYPE html>
     </div>
   </footer>
   </div>
-
-  <section id="odc" class="section machine-detail machine-detail-view">
-    <div class="machine-detail-inner">
-      <a href="#maquinas" class="machine-detail-back">
-        <span class="machine-detail-back-arrow">←</span> Volver al inicio
-      </a>
-
-      <div class="machine-detail-grid">
-        <div class="machine-detail-content">
-          <div class="machine-detail-logo-wrap">
-            <img src="assets/odclogo.png" alt="ODC" class="machine-detail-logo">
-          </div>
-          <p class="machine-detail-tagline">Object Dimensional Camera</p>
-          <h1 class="machine-detail-title">Medición dimensional por cámara para objetos y bultos</h1>
-          <p class="machine-detail-desc">Sistema de dimensionado por visión: captura dimensiones y peso de objetos individuales o bultos con precisión. Ideal para líneas de picking, estaciones de empaque y control dimensional en tiempo real sin contacto.</p>
-          <ul class="machine-detail-list">
-            <li>Dimensionado por cámara 3D</li>
-            <li>Pesaje integrado</li>
-            <li>Sin contacto físico con el producto</li>
-            <li>Integración con WMS y software logístico</li>
-          </ul>
-        </div>
-        <div class="machine-detail-visual">
-          <div class="machine-detail-visual-frame">
-            <img src="assets/odcproducto.png" alt="ODC - Object Dimensional Camera">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <script src="main.js"></script>
 </body>
