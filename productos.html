@@ -19,9 +19,9 @@
       --border: rgba(255,255,255,0.06);
       --text: #ffffff;
       --text-muted: #888888;
-      --accent: #34c98a;
-      --accent-dim: rgba(52,201,138,0.12);
-      --accent-glow: rgba(52,201,138,0.35);
+      --accent: #A6CDAA;
+      --accent-dim: rgba(166,205,170,0.12);
+      --accent-glow: rgba(166,205,170,0.35);
       --font-body: 'Geist', system-ui, sans-serif;
       --font-mono: 'Geist Mono', monospace;
       --header-h: 72px;
@@ -171,19 +171,18 @@
       background: transparent;
       backdrop-filter: none;
       border-bottom: 1px solid transparent;
-      display: flex;
-      justify-content: center;
       padding: 0;
     }
     .product-tabs {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1.5rem;
-      width: 100%;
+      justify-content: space-between;
+      align-items: stretch;
+      width: min(100%, 1200px);
+      margin: 0 auto;
     }
     .product-tab {
-      padding: 1rem 2.5rem;
+      flex: 1;
+      padding: 1rem 0;
       font-family: var(--font-body);
       font-size: 0.82rem;
       font-weight: 600;
@@ -297,7 +296,14 @@
       color: #fff;
     }
     .product-odc-logo {
-      max-width: 220px;
+      max-width: 240px;
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+    .product-pdc-logo {
+      max-width: 280px;
       width: 100%;
       height: auto;
       display: block;
@@ -359,7 +365,11 @@
         font-size: clamp(6rem, 14vw, 14rem);
       }
       .product-odc-logo {
-        max-width: 190px;
+        max-width: 210px;
+        margin-bottom: 1rem;
+      }
+      .product-pdc-logo {
+        max-width: 250px;
         margin-bottom: 1rem;
       }
       .product-headline {
@@ -374,8 +384,8 @@
       }
     }
     .btn-product-primary:hover {
-      background: #42d99a;
-      box-shadow: 0 0 28px rgba(52,201,138,0.4);
+      background: #68946C;
+      box-shadow: 0 0 28px rgba(104,148,108,0.4);
       transform: translateY(-1px);
     }
     .btn-product-ghost {
@@ -406,6 +416,9 @@
       align-items: center;
       gap: 1.75rem;
     }
+    .product-visual-layout-pdc {
+      transform: translateX(25px);
+    }
     .product-visual-wrap {
       position: relative;
       width: 100%;
@@ -424,6 +437,9 @@
       filter: none;
       transform: scale(1.25) translateX(30px);
       transform-origin: center;
+    }
+    .product-visual-img-pdc {
+      transform: scale(1.55) translate(70px, -25px);
     }
     .product-visual-stack {
       display: flex;
@@ -782,7 +798,7 @@
           </div>
         </div>
         <div class="product-banner-right fade-up fade-up-d2">
-          <div class="product-visual-layout">
+          <div class="product-visual-layout product-visual-layout-pdc">
             <div class="product-visual-wrap">
               <img src="assets/renderodc3.png" alt="ODC Dimensionador" class="product-visual-img">
             </div>
@@ -859,12 +875,10 @@
   <!-- PDC -->
   <section id="pdc" class="product-section">
     <div class="product-section-banner">
-      <span class="product-bg-label">PDC</span>
+      <span class="product-bg-label" style="top:30%;">PDC</span>
       <div class="product-section-banner-inner">
         <div class="product-banner-left">
-          <div class="product-tag fade-up">Dimensionado de pallets</div>
-          <div class="product-name-display fade-up fade-up-d1">PDC</div>
-          <div class="product-name-full fade-up fade-up-d1">Pallet Dimensional Camera</div>
+          <img src="assets/pdclogo.png" alt="PDC Dimensionado de pallets" class="product-pdc-logo fade-up">
           <p class="product-headline fade-up fade-up-d2">
             Medición avanzada para pallets completos y cargas voluminosas.
           </p>
@@ -881,8 +895,13 @@
           </div>
         </div>
         <div class="product-banner-right fade-up fade-up-d2">
-          <div class="product-visual-wrap">
-            <img src="assets/renderpd1.png" alt="PDC Dimensionador" class="product-visual-img">
+          <div class="product-visual-layout">
+            <div class="product-visual-wrap">
+              <img src="assets/renderpdc1.png" alt="PDC Dimensionador" class="product-visual-img product-visual-img-pdc">
+            </div>
+            <div class="product-visual-stack">
+              <img src="assets/renderpdc3.png" alt="PDC vista 2" class="product-visual-thumb">
+            </div>
           </div>
         </div>
       </div>
