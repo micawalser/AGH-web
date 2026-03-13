@@ -142,7 +142,7 @@ body {
 .nav a {
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 400;
   transition: color 0.2s;
 }
@@ -163,7 +163,7 @@ body {
 
 .nav-dropdown-trigger {
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 400;
   cursor: pointer;
   transition: color 0.2s;
@@ -727,25 +727,49 @@ body {
   height: 100vh;
 }
 
+/* Player base */
+.video-section-player {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  opacity: 0.95;
+  position: relative;
+  z-index: 1;
+}
+
+/* Player desktop: pantalla completa */
 .video-section.hero .video-section-player {
   min-height: 100vh;
   height: 100%;
   object-fit: cover;
 }
 
-.video-section-gif {
+/* GIF logo: recorte de costados para poder agrandarlo */
+.video-section-gif-wrap {
   position: absolute;
-  top: 2%;
-  left: -4%;
-  transform: translateY(0);
-  width: auto;
-  height: 520px;
-  max-height: 70vw;
-  object-fit: contain;
+  top: -18%;
+  left: -10%;
   z-index: 10;
+  width: 520px;
+  height: 320px;
+  max-width: 78vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
 }
+.video-section-gif {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  transform: scale(1.5);
+}
 
+/* Animación: desktop only */
 .video-section-anim {
   position: absolute;
   top: 6%;
@@ -758,14 +782,60 @@ body {
   pointer-events: none;
 }
 
-.video-section-player {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  opacity: 0.95;
-  position: relative;
-  z-index: 1;
+/* ---- MÓVIL: logo arriba, render abajo ---- */
+@media (max-width: 768px) {
+  /* Sección: altura automática, dos bloques apilados */
+  .video-section,
+  .video-section.hero {
+    min-height: auto;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  /* Contenedor: columna simple */
+  .video-section-inner,
+  .video-section.hero .video-section-inner {
+    display: block;
+    position: static;
+    min-height: auto;
+    height: auto;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Logo: recorte costados y más grande */
+  .video-section-gif-wrap {
+    position: static;
+    width: 94vw;
+    height: 58vw;
+    max-width: 440px;
+    max-height: 280px;
+    margin: calc(var(--header-h) + 1rem) auto 1.25rem auto;
+  }
+  .video-section-gif {
+    transform: scale(1.5);
+  }
+
+  /* Render: más grande y desplazado a la izquierda */
+  .video-section-player,
+  .video-section.hero .video-section-player {
+    position: static;
+    width: 148%;
+    max-width: 148%;
+    height: 118vw;
+    min-height: 320px;
+    max-height: none;
+    object-fit: contain;
+    object-position: left center;
+    transform: translateX(-34%);
+    margin-top: -1.5rem;
+  }
+
+  /* Animación: oculta */
+  .video-section-anim {
+    display: none;
+  }
 }
 
 /* ----- Sección máquinas (estilo Lambda) ----- */

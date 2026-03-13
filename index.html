@@ -60,9 +60,10 @@
   <main>
     <section class="section video-section hero">
       <div class="video-section-inner">
-        <video class="video-section-player" src="assets/odc.webm" autoplay loop muted playsinline></video>
-        <video class="video-section-gif" src="assets/video.webm" autoplay loop muted playsinline></video>
-        <video class="video-section-anim" src="assets/animacion_rapida.webm" autoplay loop muted playsinline></video>
+        <div class="video-section-gif-wrap">
+          <video class="video-section-gif" src="assets/video.webm" autoplay loop muted playsinline></video>
+        </div>
+        <video class="video-section-player" src="assets/animacion_rapida.webm" autoplay loop muted playsinline></video>
       </div>
     </section>
 
@@ -217,7 +218,7 @@
           <div class="cta-box-glow"></div>
           <h2 class="cta-title">¿Listo para dimensionar mejor?</h2>
           <p class="cta-desc">Cuéntanos tu operativa y te mostramos cómo encaja AGH en tu preparación de pedidos.</p>
-          <a href="mailto:info@aghdimensionadores.com" class="btn cta-btn btn-primary btn-large">Contactar</a>
+          <a href="/cdn-cgi/l/email-protection#036a6d656c4362646b676a6e666d706a6c6d62676c7166702d606c6e" class="btn cta-btn btn-primary btn-large">Contactar</a>
         </div>
       </div>
     </section>
@@ -236,10 +237,10 @@
   </footer>
   </div>
 
-  <script src="main.js"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="main.js"></script>
   <script>
     window.addEventListener('load', () => {
-      const animVideo = document.querySelector('.video-section-anim');
+      const animVideo = document.querySelector('.video-section-player');
       if (animVideo) {
         animVideo.playbackRate = 0.4;
       }

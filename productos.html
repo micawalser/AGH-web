@@ -282,6 +282,11 @@
       color: var(--accent);
       margin-bottom: 1.25rem;
     }
+    .product-tag--software {
+      color: #34c98a;
+      border-color: rgba(52,201,138,0.6);
+      background: rgba(52,201,138,0.12);
+    }
     .product-tag::before {
       content: '';
       width: 24px; height: 1px;
@@ -565,6 +570,34 @@
     .software-header {
       max-width: 1200px;
       margin: 0 auto 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .software-header-left {
+      max-width: 60%;
+    }
+    .software-header-right {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .software-mockup-img {
+      max-width: 340px;
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      transform: translateX(-40px);
+    }
+    .software-voxel-img {
+      width: 190px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 1.25rem;
     }
     .software-products-grid {
       max-width: 1200px;
@@ -1003,12 +1036,17 @@
     <div class="software-section-banner">
       <span class="product-bg-label" style="right:-3%;">SW</span>
       <div class="software-header">
-        <div class="product-tag fade-up">Plataforma de software</div>
-        <div class="product-name-display fade-up fade-up-d1">Software</div>
-        <div class="product-name-full fade-up fade-up-d1">AGH Voxel Suite</div>
-        <p class="product-headline fade-up fade-up-d2" style="max-width:620px;">
-          Almacena, exporta e integra tus datos dimensionales para aumentar la rentabilidad y eficiencia en toda tu cadena de suministro.
-        </p>
+        <div class="software-header-left">
+          <img src="assets/dibujovoxel.png" alt="AGH Voxel Suite" class="software-voxel-img fade-up fade-up-d1">
+          <div class="product-name-display fade-up fade-up-d1">Software</div>
+          <div class="product-name-full fade-up fade-up-d1">AGH Voxel Suite</div>
+          <p class="product-headline fade-up fade-up-d2" style="max-width:620px;">
+            Almacena, exporta e integra tus datos dimensionales para aumentar la rentabilidad y eficiencia en toda tu cadena de suministro.
+          </p>
+        </div>
+        <div class="software-header-right fade-up fade-up-d2">
+          <img src="assets/mockup.png" alt="Mockup de AGH Voxel Suite" class="software-mockup-img">
+        </div>
       </div>
       <div class="software-products-grid">
         <div class="sw-product-card fade-up">
