@@ -698,12 +698,11 @@ body {
   50% { opacity: 1; transform: scaleY(1); }
 }
 
-/* ----- Hero = sección video (pantalla completa) ----- */
+/* ----- Hero video section ----- */
 .video-section {
   padding: 0;
-  background: var(--bg) url("assets/fondoval.png") center center / cover no-repeat;
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
 }
 
 .video-section.hero {
@@ -712,131 +711,137 @@ body {
   align-items: stretch;
 }
 
-.video-section-inner {
+/* Intro móvil: oculto en desktop */
+.hero-mobile-intro {
+  display: none;
+}
+
+/* =====================
+   DESKTOP: logo izq + render der sobre fondoval
+   ===================== */
+.hero-desktop-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
-  margin: 0;
-  padding: 0;
-  position: relative;
+  min-height: 100vh;
+  background: var(--bg) url("assets/fondoval.png") center center / cover no-repeat;
+}
+
+.hero-desktop-logo {
   display: flex;
-  align-items: stretch;
-  min-height: 100vh;
-}
-
-.video-section.hero .video-section-inner {
-  min-height: 100vh;
-  height: 100vh;
-}
-
-/* Player base */
-.video-section-player {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  opacity: 0.95;
-  position: relative;
-  z-index: 1;
-}
-
-/* Player desktop: pantalla completa */
-.video-section.hero .video-section-player {
-  min-height: 100vh;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* GIF logo: recorte de costados para poder agrandarlo */
-.video-section-gif-wrap {
-  position: absolute;
-  top: -18%;
-  left: -10%;
-  z-index: 10;
-  width: 520px;
-  height: 320px;
-  max-width: 78vw;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  pointer-events: none;
+  padding: 0 3rem 3rem 5vw;
+  overflow: hidden;
 }
+
 .video-section-gif {
-  width: 100%;
-  height: 100%;
+  width: 140%;
+  max-width: none;
+  height: 80vh;
   display: block;
   object-fit: cover;
-  object-position: center center;
-  transform: scale(1.5);
+  /* Recortar fuerte la parte superior del logo en desktop */
+  object-position: center 80%;
 }
 
-/* Animación: desktop only */
-.video-section-anim {
-  position: absolute;
-  top: 6%;
-  right: 10%;
-  width: auto;
-  height: 420px;
-  max-height: 60vw;
-  object-fit: contain;
-  z-index: 10;
-  pointer-events: none;
+.hero-desktop-render {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 8vw 3rem 2rem;
+  overflow: hidden;
 }
 
-/* ---- MÓVIL: logo arriba, render abajo ---- */
+.video-section-player {
+  width: 140%;
+  height: 90vh;
+  max-height: 90vh;
+  display: block;
+  object-fit: cover;
+  /* Recortar fuerte la parte superior del render en desktop */
+  object-position: right 80%;
+}
+
+/* =====================
+   MÓVIL: intro video → fade al render
+   ===================== */
 @media (max-width: 768px) {
-  /* Sección: altura automática, dos bloques apilados */
-  .video-section,
   .video-section.hero {
     min-height: auto;
-    height: auto;
     display: block;
-    overflow: visible;
   }
 
-  /* Contenedor: columna simple */
-  .video-section-inner,
-  .video-section.hero .video-section-inner {
-    display: block;
-    position: static;
-    min-height: auto;
-    height: auto;
+  /* Intro: pantalla completa fija hasta que termina */
+  .hero-mobile-intro {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
-    overflow-x: hidden;
+    height: 100dvh;
+    z-index: 99;
+    background: var(--bg);
   }
-
-  /* Logo: recorte costados y más grande */
-  .video-section-gif-wrap {
-    position: static;
-    width: 94vw;
-    height: 58vw;
-    max-width: 440px;
-    max-height: 280px;
-    margin: calc(var(--header-h) + 1rem) auto 1.25rem auto;
-  }
-  .video-section-gif {
-    transform: scale(1.5);
-  }
-
-  /* Render: más grande y desplazado a la izquierda */
-  .video-section-player,
-  .video-section.hero .video-section-player {
-    position: static;
-    width: 148%;
-    max-width: 148%;
-    height: 118vw;
-    min-height: 320px;
-    max-height: none;
-    object-fit: contain;
-    object-position: left center;
-    transform: translateX(-34%);
-    margin-top: -1.5rem;
-  }
-
-  /* Animación: oculta */
-  .video-section-anim {
+  .hero-mobile-intro.is-finished {
     display: none;
   }
+  .hero-mobile-intro-video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+  }
+
+  /* Layout desktop: oculto hasta que termina el intro */
+  .hero-desktop-layout {
+    display: block;
+    background: var(--bg);
+    min-height: calc(100vh - var(--header-h));
+    position: relative;
+  }
+
+  .hero-desktop-logo {
+    display: none;
+  }
+
+  .hero-desktop-render {
+    padding: 0;
+    width: 100%;
+    height: calc(100vh - var(--header-h));
+    position: relative;
+  }
+
+  /* Render: oculto hasta fade-in */
+  .video-section-player {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .hero-desktop-layout.hero-intro-done .video-section-player {
+    opacity: 1;
+  }
 }
+
+@media (min-width: 769px) {
+  .hero-mobile-intro {
+    display: none !important;
+  }
+  .video-section-player {
+    opacity: 1 !important;
+  }
+}
+
 
 /* ----- Sección máquinas (estilo Lambda) ----- */
 .machines {

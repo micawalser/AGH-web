@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="page-inicio">
   <div class="noise"></div>
 
   <header class="header">
@@ -59,11 +59,25 @@
   <div id="main-wrap">
   <main>
     <section class="section video-section hero">
-      <div class="video-section-inner">
-        <div class="video-section-gif-wrap">
-          <video class="video-section-gif" src="assets/video.webm" autoplay loop muted playsinline></video>
+      <!-- MÓVIL: intro a pantalla completa, luego fade al render -->
+      <div class="hero-mobile-intro" id="hero-mobile-intro">
+        <video class="hero-mobile-intro-video" src="assets/video.mp4" autoplay muted playsinline></video>
+      </div>
+
+      <!-- DESKTOP: logo izquierda, render derecha, fondo fondoval -->
+      <div class="hero-desktop-layout">
+        <div class="hero-desktop-logo">
+          <video class="video-section-gif" autoplay loop muted playsinline>
+            <source src="assets/video.webm" type="video/webm">
+            <source src="assets/video.mp4" type="video/mp4">
+          </video>
         </div>
-        <video class="video-section-player" src="assets/animacion_rapida.webm" autoplay loop muted playsinline></video>
+        <div class="hero-desktop-render">
+          <video class="video-section-player" autoplay loop muted playsinline>
+            <source src="assets/animacion_rapida.webm" type="video/webm">
+            <source src="assets/animacion_rapida.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
     </section>
 
@@ -218,7 +232,7 @@
           <div class="cta-box-glow"></div>
           <h2 class="cta-title">¿Listo para dimensionar mejor?</h2>
           <p class="cta-desc">Cuéntanos tu operativa y te mostramos cómo encaja AGH en tu preparación de pedidos.</p>
-          <a href="/cdn-cgi/l/email-protection#036a6d656c4362646b676a6e666d706a6c6d62676c7166702d606c6e" class="btn cta-btn btn-primary btn-large">Contactar</a>
+          <a href="/cdn-cgi/l/email-protection#d1b8bfb7be91b0b6b9b5b8bcb4bfa2b8bebfb0b5bea3b4a2ffb2bebc" class="btn cta-btn btn-primary btn-large">Contactar</a>
         </div>
       </div>
     </section>
@@ -240,9 +254,38 @@
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="main.js"></script>
   <script>
     window.addEventListener('load', () => {
-      const animVideo = document.querySelector('.video-section-player');
+      const playerVideo = document.querySelector('.video-section-player');
+      // En móvil usar siempre .mp4 para el render (mejor compatibilidad)
+      if (playerVideo && window.matchMedia('(max-width: 768px)').matches) {
+        playerVideo.src = 'assets/animacion_rapida.mp4';
+      }
+      if (playerVideo) playerVideo.playbackRate = 0.4;
+
+      // Mobile intro logic
+      const introWrap = document.getElementById('hero-mobile-intro');
+      const introVideo = document.querySelector('.hero-mobile-intro-video');
+      const sectionInner = document.querySelector('.hero-desktop-layout');
+      if (introWrap && introVideo) {
+        function showRender() {
+          introWrap.classList.add('is-finished');
+          if (sectionInner) sectionInner.classList.add('hero-intro-done');
+          if (playerVideo) { playerVideo.currentTime = 0; playerVideo.play().catch(function(){});}
+        }
+        introVideo.addEventListener('ended', showRender);
+        introVideo.addEventListener('timeupdate', function() {
+          if (introVideo.duration > 0 && introVideo.currentTime >= introVideo.duration - 0.5) {
+            introVideo.removeEventListener('timeupdate', arguments.callee);
+            showRender();
+          }
+        });
+      }
+    });
+  </script>
+  <script>
+    window.addEventListener('load', () => {
+      const animVideo = document.querySelector('.video-section-anim');
       if (animVideo) {
-        animVideo.playbackRate = 0.4;
+        animVideo.play();
       }
     });
   </script>
