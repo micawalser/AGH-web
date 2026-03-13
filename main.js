@@ -14,8 +14,10 @@
   const menuBtn = document.querySelector('.menu-btn');
   const nav = document.querySelector('.nav');
 
-  // Header transparente desde el inicio hasta que FINALICE la sección del video; luego fondo negro
+  // Header transparente desde el inicio hasta que aparezca la sección "Las máquinas de tu logística"
+  // (usamos el bloque .machines-header como referencia visual)
   var heroSection = document.querySelector('.video-section.hero') || document.querySelector('.hero');
+  var machinesHeader = document.querySelector('.machines-header');
   function setHeaderTransparent() {
     if (!header) return;
     header.style.setProperty('background', 'transparent', 'important');
@@ -32,7 +34,21 @@
   }
   function updateHeaderBg() {
     if (!header) return;
-    // Transparente mientras la sección del video siga visible (su borde inferior no haya salido del viewport)
+
+    // Si existe el bloque de "Las máquinas...", usamos su posición como referencia:
+    // mientras su parte superior esté por debajo del header, el header sigue transparente.
+    if (machinesHeader) {
+      var rectMachines = machinesHeader.getBoundingClientRect();
+      var headerH = header.offsetHeight || 72;
+      if (rectMachines.top > headerH + 10) {
+        setHeaderTransparent();
+      } else {
+        setHeaderSolid();
+      }
+      return;
+    }
+
+    // Fallback: comportamiento anterior basado en el final de la sección de video
     if (heroSection) {
       var rect = heroSection.getBoundingClientRect();
       var seccionTermino = rect.bottom;

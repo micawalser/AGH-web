@@ -62,6 +62,7 @@
       <div class="video-section-inner">
         <video class="video-section-player" src="assets/odc.webm" autoplay loop muted playsinline></video>
         <video class="video-section-gif" src="assets/video.webm" autoplay loop muted playsinline></video>
+        <video class="video-section-anim" src="assets/animacion_rapida.webm" autoplay loop muted playsinline></video>
       </div>
     </section>
 
@@ -236,5 +237,13 @@
   </div>
 
   <script src="main.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const animVideo = document.querySelector('.video-section-anim');
+      if (animVideo) {
+        animVideo.playbackRate = 0.4;
+      }
+    });
+  </script>
 </body>
 </html>

@@ -735,12 +735,24 @@ body {
 
 .video-section-gif {
   position: absolute;
-  top: 22%;
-  left: 0;
+  top: 2%;
+  left: -4%;
   transform: translateY(0);
   width: auto;
-  height: 460px;
-  max-height: 65vw;
+  height: 520px;
+  max-height: 70vw;
+  object-fit: contain;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.video-section-anim {
+  position: absolute;
+  top: 6%;
+  right: 10%;
+  width: auto;
+  height: 420px;
+  max-height: 60vw;
   object-fit: contain;
   z-index: 10;
   pointer-events: none;
