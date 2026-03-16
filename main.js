@@ -14,10 +14,9 @@
   const menuBtn = document.querySelector('.menu-btn');
   const nav = document.querySelector('.nav');
 
-  // Header transparente desde el inicio hasta que aparezca la sección "Las máquinas de tu logística"
-  // (usamos el bloque .machines-header como referencia visual)
+  // Header transparente mientras el hero (fondoval) está visible
+  // Usamos la sección de video como referencia
   var heroSection = document.querySelector('.video-section.hero') || document.querySelector('.hero');
-  var machinesHeader = document.querySelector('.machines-header');
   function setHeaderTransparent() {
     if (!header) return;
     header.style.setProperty('background', 'transparent', 'important');
@@ -35,24 +34,12 @@
   function updateHeaderBg() {
     if (!header) return;
 
-    // Si existe el bloque de "Las máquinas...", usamos su posición como referencia:
-    // mientras su parte superior esté por debajo del header, el header sigue transparente.
-    if (machinesHeader) {
-      var rectMachines = machinesHeader.getBoundingClientRect();
-      var headerH = header.offsetHeight || 72;
-      if (rectMachines.top > headerH + 10) {
-        setHeaderTransparent();
-      } else {
-        setHeaderSolid();
-      }
-      return;
-    }
-
-    // Fallback: comportamiento anterior basado en el final de la sección de video
+    // Mientras el hero siga ocupando espacio por debajo del header, mantenemos el header transparente.
     if (heroSection) {
       var rect = heroSection.getBoundingClientRect();
-      var seccionTermino = rect.bottom;
-      if (seccionTermino > 80) {
+      var headerH = header.offsetHeight || 72;
+      var heroSigueDetrasDelHeader = rect.bottom > headerH + 10;
+      if (heroSigueDetrasDelHeader) {
         setHeaderTransparent();
       } else {
         setHeaderSolid();
@@ -89,8 +76,8 @@
   }
 
   // Título máquinas: animación tipo máquina de escribir al entrar en vista
-  const machinesHeader = document.querySelector('.machines-header');
-  if (machinesHeader) {
+  const machinesHeaderAnim = document.querySelector('.machines-header');
+  if (machinesHeaderAnim) {
     const titleObserver = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
@@ -101,7 +88,7 @@
       },
       { threshold: 0.2 }
     );
-    titleObserver.observe(machinesHeader);
+    titleObserver.observe(machinesHeaderAnim);
   }
 
   // CTA: imagen de fondo que se revela a medida que scrolleas (scroll-driven, estilo Freshman)

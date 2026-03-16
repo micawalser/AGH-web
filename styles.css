@@ -709,6 +709,9 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: stretch;
+  /* Hacer que el fondo del hero empiece detrás del header fijo */
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: var(--header-h);
 }
 
 /* Intro móvil: oculto en desktop */
@@ -725,6 +728,8 @@ body {
   width: 100%;
   min-height: 100vh;
   background: var(--bg) url("assets/fondoval.png") center center / cover no-repeat;
+  /* Bajar ligeramente logo y render para compensar el header fijo */
+  align-items: center;
 }
 
 .hero-desktop-logo {
@@ -741,8 +746,9 @@ body {
   height: 80vh;
   display: block;
   object-fit: cover;
-  /* Recortar fuerte la parte superior del logo en desktop */
-  object-position: center 80%;
+  /* Subir el logo recortando la parte superior vacía */
+  object-position: center 20%;
+  margin-top: -100px;
 }
 
 .hero-desktop-render {
@@ -751,6 +757,8 @@ body {
   justify-content: center;
   padding: 0 8vw 3rem 2rem;
   overflow: hidden;
+  /* Bajar el render respecto al logo */
+  margin-top: 60px;
 }
 
 .video-section-player {
