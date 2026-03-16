@@ -853,7 +853,8 @@ body {
 
 /* ----- Sección máquinas (estilo Lambda) ----- */
 .machines {
-  padding: 5rem 0;
+  /* Subir un poco los textos "Las máquinas de tu logística" acercándolos al hero anterior */
+  padding: 3.5rem 0 5rem;
   background: var(--bg);
 }
 
@@ -997,7 +998,8 @@ body {
 .machine-card-btn {
   display: inline-flex;
   align-items: center;
-  margin-top: 0.75rem;
+  /* Empuja el botón al fondo de la card para alinear "Ver más" entre tarjetas */
+  margin-top: auto;
   font-family: 'Geist', sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
