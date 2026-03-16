@@ -67,6 +67,11 @@
 
     nav.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
+        // En móvil, si el enlace pertenece al dropdown de Productos,
+        // no cerramos el menú automáticamente (dejamos que solo se abra/cierre el submenú)
+        if (window.innerWidth <= 900 && link.closest('.nav-dropdown')) {
+          return;
+        }
         nav.classList.remove('is-open');
         menuBtn.classList.remove('is-open');
         menuBtn.setAttribute('aria-label', 'Abrir menú');
@@ -111,6 +116,48 @@
     updateCtaReveal();
   }
 
+  // CTA: efecto máquina de escribir en el título "¿Listo para dimensionar mejor?"
+  const ctaTitle = document.querySelector('.cta .cta-title');
+  if (ctaTitle) {
+    const fullText = (ctaTitle.textContent || '').trim();
+    let hasTyped = false;
+
+    // Prepara el título vacío para que no parpadee el texto completo antes de la animación
+    ctaTitle.textContent = '';
+
+    function startTypewriter() {
+      if (hasTyped || !fullText) return;
+      hasTyped = true;
+
+      let index = 0;
+      const speed = 90; // ms por carácter (ritmo pausado)
+
+      function step() {
+        if (index <= fullText.length) {
+          ctaTitle.textContent = fullText.slice(0, index);
+          index += 1;
+          setTimeout(step, speed);
+        }
+      }
+
+      step();
+    }
+
+    // Dispara la animación cuando el título entra en vista (junto con el resto de la CTA)
+    const ctaTitleObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            startTypewriter();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    ctaTitleObserver.observe(ctaTitle);
+  }
+
   // Reveal suave al hacer scroll (opcional)
   const reveal = document.querySelectorAll('.section-title, .feature-card, .benefit, .cta-box, .machine-card, .software-title, .software-window');
   const observer = new IntersectionObserver(
@@ -128,4 +175,17 @@
     el.classList.add('reveal');
     observer.observe(el);
   });
+
+  // Navegación móvil: desplegar submenú de Productos solo al tocar "Productos"
+  const productsDropdown = document.querySelector('.nav-dropdown');
+  const productsTrigger = productsDropdown ? productsDropdown.querySelector('.nav-dropdown-trigger') : null;
+  if (productsDropdown && productsTrigger) {
+    productsTrigger.addEventListener('click', function (e) {
+      // En móvil/tablet usamos el tap para abrir/cerrar submenú
+      if (window.innerWidth <= 900) {
+        e.preventDefault();
+        productsDropdown.classList.toggle('is-open');
+      }
+    });
+  }
 })();

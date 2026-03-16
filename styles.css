@@ -140,15 +140,19 @@ body {
 }
 
 .nav a {
-  color: var(--text-muted);
+  color: rgba(240, 244, 248, 0.88);
   text-decoration: none;
   font-size: 1.05rem;
-  font-weight: 400;
-  transition: color 0.2s;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+  transition: color 0.2s, text-shadow 0.2s;
 }
 
 .nav a:hover {
-  color: var(--text);
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(0, 0, 0, 0.9);
 }
 
 .nav-cta {
@@ -162,11 +166,14 @@ body {
 }
 
 .nav-dropdown-trigger {
-  color: var(--text-muted);
+  color: rgba(240, 244, 248, 0.88);
   font-size: 1.05rem;
-  font-weight: 400;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color 0.2s, text-shadow 0.2s;
   padding: 0.25rem 0;
 }
 
@@ -178,7 +185,7 @@ body {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(14px);
   margin-top: 0.5rem;
   min-width: 320px;
   padding: 0.6rem 0;
@@ -188,13 +195,16 @@ body {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s, visibility 0.2s;
+  pointer-events: none;
+  transition: opacity 0.35s ease-out, visibility 0.35s ease-out, transform 0.35s ease-out;
   z-index: 50;
 }
 
 .nav-dropdown:hover .nav-dropdown-menu {
   opacity: 1;
   visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
 }
 
 .nav-dropdown-menu .nav-dropdown-link {
@@ -204,7 +214,31 @@ body {
   color: var(--text-muted);
   font-size: 0.9rem;
   text-decoration: none;
-  transition: color 0.2s, background 0.2s;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s cubic-bezier(.73,.32,.34,1.5), transform 0.4s cubic-bezier(.73,.32,.34,1.5), color 0.2s, background 0.2s;
+}
+
+/* efecto de "desplegar" items del dropdown con pequeño retraso escalonado */
+.nav-dropdown:hover .nav-dropdown-menu .nav-dropdown-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu .nav-dropdown-link:nth-child(1) {
+  transition-delay: 0.05s;
+}
+.nav-dropdown:hover .nav-dropdown-menu .nav-dropdown-link:nth-child(2) {
+  transition-delay: 0.1s;
+}
+.nav-dropdown:hover .nav-dropdown-menu .nav-dropdown-link:nth-child(3) {
+  transition-delay: 0.15s;
+}
+.nav-dropdown:hover .nav-dropdown-menu .nav-dropdown-link:nth-child(4) {
+  transition-delay: 0.2s;
+}
+.nav-dropdown:hover .nav-dropdown-menu .nav-dropdown-link:nth-child(5) {
+  transition-delay: 0.25s;
 }
 
 /* Línea fina verde entre productos, se difumina a los costados */
@@ -290,16 +324,69 @@ body {
 @media (max-width: 900px) {
   .nav.is-open {
     display: flex;
-    position: fixed;
+    position: absolute;
     top: var(--header-h);
     left: 0;
     right: 0;
-    bottom: 0;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 1.5rem;
-    background: var(--bg);
+    width: 100%;
+    background: var(--accent);
     font-size: 1.25rem;
+    padding: 2.5rem 1.75rem 2rem;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
+  }
+
+  /* Estilo de enlaces dentro del menú móvil */
+  .nav.is-open a,
+  .nav.is-open .nav-dropdown-trigger {
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-size: 1.1rem;
+  }
+
+  .nav.is-open a:hover,
+  .nav.is-open .nav-dropdown-trigger:hover {
+    color: #f5f5f5;
+  }
+
+  /* Forzar que el CTA de contacto también sea negro en el menú móvil */
+  .nav.is-open .nav-cta {
+    color: #ffffff !important;
+  }
+
+  /* Forzar color negro específicamente en el trigger de Productos */
+  .nav.is-open .nav-dropdown-trigger {
+    color: #ffffff !important;
+  }
+
+  /* Líneas divisorias entre INICIO / PRODUCTOS / CONTACTO en móvil */
+  .nav.is-open > a,
+  .nav.is-open > .nav-dropdown {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 0.25rem;
+  }
+
+  .nav.is-open > a::after,
+  .nav.is-open > .nav-dropdown::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.4rem;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.18);
+  }
+
+  /* No dibujar línea debajo del último (CONTACTO) */
+  .nav.is-open > a:last-child::after {
+    display: none;
   }
 
   .nav.is-open .nav-dropdown {
@@ -317,39 +404,58 @@ body {
   .nav.is-open .nav-dropdown-menu {
     position: static;
     transform: none;
-    opacity: 1;
-    visibility: visible;
+    opacity: 0;
+    visibility: hidden;
     margin-top: 0;
     background: transparent;
     border: none;
     box-shadow: none;
     padding: 0;
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  /* En móvil, solo mostramos el submenú cuando la opción Productos está abierta */
+  .nav.is-open .nav-dropdown.is-open .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    max-height: 500px;
   }
 
   .nav.is-open .nav-dropdown-menu a {
     font-size: 1rem;
     padding: 0.4rem 0;
+    opacity: 1;
+    transform: none;
+    transition: color 0.2s, background 0.2s;
   }
 
   .nav.is-open .nav-dropdown-menu .nav-dropdown-link.nav-dropdown-link--with-icon {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0.75rem 0;
-    gap: 1rem;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0.9rem 0;
+    gap: 1.1rem;
   }
 
   .nav.is-open .nav-dropdown-icon {
-    width: 72px;
-    height: 72px;
+    width: 64px;
+    height: 64px;
   }
 
   .nav.is-open .nav-dropdown-link-title {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
+    text-align: left;
   }
 
   .nav.is-open .nav-dropdown-link-desc {
-    font-size: 1.05rem;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    text-align: left;
+    /* Quitar sombra en los textos grises del submenú */
+    text-shadow: none;
   }
 
   .menu-btn.is-open span:nth-child(1) {
@@ -780,17 +886,13 @@ body {
     display: block;
   }
 
-  /* Intro: pantalla completa fija hasta que termina */
+  /* Intro: ocupa la parte superior pero permite hacer scroll por la página */
   .hero-mobile-intro {
     display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
     width: 100%;
-    height: 100dvh;
-    z-index: 99;
+    height: 100vh;
+    z-index: 1;
     background: var(--bg);
   }
   .hero-mobile-intro.is-finished {
@@ -1391,14 +1493,16 @@ body {
   box-shadow: 0 0 10px rgba(149, 213, 156, 0.7);
 }
 
-/* ----- Beneficios – timeline ----- */
+/* ----- Beneficios – rediseño ----- */
 
 .benefits.benefits--timeline {
   position: relative;
+  background: var(--bg-elevated);
 }
 
 .benefits-title {
-  max-width: 540px;
+  max-width: 560px;
+  margin-bottom: 1.5rem;
 }
 
 .benefits-layout {
@@ -1406,107 +1510,126 @@ body {
   margin-top: 2.5rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.7rem;
+  gap: 1.8rem;
 }
 
 .benefits-line {
   position: absolute;
-  top: 0.5rem;
+  inset: 0 auto auto 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  opacity: 0.5;
+  top: 1.6rem;
+  height: 0;
+  pointer-events: none;
 }
 
 .benefit-card {
   position: relative;
-  padding: 1.8rem 1.6rem 1.7rem;
-  border-radius: var(--radius-lg);
-  background: rgba(8, 8, 8, 0.9);
+  padding: 1.9rem 1.9rem 1.8rem;
+  border-radius: 22px;
+  background: #101010;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 26px 55px rgba(0, 0, 0, 0.7);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.4rem;
+  row-gap: 0.5rem;
+  align-items: flex-start;
   overflow: hidden;
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease, background 0.24s ease;
 }
 
 .benefit-card::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 50%;
-  width: 1px;
-  height: 18px;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, var(--accent), transparent);
-  opacity: 0.8;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(149, 213, 156, 0.55), transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(149, 213, 156, 0.25), transparent 65%);
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(149, 213, 156, 0.6);
+  background: #18222b;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.85);
+}
+
+.benefit-card:hover::before {
+  opacity: 1;
 }
 
 .benefit-card-header {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.7rem;
+  gap: 0.85rem;
+  margin-bottom: 0.4rem;
 }
 
 .benefit-step {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 999px;
-  background: rgba(10, 10, 10, 1);
-  border: 1px solid rgba(149, 213, 156, 0.55);
+  background: radial-gradient(circle at 30% 0, rgba(255, 255, 255, 0.15), transparent 60%),
+              #0b1013;
+  border: 1px solid rgba(149, 213, 156, 0.7);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--accent);
-  box-shadow: 0 0 12px rgba(149, 213, 156, 0.6);
+  box-shadow: 0 0 14px rgba(149, 213, 156, 0.7);
 }
 
 .benefit-card h3 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .benefit-card p {
-  margin-top: 0.4rem;
-  margin-bottom: 0.9rem;
-  color: var(--text-muted);
+  grid-column: 1 / -1;
+  margin-top: 0.2rem;
+  margin-bottom: 0.8rem;
+  color: rgba(235, 239, 242, 0.92);
   font-size: 0.95rem;
 }
 
 .benefit-bullets {
+  grid-column: 1 / -1;
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
   gap: 0.3rem;
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: rgba(204, 213, 221, 0.9);
 }
 
 .benefit-bullets li {
   position: relative;
-  padding-left: 1.1rem;
+  padding-left: 1.4rem;
 }
 
 .benefit-bullets li::before {
-  content: "›";
+  content: "";
   position: absolute;
-  left: 0.2rem;
-  top: 0;
-  color: var(--accent);
-  font-size: 0.85rem;
-}
-
-.benefit-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(149, 213, 156, 0.6);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+  left: 0.3rem;
+  top: 0.55rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(149, 213, 156, 0.7);
 }
 
 /* ----- Tecnología ----- */
@@ -1660,19 +1783,26 @@ body {
 /* ----- CTA (sección contacto premium) ----- */
 .cta {
   position: relative;
-  padding: 6rem 0;
+  padding: 8rem 0;
   overflow: hidden;
 }
 
 .cta-bg-image {
   position: absolute;
   inset: 0;
-  background-image: url("assets/fondomaquina2.png");
+  background-image: url("assets/fondoprueba.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   clip-path: inset(0 0 calc(100% - 100% * var(--cta-reveal, 0)) 0);
   z-index: 0;
+}
+
+/* Versión móvil: usar fondo específico para móvil */
+@media (max-width: 768px) {
+  .cta-bg-image {
+    background-image: url("assets/fondopruebamovil.png");
+  }
 }
 
 .cta-bg {
@@ -1708,11 +1838,11 @@ body {
   border-radius: 0;
   box-shadow: none;
   opacity: 0;
-  transform: translateY(40px) scale(0.94);
+  transform: translateY(60px) scale(0.94);
 }
 
 .cta-box.is-visible {
-  animation: cta-box-entrance 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: cta-box-entrance 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes cta-box-entrance {
@@ -1791,11 +1921,13 @@ body {
   background: transparent;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.8);
-  padding: 1rem 2rem;
+  padding: 1.1rem 2.6rem;
   font-family: 'Geist', sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.05rem;
   border-radius: 0;
+  position: relative;
+  overflow: visible;
 }
 
 .cta-box.is-visible .cta-btn {
@@ -1807,6 +1939,77 @@ body {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
   border-color: #fff;
+}
+
+/* Partículas verdes alrededor del botón al hacer hover */
+.cta-btn::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.9);
+  /* varios puntos alrededor del botón, verdes y suaves */
+  box-shadow:
+    0 0 0 0 rgba(149, 213, 156, 0.0),
+    -8px 0 0 0 rgba(149, 213, 156, 0.9),
+    8px 0 0 0 rgba(149, 213, 156, 0.9),
+    0 -8px 0 0 rgba(149, 213, 156, 0.8),
+    0 8px 0 0 rgba(149, 213, 156, 0.8),
+    -12px -6px 0 0 rgba(149, 213, 156, 0.7),
+    12px -6px 0 0 rgba(149, 213, 156, 0.7),
+    -12px 6px 0 0 rgba(149, 213, 156, 0.7),
+    12px 6px 0 0 rgba(149, 213, 156, 0.7);
+  filter: blur(0.2px);
+}
+
+.cta-btn:hover::after {
+  opacity: 1;
+  animation: cta-particles 0.9s ease-out forwards;
+}
+
+@keyframes cta-particles {
+  0% {
+    transform: scale(0.9);
+    box-shadow:
+      0 0 0 0 rgba(149, 213, 156, 0.0),
+      -8px 0 0 0 rgba(149, 213, 156, 0.9),
+      8px 0 0 0 rgba(149, 213, 156, 0.9),
+      0 -8px 0 0 rgba(149, 213, 156, 0.8),
+      0 8px 0 0 rgba(149, 213, 156, 0.8),
+      -12px -6px 0 0 rgba(149, 213, 156, 0.7),
+      12px -6px 0 0 rgba(149, 213, 156, 0.7),
+      -12px 6px 0 0 rgba(149, 213, 156, 0.7),
+      12px 6px 0 0 rgba(149, 213, 156, 0.7);
+  }
+  60% {
+    transform: scale(1.12);
+    box-shadow:
+      0 0 0 0 rgba(149, 213, 156, 0.0),
+      -16px 2px 0 0 rgba(149, 213, 156, 0.7),
+      16px -2px 0 0 rgba(149, 213, 156, 0.7),
+      2px -16px 0 0 rgba(149, 213, 156, 0.6),
+      -2px 16px 0 0 rgba(149, 213, 156, 0.6),
+      -22px -10px 0 0 rgba(149, 213, 156, 0.5),
+      22px -10px 0 0 rgba(149, 213, 156, 0.5),
+      -22px 10px 0 0 rgba(149, 213, 156, 0.5),
+      22px 10px 0 0 rgba(149, 213, 156, 0.5);
+  }
+  100% {
+    transform: scale(1.18);
+    opacity: 0;
+    box-shadow:
+      0 0 0 0 rgba(149, 213, 156, 0.0),
+      -26px 4px 0 0 rgba(149, 213, 156, 0.0),
+      26px -4px 0 0 rgba(149, 213, 156, 0.0),
+      4px -26px 0 0 rgba(149, 213, 156, 0.0),
+      -4px 26px 0 0 rgba(149, 213, 156, 0.0),
+      -32px -16px 0 0 rgba(149, 213, 156, 0.0),
+      32px -16px 0 0 rgba(149, 213, 156, 0.0),
+      -32px 16px 0 0 rgba(149, 213, 156, 0.0),
+      32px 16px 0 0 rgba(149, 213, 156, 0.0);
+  }
 }
 
 @keyframes cta-reveal {
@@ -1957,6 +2160,18 @@ body:has(#software:target) #productos-intro {
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   color: #fff;
   margin: 0 0 0.75rem 0;
+}
+
+/* Título "Soluciones" en productos: mejorar legibilidad */
+.productos-page .line-outline {
+  display: inline-block;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.55);
+  text-shadow:
+    0 0 14px rgba(0, 0, 0, 0.9),
+    0 0 24px rgba(0, 0, 0, 0.8);
 }
 
 .productos-intro-desc {
@@ -2198,7 +2413,22 @@ body:has(#software:target) #productos-intro {
   }
 
   .product-metric-grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Ajustes de tamaño para métricas en móvil para que no se salgan */
+  .product-metric-card {
+    padding: 0.8rem 0.5rem;
+    min-height: 130px;
+  }
+
+  .product-metric-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+  }
+
+  .product-metric-value {
+    font-size: 0.85rem;
   }
 
   .product-feature-grid {
@@ -2279,7 +2509,7 @@ body:has(#software:target) #productos-intro {
 
 @media (max-width: 768px) {
   .section-hero-bg {
-    min-height: 420px;
+    min-height: 520px;
   }
 
   .hero-bg-content {
@@ -2292,6 +2522,17 @@ body:has(#software:target) #productos-intro {
 
   .hero-bg-media {
     position: relative;
+    overflow: hidden;
+  }
+
+  /* En móvil, hacer un zoom más marcado al vídeo de fondo
+     para que el render del lado derecho se vea más cerca */
+  .hero-bg-video {
+    height: 100%;
+    max-height: none;
+    object-position: 75% center;
+    transform: scale(1.3);
+    transform-origin: center right;
   }
 }
 
