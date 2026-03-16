@@ -73,7 +73,7 @@
           </video>
         </div>
         <div class="hero-desktop-render">
-          <video class="video-section-player" autoplay loop muted playsinline>
+          <video class="video-section-player" autoplay muted playsinline>
             <source src="assets/animacion_rapida.webm" type="video/webm">
             <source src="assets/animacion_rapida.mp4" type="video/mp4">
           </video>
@@ -167,11 +167,16 @@
         <h2 class="hero-bg-title">Precisión y diseño industrial</h2>
         <p class="hero-bg-desc">Estructura en perfiles de aluminio, sensor de dimensionado sobre plataforma de pesaje y software listo para integrarse con tu sistema.</p>
       </div>
+      <div class="hero-bg-media">
+        <video class="hero-bg-video" autoplay muted loop playsinline>
+          <source src="assets/pdcvideo.webm" type="video/webm">
+          <source src="assets/pdcvideo.mp4" type="video/mp4">
+        </video>
+      </div>
     </section>
 
     <section id="producto" class="section product">
       <div class="container">
-        <span class="section-label">Producto</span>
         <h2 class="section-title">Precisión y velocidad para <span class="accent">cada necesidad</span></h2>
         <p class="section-desc">Dimensionado y pesaje en segundos. Nuestros equipos se adaptan a distintas operativas y volúmenes, para que ahorres tiempo y evites errores en cada envío.</p>
         <div class="product-features">
@@ -254,22 +259,24 @@
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="main.js"></script>
   <script>
     window.addEventListener('load', () => {
-      const playerVideo = document.querySelector('.video-section-player');
-      // En móvil usar siempre .mp4 para el render (mejor compatibilidad)
-      if (playerVideo && window.matchMedia('(max-width: 768px)').matches) {
-        playerVideo.src = 'assets/animacion_rapida.mp4';
+      const mainPlayer = document.querySelector('.video-section-player');
+
+      // En móvil usar siempre .mp4 para el render principal (mejor compatibilidad)
+      if (mainPlayer && window.matchMedia('(max-width: 768px)').matches) {
+        mainPlayer.src = 'assets/animacion_rapida.mp4';
       }
-      if (playerVideo) playerVideo.playbackRate = 0.4;
+      if (mainPlayer) mainPlayer.playbackRate = 0.4;
 
       // Mobile intro logic
       const introWrap = document.getElementById('hero-mobile-intro');
       const introVideo = document.querySelector('.hero-mobile-intro-video');
       const sectionInner = document.querySelector('.hero-desktop-layout');
-      if (introWrap && introVideo) {
+      if (introWrap && introVideo && mainPlayer) {
         function showRender() {
           introWrap.classList.add('is-finished');
           if (sectionInner) sectionInner.classList.add('hero-intro-done');
-          if (playerVideo) { playerVideo.currentTime = 0; playerVideo.play().catch(function(){});}
+          mainPlayer.currentTime = 0;
+          mainPlayer.play().catch(function(){});
         }
         introVideo.addEventListener('ended', showRender);
         introVideo.addEventListener('timeupdate', function() {
