@@ -1,11 +1,11 @@
 /* ===== AGH DIMENSIONADORES — Web moderna ===== */
 /* Fuentes: Azonix (principal/títulos, local), Nunito Sans (textos secundarios, local) */
 
-/* Azonix — fuente principal (títulos) */
+/* Azonix — fuente principal (títulos)
+   (en GitHub Pages la carpeta está en minúsculas: /azonix) */
 @font-face {
   font-family: 'Azonix';
-  src: url('Azonix/Azonix.otf') format('opentype'),
-       url('Azonix/Azonix.ttf') format('truetype');
+  src: url('azonix/Azonix.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
