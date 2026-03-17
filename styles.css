@@ -1,4 +1,4 @@
-/* ===== AGH DIMENSIONADORES — Web moderna ===== */
+ho/* ===== AGH DIMENSIONADORES — Web moderna ===== */
 /* Fuentes: Azonix (principal/títulos, local), Nunito Sans (textos secundarios, local) */
 
 /* Azonix — fuente principal (títulos)
@@ -910,10 +910,16 @@ body {
 
   /* Layout desktop: oculto hasta que termina el intro */
   .hero-desktop-layout {
-    display: block;
+    /* Mientras se ve el logo (intro), ocultamos completamente el layout
+       para que no ocupe espacio negro por debajo en móvil */
+    display: none;
     background: var(--bg);
-    min-height: calc(100vh - var(--header-h));
     position: relative;
+  }
+
+  .hero-desktop-layout.hero-intro-done {
+    display: block;
+    min-height: calc(100vh - var(--header-h));
   }
 
   .hero-desktop-logo {
@@ -2026,7 +2032,10 @@ body {
 /* ----- Sección con imagen fondoprueba de fondo ----- */
 /* ----- Pasarela de clientes (cinta tipo dhero) ----- */
 .clients-pasarela {
-  padding: 2.5rem 0 4rem;
+  /* Subimos ligeramente la pasarela para reducir el "hueco" negro que queda
+     después del hero cuando se muestra la sección del logo */
+  padding: 1.5rem 0 4rem;
+  margin-top: -1.5rem;
   background: var(--bg);
 }
 
