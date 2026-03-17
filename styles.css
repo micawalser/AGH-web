@@ -905,6 +905,9 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: center center;
+    /* Pequeño zoom en móvil para que el logo llene mejor la pantalla */
+    transform: scale(1.2);
+    transform-origin: center center;
     display: block;
   }
 
