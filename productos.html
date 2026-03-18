@@ -447,6 +447,22 @@
       transform: scale(1.25) translateX(30px);
       transform-origin: center;
     }
+
+    @media (max-width: 768px) {
+      /* Ajustes ODC en móvil: acercar un poco el render grande y reducir tamaño */
+      .product-visual-layout-pdc {
+        transform: translateX(10px);
+      }
+
+      .product-visual-wrap {
+        margin-left: -50px;
+      }
+
+      .product-visual-img {
+        /* Más pequeño, un poco a la derecha y más arriba */
+        transform: scale(1.8) translate(20px, 40px);
+      }
+    }
     .product-visual-img-pdc {
       transform: scale(1.55) translate(70px, -25px);
     }
@@ -463,6 +479,29 @@
       height: auto;
       object-fit: contain;
       display: block;
+    }
+
+    /* Ajustes específicos para PDC en móvil */
+    @media (max-width: 768px) {
+      /* En la sección PDC, ocultar la columna derecha (stack) y centrar el render principal */
+      #pdc .product-visual-layout {
+        justify-content: center;
+      }
+
+      #pdc .product-visual-wrap {
+        margin-left: 0;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      #pdc .product-visual-img-pdc {
+        transform: scale(1.2) translate(0, -10px);
+      }
+
+      #pdc .product-visual-stack {
+        display: none;
+      }
     }
 
     /* ---- Specs strip ---- */
@@ -503,6 +542,26 @@
       font-weight: 600;
       color: var(--text);
       line-height: 1.3;
+    }
+
+    /* Pantallas muy grandes: ajustar reparto del "Specs strip" */
+    @media (min-width: 1600px) {
+      .product-specs-inner {
+        max-width: 1400px;
+        padding: 0 3rem;
+      }
+
+      .product-spec-item {
+        padding: 2.25rem 1.6rem;
+      }
+
+      .product-spec-label {
+        font-size: 0.6rem;
+      }
+
+      .product-spec-value {
+        font-size: 1rem;
+      }
     }
 
     /* ---- Features grid ---- */
@@ -589,12 +648,12 @@
       align-items: center;
     }
     .software-mockup-img {
-      max-width: 340px;
+      max-width: 520px;
       width: 100%;
       height: auto;
       display: block;
       object-fit: contain;
-      transform: translateX(-40px);
+      transform: translateX(-28px);
     }
     .software-voxel-img {
       width: 190px;
@@ -602,6 +661,26 @@
       height: auto;
       display: block;
       margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+      /* En móvil, apilar texto arriba y mockup debajo, centrados */
+      .software-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .software-header-right {
+        justify-content: center;
+        align-self: stretch;
+        margin-top: 1.5rem;
+      }
+
+      .software-mockup-img {
+        max-width: 80%;
+        transform: none;
+      }
     }
     .software-products-grid {
       max-width: 1200px;
@@ -643,6 +722,8 @@
       letter-spacing: -0.03em;
       color: #fff;
       margin-bottom: 0.5rem;
+      text-decoration: none;
+      display: inline-block;
     }
     .sw-product-type {
       font-family: var(--font-mono);
@@ -777,7 +858,33 @@
       </a>
       <nav class="nav">
         <a href="index.html">Inicio</a>
-        <a href="productos.html" style="color: var(--text);">Productos</a>
+        <div class="nav-dropdown">
+          <a href="productos.html" class="nav-dropdown-trigger">Productos</a>
+          <div class="nav-dropdown-menu">
+            <a href="productos.html#odc" class="nav-dropdown-link nav-dropdown-link--with-icon">
+              <img src="assets/dibujoODC.png" alt="" class="nav-dropdown-icon">
+              <span class="nav-dropdown-link-content">
+                <span class="nav-dropdown-link-title">ODC</span>
+                <span class="nav-dropdown-link-desc">Object Dimensional Camera</span>
+              </span>
+            </a>
+            <a href="productos.html#pdc" class="nav-dropdown-link nav-dropdown-link--with-icon">
+              <img src="assets/pdcdibujo.png" alt="" class="nav-dropdown-icon">
+              <span class="nav-dropdown-link-content">
+                <span class="nav-dropdown-link-title">PDC</span>
+                <span class="nav-dropdown-link-desc">Pallet Dimensional Camera</span>
+              </span>
+            </a>
+            <a href="productos.html#pdl" class="nav-dropdown-link">PDL</a>
+            <a href="productos.html#software" class="nav-dropdown-link nav-dropdown-link--with-icon">
+              <img src="assets/voxelblanco.png" alt="" class="nav-dropdown-icon">
+              <span class="nav-dropdown-link-content">
+                <span class="nav-dropdown-link-title">Software</span>
+                <span class="nav-dropdown-link-desc">Voxel Suite</span>
+              </span>
+            </a>
+          </div>
+        </div>
         <a href="index.html#contacto" class="nav-cta">Contacto</a>
       </nav>
     </div>
@@ -1025,27 +1132,31 @@
       <div class="software-products-grid">
         <div class="sw-product-card fade-up">
           <div class="sw-product-index">01 / 04</div>
-          <div class="sw-product-name">Voxel Cam</div>
+          <a class="sw-product-name" href="aplicaciones.html#voxel-cam">Voxel Cam</a>
           <div class="sw-product-type">Dimensionado por cámara</div>
-          <p class="sw-product-desc">Solución principal para captura de dimensiones y peso en tiempo real. Interfaz clara, datos listos para exportar a tu WMS o carrier con máxima precisión en cada medición.</p>
+          <p class="sw-product-desc">Solución principal para captura de dimensiones y peso en tiempo real. Interfaz clara, datos listos para exportar a tu sistema con máxima precisión en cada medición, apta para maquinas ODC & PDC.</p>
         </div>
+
         <div class="sw-product-card fade-up fade-up-d1">
           <div class="sw-product-index">02 / 04</div>
-          <div class="sw-product-name">Voxel 3D</div>
-          <div class="sw-product-type">Medición dimensional 3D</div>
-          <p class="sw-product-desc">Software de integración con equipos de visión avanzada. Procesamiento de datos, visualización volumétrica y salida directa a tus sistemas de gestión logística.</p>
-        </div>
-        <div class="sw-product-card fade-up fade-up-d2">
-          <div class="sw-product-index">03 / 04</div>
           <div class="sw-product-name">Voxel Cam Lite</div>
           <div class="sw-product-type">Versión ligera</div>
-          <p class="sw-product-desc">Versión optimizada de Voxel Cam con interfaz sencilla, ideal para estaciones con menos requisitos o para dar el primer paso en medición inteligente.</p>
+          <p class="sw-product-desc">Versión más ligera y pensada para logística: captura lo esencial con una interfaz simplificada para flujos con menos requisitos.</p>
         </div>
-        <div class="sw-product-card fade-up fade-up-d3">
-          <div class="sw-product-index">04 / 04</div>
-          <div class="sw-product-name">Voxel Cloud</div>
+
+        <div class="sw-product-card fade-up fade-up-d2">
+          <div class="sw-product-index">03 / 04</div>
+          <a class="sw-product-name" href="aplicaciones.html#voxel-cloud">Voxel Cloud</a>
           <div class="sw-product-type">Plataforma cloud</div>
           <p class="sw-product-desc">Centraliza datos de varias estaciones en una sola plataforma. Reportes, análisis avanzados y acceso desde cualquier lugar con sincronización en tiempo real.</p>
+        </div>
+
+        <div class="sw-product-card fade-up fade-up-d3">
+          <div class="sw-product-index">04 / 04</div>
+          <div class="sw-product-name">Voxel 3D</div>
+          <div class="sw-product-type">Medición con sensores LiDAR</div>
+          <span class="badge-soon">Próximamente</span>
+          <p class="sw-product-desc">App para la máquina PDL con sensores LiDAR. Diseñada para ofrecer medición 3D avanzada.</p>
         </div>
       </div>
     </div>
@@ -1071,6 +1182,15 @@
     // Active tab highlight on scroll
     const sections = ['odc','pdc','pdl','software'].map(id => document.getElementById(id));
     const tabs = document.querySelectorAll('.product-tab');
+
+    // Si llegamos con hash (ej: productos.html#pdc), activar la pestaña correspondiente al instante
+    (function () {
+      const hash = (window.location.hash || '').replace('#', '');
+      if (!hash) return;
+      const allowed = new Set(['odc', 'pdc', 'pdl', 'software']);
+      if (!allowed.has(hash)) return;
+      tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.target === hash));
+    })();
 
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

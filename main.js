@@ -109,7 +109,9 @@
       // (cuando el usuario scrollea, más sección visible = más imagen)
       const visibleH = Math.min(sectionBottom, windowH) - Math.max(sectionTop, 0);
       const progress = Math.max(0, Math.min(1, visibleH / sectionH));
-      ctaSection.style.setProperty('--cta-reveal', String(progress));
+      // En pantallas muy grandes, evitamos recortes dejando la imagen al 100%
+      const finalProgress = window.innerWidth >= 1400 ? 1 : progress;
+      ctaSection.style.setProperty('--cta-reveal', String(finalProgress));
     }
     window.addEventListener('scroll', updateCtaReveal, { passive: true });
     window.addEventListener('resize', updateCtaReveal);

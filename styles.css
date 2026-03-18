@@ -1301,9 +1301,9 @@ body {
   position: absolute;
   inset: -40%;
   background:
-    radial-gradient(circle at 0% 0%, rgba(78, 128, 90, 0.28), transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.05), transparent 55%);
-  opacity: 0.85;
+    radial-gradient(circle at 0% 0%, rgba(78, 128, 90, 0.12), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.02), transparent 55%);
+  opacity: 0.35;
   pointer-events: none;
 }
 
@@ -1362,7 +1362,7 @@ body {
   border-radius: var(--radius-lg);
   background: radial-gradient(circle at 0 0, rgba(78, 128, 90, 0.35), transparent 65%),
               rgba(10, 10, 10, 0.72);
-  border: 1px solid rgba(149, 213, 156, 0.35);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
 }
 
@@ -1421,7 +1421,7 @@ body {
 
 .product-feature-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(149, 213, 156, 0.55);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
   background: rgba(10, 10, 10, 0.98);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75);
 }
@@ -1512,6 +1512,15 @@ body {
 .benefits-title {
   max-width: 560px;
   margin-bottom: 1.5rem;
+  text-align: right;
+  margin-left: auto;
+}
+
+/* Alinear también la etiqueta "Beneficios" a la derecha */
+.benefits .section-label {
+  display: block;
+  text-align: right;
+  margin-left: auto;
 }
 
 .benefits-layout {
@@ -1553,8 +1562,8 @@ body {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 10% 0%, rgba(149, 213, 156, 0.55), transparent 55%),
-    radial-gradient(circle at 90% 100%, rgba(149, 213, 156, 0.25), transparent 65%);
+    radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--accent) 55%, transparent), transparent 55%),
+    radial-gradient(circle at 90% 100%, color-mix(in srgb, var(--accent) 25%, transparent), transparent 65%);
   opacity: 0.6;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -1562,7 +1571,7 @@ body {
 
 .benefit-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(149, 213, 156, 0.6);
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
   background: #18222b;
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.85);
 }
@@ -1794,6 +1803,34 @@ body {
   position: relative;
   padding: 8rem 0;
   overflow: hidden;
+}
+
+/* Pantallas muy grandes: más altura en "¿Listo para dimensionar mejor?" */
+@media (min-width: 1400px) {
+  .cta {
+    padding: 10.5rem 0;
+  }
+
+  .cta-box {
+    padding: 5.2rem 2.8rem;
+  }
+
+  /* En pantallas grandes, mostrar la imagen de fondo completa
+     (evitar recortes del clip-path del reveal) y dar más visibilidad. */
+  .cta-bg-image {
+    clip-path: inset(0 0 0 0) !important;
+    filter: saturate(1.05) contrast(1.05) brightness(1.06);
+    /* evitar recortes por aspect-ratio (arriba/abajo) */
+    background-size: 100% 100%;
+    background-position: center;
+  }
+
+  .cta-bg {
+    background:
+      linear-gradient(to bottom, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.45) 100%),
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(78, 128, 90, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(78, 128, 90, 0.06) 0%, transparent 50%);
+  }
 }
 
 .cta-bg-image {
@@ -2153,6 +2190,17 @@ body:has(#software:target) #software.software-detail-view {
   background: var(--bg);
 }
 
+/* Hero de productos (título "Soluciones precisas para logística") */
+.productos-page .productos-hero {
+  padding: calc(var(--header-h) + 1.5rem) 1.5rem 3rem;
+}
+
+@media (max-width: 768px) {
+  .productos-page .productos-hero {
+    padding-top: calc(var(--header-h) + 2.2rem);
+  }
+}
+
 body:has(#odc:target) #productos-intro,
 body:has(#pdc:target) #productos-intro,
 body:has(#software:target) #productos-intro {
@@ -2184,6 +2232,13 @@ body:has(#software:target) #productos-intro {
   text-shadow:
     0 0 14px rgba(0, 0, 0, 0.9),
     0 0 24px rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+  .productos-page .line-outline {
+    font-size: 2.5rem;
+    letter-spacing: 0.14em;
+  }
 }
 
 .productos-intro-desc {
@@ -2489,6 +2544,18 @@ body:has(#software:target) #productos-intro {
   display: block;
   object-fit: cover;
   object-position: center;
+}
+
+/* Pantallas muy grandes: dar más altura a "Precisión y diseño industrial" */
+@media (min-width: 1400px) {
+  .section-hero-bg {
+    min-height: 720px;
+  }
+
+  .hero-bg-video {
+    height: 100%;
+    max-height: 760px;
+  }
 }
 
 .hero-bg-content {

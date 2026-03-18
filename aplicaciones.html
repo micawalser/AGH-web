@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Voxel Cam — AGH Dimensionadores</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0b0d;
+  --surface:#111318;
+  --surface2:#181b22;
+  --border:#1f2330;
+  --border-bright:#2a3040;
+  --accent:#14c8c3;
+  --accent2:#4fffb0;
+  --text:#e8eaf0;
+  --muted:#6b7280;
+  --muted2:#9ca3af;
+  --header-h: 72px;
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  overflow-x:hidden;
+  padding-top: var(--header-h);
+}
+
+/* Header (menú superior) */
+.header-app{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10,11,13,0.55);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.header-app-inner{
+  width: min(1200px, 92vw);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.logo-app{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.logo-app img{
+  height: 34px;
+  width: auto;
+  display: block;
+}
+
+.nav-app{
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-app a{
+  color: rgba(240,244,248,0.9);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+}
+.nav-app a:hover{ color: #ffffff; }
+
+.nav-app .nav-cta{
+  color: var(--accent) !important;
+}
+
+/* REVEAL ON SCROLL */
+.reveal{
+  opacity:0;
+  transform:translateY(32px);
+  transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{
+  opacity:0;transform:translateX(-40px);
+  transition:opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{
+  opacity:0;transform:translateX(40px);
+  transition:opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+
+/* ===== Pantallas de apps (control por hash) ===== */
+.app-screen {
+  display: none;
+}
+
+/* Por defecto: Voxel Cam */
+#voxel-cam.app-screen {
+  display: block;
+}
+
+/* Solo mostrar Voxel Cloud cuando se navega a #voxel-cloud */
+body:has(#voxel-cloud:target) #voxel-cam {
+  display: none;
+}
+
+body:has(#voxel-cloud:target) #voxel-cloud {
+  display: block;
+}
+
+/* Si se navega a #voxel-cam, ocultar Cloud */
+body:has(#voxel-cam:target) #voxel-cloud {
+  display: none;
+}
+
+/* Mantener Cloud visible cuando el hash salta a secciones internas */
+body:has(#video-voxel-cloud:target) #voxel-cam {
+  display: none;
+}
+
+body:has(#video-voxel-cloud:target) #voxel-cloud {
+  display: block;
+}
+
+body:has(#specs-voxel-cloud:target) #voxel-cam {
+  display: none;
+}
+
+body:has(#specs-voxel-cloud:target) #voxel-cloud {
+  display: block;
+}
+
+/* Si se navega a secciones internas de Voxel Cam, ocultar Cloud */
+body:has(#video-voxel-cam:target) #voxel-cloud {
+  display: none;
+}
+
+body:has(#specs-voxel-cam:target) #voxel-cloud {
+  display: none;
+}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  position:relative;
+  overflow:hidden;
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 60px 80px 80px;
+  position:relative;z-index:2;
+}
+.hero-right{
+  display:flex;align-items:center;justify-content:center;
+  padding:60px 80px 60px 40px;
+  position:relative;z-index:2;
+}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:10px;
+  font-family:'DM Mono',monospace;
+  font-size:11px;letter-spacing:.15em;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:28px;
+}
+.eyebrow-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-size:clamp(48px,6vw,80px);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:-.03em;
+  margin-bottom:12px;
+}
+.hero h1 span{color:var(--accent)}
+.hero-title-logo{
+  display: block;
+  width: min(520px, 78vw);
+  height: auto;
+  margin: 0 0 12px 0;
+}
+.hero-sub{
+  font-size:13px;
+  font-family:'DM Mono',monospace;
+  color:var(--muted);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:28px;
+}
+.hero-desc{
+  font-size:16px;
+  color:var(--muted2);
+  line-height:1.7;
+  max-width:420px;
+  margin-bottom:48px;
+}
+.hero-cta{
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+}
+.btn-primary{
+  background:var(--accent);
+  color:#0a0b0d;
+  border:none;
+  padding:14px 28px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  letter-spacing:.02em;
+  transition:all .2s;
+}
+.btn-primary:hover{background:#5b3ea3;transform:translateY(-1px)}
+.btn-ghost{
+  background:transparent;
+  color:var(--text);
+  border:1px solid var(--border-bright);
+  padding:14px 28px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:14px;
+  font-weight:500;
+  cursor:pointer;
+  transition:all .2s;
+}
+.btn-primary,
+.btn-ghost{
+  text-decoration:none;
+}
+.btn-ghost:hover{border-color:#5b3ea3;color:#5b3ea3}
+
+.app-back-link{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border: 1px solid var(--border-bright);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all .2s;
+}
+
+.app-back-link:hover{
+  border-color:#5b3ea3;
+  color:#ffffff;
+}
+
+/* GRID BACKGROUND */
+.grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:60px 60px;
+  opacity:.4;
+}
+.grid-fade{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 70% at 50% 50%,transparent 40%,var(--bg) 100%);
+}
+
+/* MOCKUP */
+.mockup-wrap{
+  position:relative;
+  width:100%;
+  max-width:720px;
+}
+.mockup-glow{
+  position:absolute;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(184,245,102,.12) 0%,transparent 70%);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.mockup-card{
+  background:var(--surface);
+  border:1px solid var(--border-bright);
+  overflow:hidden;
+  position:relative;
+}
+.mockup-topbar{
+  background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.mockup-dots{display:flex;gap:6px}
+.mockup-dot{width:10px;height:10px;border-radius:50%}
+.mockup-title{
+  font-family:'DM Mono',monospace;
+  font-size:11px;color:var(--muted);
+  letter-spacing:.05em;
+}
+.mockup-title-logo{
+      height: 16px;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+    }
+.mockup-static-img{
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 26px 40px rgba(0,0,0,.55));
+}
+.mockup-body{padding:20px}
+.scan-box{
+  background:var(--bg);
+  border:1px solid var(--border-bright);
+  padding:16px;
+  margin-bottom:16px;
+  position:relative;
+  overflow:hidden;
+}
+.scan-label{
+  font-family:'DM Mono',monospace;
+  font-size:10px;color:var(--muted);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.scan-value{
+  font-size:28px;font-weight:700;
+  color:var(--accent);
+  letter-spacing:-.02em;
+}
+.scan-unit{font-size:13px;color:var(--muted);margin-left:4px;font-weight:400}
+.scan-line{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  animation:scanline 2s ease-in-out infinite;
+}
+@keyframes scanline{
+  0%,100%{transform:scaleX(0);opacity:0}
+  50%{transform:scaleX(1);opacity:1}
+}
+.dims-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.dim-item{
+  background:var(--bg);
+  border:1px solid var(--border);
+  padding:10px;
+  text-align:center;
+}
+.dim-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.dim-val{font-size:16px;font-weight:600;color:var(--text)}
+.status-row{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(184,245,102,.06);
+  border:1px solid rgba(184,245,102,.2);
+  padding:8px 12px;
+}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 1.5s infinite}
+.status-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.05em}
+.mini-chart{
+  display:flex;align-items:flex-end;gap:3px;
+  height:40px;
+  margin-top:16px;
+  padding-top:8px;
+  border-top:1px solid var(--border);
+}
+.bar{background:var(--border-bright);flex:1;border-radius:1px;transition:height .3s}
+.bar.active{background:var(--accent);opacity:.8}
+
+/* STATS */
+.stats-section{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:60px 80px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+.stat-item{
+  padding:0 40px;
+  border-right:1px solid var(--border);
+}
+.stat-item:first-child{padding-left:0}
+.stat-item:last-child{border-right:none}
+.stat-number{
+  font-size:48px;
+  font-weight:700;
+  color:var(--accent);
+  letter-spacing:-.03em;
+  line-height:1;
+  margin-bottom:6px;
+}
+.stat-label{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* FEATURES */
+.features-section{padding:100px 80px}
+.section-header{margin-bottom:64px}
+.section-tag{
+  font-family:'DM Mono',monospace;
+  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-tag::before{
+  content:'';
+  display:block;
+  width:20px;height:1px;
+  background:var(--accent);
+}
+.section-header h2{
+  font-size:clamp(32px,4vw,52px);
+  font-weight:700;
+  letter-spacing:-.02em;
+  line-height:1.1;
+}
+
+.features-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+}
+.feature-card{
+  background:var(--bg);
+  padding:48px 40px;
+  position:relative;
+  overflow:hidden;
+  transition:background .3s;
+}
+.feature-card:hover{background:var(--surface)}
+.feature-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:transparent;
+  transition:background .3s;
+}
+.feature-card:hover::before{background:var(--accent)}
+.feature-num{
+  font-family:'DM Mono',monospace;
+  font-size:11px;color:var(--muted);
+  letter-spacing:.15em;
+  margin-bottom:20px;
+}
+.feature-icon{
+  width:40px;height:40px;
+  border:1px solid var(--border-bright);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+  color:var(--accent);
+  font-size:18px;
+}
+.feature-card h3{
+  font-size:20px;font-weight:600;
+  margin-bottom:12px;
+  letter-spacing:-.01em;
+}
+.feature-card p{
+  font-size:14px;color:var(--muted2);
+  line-height:1.7;
+}
+.feature-tag{
+  display:inline-block;
+  margin-top:20px;
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  border:1px solid rgba(184,245,102,.25);
+  padding:4px 10px;
+}
+
+/* VIDEO SECTION */
+.video-section{
+  padding:0 80px 100px;
+}
+.video-wrapper{
+  background:var(--surface);
+  border:1px solid var(--border-bright);
+  overflow:hidden;
+  position:relative;
+}
+.video-placeholder{
+  aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+  gap:16px;
+  background:var(--surface2);
+  position:relative;
+  cursor:pointer;
+  transition:background .3s;
+}
+.video-placeholder:hover{background:#1a1e28}
+.play-btn{
+  width:64px;height:64px;border-radius:50%;
+  border:2px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--accent);
+  font-size:20px;
+  transition:all .3s;
+}
+.video-placeholder:hover .play-btn{
+  background:#5b3ea3;color:#0a0b0d;
+  transform:scale(1.1);
+}
+.video-label{
+  font-family:'DM Mono',monospace;
+  font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);
+}
+.video-meta{
+  padding:20px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--border);
+}
+.video-meta span{font-size:13px;color:var(--muted)}
+.video-meta .dur{
+  font-family:'DM Mono',monospace;
+  font-size:12px;color:var(--muted);
+}
+
+/* CTA */
+.cta-section{
+  margin:0 80px 80px;
+  background:var(--surface);
+  border:1px solid var(--border-bright);
+  padding:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:40px;
+  position:relative;
+  overflow:hidden;
+}
+.cta-section::after{
+  content:'';
+  position:absolute;
+  right:-60px;bottom:-60px;
+  width:200px;height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(184,245,102,.08) 0%,transparent 70%);
+}
+.cta-text h2{font-size:32px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.cta-text p{font-size:15px;color:var(--muted2)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-left{padding:60px 32px 40px}
+  .hero-right{padding:0 32px 60px}
+  .mockup-static-img{max-width:420px}
+  .mockup-wrap{max-width:420px}
+
+  /* STATS en una sola fila en móvil (4 columnas) */
+  .stats-section{
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    padding:40px 16px;
+    gap:0;
+  }
+  .stat-item{
+    border-right:1px solid var(--border);
+    padding:0 6px;
+    border-bottom:none;
+  }
+  /* Para que la línea divisora también se vea “corrida” con la última columna */
+  .stat-item:nth-child(3){
+    border-right:none;
+  }
+
+  .stat-item:last-child{
+    border-right:none;
+    border-left:1px solid var(--border);
+    transform: translateX(8px);
+  }
+  .stat-number{
+    font-size:15px;
+    margin-bottom:3px;
+  }
+  .stat-label{
+    font-size:10px;
+    line-height:1.25;
+    white-space:normal;
+  }
+  .features-section{padding:60px 32px}
+  .features-grid{grid-template-columns:1fr}
+  .video-section{padding:0 32px 60px}
+  .cta-section{margin:0 32px 60px;padding:40px;flex-direction:column;align-items:flex-start}
+}
+
+/* Pantallas muy grandes */
+@media(min-width:1400px){
+  .hero-eyebrow{
+    font-size:13px;
+    margin-bottom:36px;
+  }
+
+  .hero h1{
+    font-size:clamp(54px,5.2vw,98px);
+  }
+
+  .hero-sub{
+    font-size:15px;
+    margin-bottom:34px;
+  }
+
+  .hero-desc{
+    font-size:18px;
+    max-width:520px;
+  }
+
+  .btn-primary,
+  .btn-ghost{
+    font-size:15px;
+    padding:16px 32px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="header-app">
+  <div class="header-app-inner">
+    <a href="index.html" class="logo-app" aria-label="Inicio">
+      <img src="assets/agh.png" alt="AGH Dimensionadores">
+    </a>
+    <nav class="nav-app" aria-label="Navegación superior">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html">Productos</a>
+      <a href="index.html#contacto" class="nav-cta">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="voxel-cam" class="app-screen">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="grid-fade"></div>
+
+  <div class="hero-left">
+    <div style="margin-bottom:18px;">
+      <a href="productos.html#software" class="app-back-link">Volver a productos</a>
+    </div>
+    <div class="hero-eyebrow reveal" style="transition-delay:.1s">
+      <span class="eyebrow-dot"></span>
+      01 / 04 — Voxel Cam
+    </div>
+    <h1 class="reveal" style="transition-delay:.2s">
+      <img src="assets/LogosApps/voxelcam.png" alt="Voxel Cam" class="hero-title-logo" />
+    </h1>
+    <p class="hero-sub reveal" style="transition-delay:.25s">Dimensionado por cámara</p>
+    <p class="hero-desc reveal" style="transition-delay:.3s">
+      Solución principal para captura de dimensiones y peso en tiempo real. Interfaz clara, datos listos para exportar a tu WMS o carrier con máxima precisión en cada medición.
+    </p>
+    <div class="hero-cta reveal" style="transition-delay:.4s">
+      <a href="#video-voxel-cam" class="btn-primary">Ver demo</a>
+      <a href="#specs-voxel-cam" class="btn-ghost">Ver specs técnicas</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="mockup-wrap reveal-right" style="transition-delay:.3s">
+      <div class="mockup-glow"></div>
+      <img src="assets/Mockups/mockupvoxelcam.png" alt="Mockup Voxel Cam" class="mockup-static-img" />
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stat-item reveal" style="transition-delay:.1s">
+    <div class="stat-number">Historial</div>
+    <div class="stat-label">de mediciones</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.2s">
+    <div class="stat-number">WMS/ERP</div>
+    <div class="stat-label">Integraciones</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.3s">
+    <div class="stat-number">Exportación</div>
+    <div class="stat-label">Automática</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.4s">
+    <div class="stat-number">Etiquetas</div>
+    <div class="stat-label">Impresión</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="specs-voxel-cam" class="features-section">
+  <div class="section-header reveal">
+    <div class="section-tag">Funcionalidades</div>
+    <h2>Todo lo que<br>necesitás en una<br>sola aplicación.</h2>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card reveal" style="transition-delay:.1s">
+      <div class="feature-num">01</div>
+      <div class="feature-icon">◈</div>
+      <h3>Captura volumétrica 3D</h3>
+      <p>Medición por visión con toma de imagen/nube de puntos para obtener dimensiones del bulto, sin parar el proceso.</p>
+      <span class="feature-tag">Sin contacto</span>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:.2s">
+      <div class="feature-num">02</div>
+      <div class="feature-icon">⊛</div>
+      <h3>Pesaje integrado</h3>
+      <p>Lee peso (balanza) y lo combina con las medidas para registrar todo en una sola medición.</p>
+      <span class="feature-tag">Un solo paso</span>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:.3s">
+      <div class="feature-num">03</div>
+      <div class="feature-icon">⟁</div>
+      <h3>Exportación directa</h3>
+      <p>Genera y envía los datos al instante mediante API y exportaciones (CSV/JSON/TXT/TMS), además de reintentos si algo falla.</p>
+      <span class="feature-tag">API REST</span>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:.4s">
+      <div class="feature-num">04</div>
+      <div class="feature-icon">◎</div>
+      <h3>Historial y trazabilidad</h3>
+      <p>Guarda cada lote/remito con fecha y estado, permite consultar, calcular estadísticas y mantener la trazabilidad completa.</p>
+      <span class="feature-tag">Voxel Cloud integrada|</span>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO DEMO -->
+<div id="video-voxel-cam" class="video-section">
+  <div class="section-tag reveal" style="margin-bottom:24px">Demo en acción</div>
+  <div class="video-wrapper reveal" style="transition-delay:.1s">
+    <div class="video-placeholder">
+      <div class="play-btn">▶</div>
+      <span class="video-label">Ver demostración — Voxel Cam</span>
+    </div>
+    <div class="video-meta">
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section reveal">
+  <div class="cta-text">
+    <h2>¿Listo para medir<br>con precisión?</h2>
+    <p>Contanos tu operativa y te mostramos Voxel Cam en vivo.</p>
+  </div>
+  <div style="display:flex;gap:12px;flex-shrink:0">
+    <a href="index.html#contacto" class="btn-primary">Contactar</a>
+    <a href="productos.html#software" class="btn-ghost">Volver a productos</a>
+  </div>
+</div>
+
+<!-- Voxel Cam termina -->
+</main>
+
+<!-- ===========================
+     Voxel Cloud (app screen)
+     =========================== -->
+<main id="voxel-cloud" class="app-screen">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="grid-fade"></div>
+
+  <div class="hero-left">
+    <div style="margin-bottom:18px;">
+      <a href="productos.html#software" class="app-back-link">Volver a productos</a>
+    </div>
+    <div class="hero-eyebrow reveal" style="transition-delay:.1s">
+      <span class="eyebrow-dot"></span>
+      04 / 04 — Voxel Cloud
+    </div>
+    <h1 class="reveal" style="transition-delay:.2s">
+      <img src="assets/LogosApps/voxelcloud.png" alt="Voxel Cloud" class="hero-title-logo" />
+    </h1>
+    <p class="hero-sub reveal" style="transition-delay:.25s">Plataforma cloud</p>
+    <p class="hero-desc reveal" style="transition-delay:.3s">
+      Centraliza datos de varias estaciones en una sola plataforma. Reportes, análisis y acceso
+      desde cualquier lugar con sincronización en tiempo real.
+    </p>
+    <div class="hero-cta reveal" style="transition-delay:.4s">
+      <a href="#video-voxel-cloud" class="btn-primary">Solicitar demo</a>
+      <a href="#specs-voxel-cloud" class="btn-ghost">Ver specs técnicas</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="mockup-wrap reveal-right" style="transition-delay:.3s">
+      <div class="mockup-glow"></div>
+      <img src="assets/Mockups/mockupvoxelcloud.png" alt="Mockup Voxel Cloud" class="mockup-static-img" />
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stat-item reveal" style="transition-delay:.1s">
+    <div class="stat-number">Historial</div>
+    <div class="stat-label">de mediciones</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.2s">
+    <div class="stat-number">WMS/ERP</div>
+    <div class="stat-label">Integraciones</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.3s">
+    <div class="stat-number">Exportación</div>
+    <div class="stat-label">Automática</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.4s">
+    <div class="stat-number">Etiquetas</div>
+    <div class="stat-label">Impresión</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="specs-voxel-cloud" class="features-section">
+  <div class="section-header reveal">
+    <div class="section-tag">Funcionalidades</div>
+    <h2>Todo lo que<br>necesitás en una<br>sola aplicación.</h2>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card reveal" style="transition-delay:.1s">
+      <div class="feature-num">01</div>
+      <div class="feature-icon">◈</div>
+      <h3>Tus mediciones en la nube</h3>
+      <p>Plataforma web que mantiene tus datos a salvo, permite gestionar el flujo de escaneos: ver registros, filtrar por equipos/sitios, visualizar imágenes 3D y cámara,todo en un mismo lugar.</p>
+      <span class="feature-tag">Acceso desde cualquier dispositivo</span>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:.2s">
+      <div class="feature-num">02</div>
+      <div class="feature-icon">⊛</div>
+      <h3>Equipos y Sitios</h3>
+      <p>Panel de administración que muestra máquinas y ubicaciones. Resume tipo de sitio, dirección, último escaneo e indicadores como total de registros. Facilita saber qué equipo opera y su estado.</p>
+      <span class="feature-tag">Control total</span>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:.3s">
+      <div class="feature-num">03</div>
+      <div class="feature-icon">⟁</div>
+      <h3>Escaneos</h3>
+      <p>Vista principal para buscar por serial, aplicar filtros y actualizar el listado. Incluye tabla detallada con dimensiones, volumen, peso, imágenes disponibles y acciones para revisar el contenido.</p>
+      <span class="feature-tag">Sincronización</span>
+    </div>
+    <div class="feature-card reveal" style="transition-delay:.4s">
+      <div class="feature-num">04</div>
+      <div class="feature-icon">◎</div>
+      <h3>Exportación y Reportes</h3>
+      <p>Sección orientada a salida de datos y análisis. Permite generar reportes, organizar información para auditoría y facilitar la exportación de resultados hacia sistemas externos o procesos posteriores.</p>
+      <span class="feature-tag">Auditoría y seguimiento</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- VIDEO DEMO -->
+<div id="video-voxel-cloud" class="video-section">
+  <div class="section-tag reveal" style="margin-bottom:24px">Demo en acción</div>
+  <div class="video-wrapper reveal" style="transition-delay:.1s">
+    <div class="video-placeholder">
+      <div class="play-btn">▶</div>
+      <span class="video-label">Ver demostración — Voxel Cloud</span>
+    </div>
+    <div class="video-meta">
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-section reveal">
+  <div class="cta-text">
+    <h2>¿Listo para medir<br>con precisión?</h2>
+    <p>Contanos tu operativa y te mostramos Voxel Cloud en vivo.</p>
+  </div>
+  <div style="display:flex;gap:12px;flex-shrink:0">
+    <a href="index.html#contacto" class="btn-primary">Contactar</a>
+  </div>
+</div>
+
+<script>
+// Normalizar hash para evitar estados raros si se llega con un hash antiguo/no esperado
+(() => {
+  const h = window.location.hash || '';
+  const allowed = [
+    '#voxel-cam',
+    '#video-voxel-cam',
+    '#specs-voxel-cam',
+    '#voxel-cloud',
+    '#video-voxel-cloud',
+    '#specs-voxel-cloud'
+  ];
+  if (h && allowed.indexOf(h) === -1) {
+    history.replaceState(null, '', window.location.pathname + window.location.search + '#voxel-cam');
+  }
+})();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => {
+  observer.observe(el);
+});
+
+// Si el usuario navega entre apps usando #voxel-cam / #voxel-cloud,
+// re-attach de observación para que aparezca el contenido al mostrarse.
+window.addEventListener('hashchange', function () {
+  observer.disconnect();
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => {
+    observer.observe(el);
+  });
+});
+</script>
+</body>
+</html>
