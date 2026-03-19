@@ -60,16 +60,13 @@
     <section class="section video-section hero">
       <!-- MÓVIL: intro a pantalla completa, luego fade al render -->
       <div class="hero-mobile-intro" id="hero-mobile-intro">
-        <video class="hero-mobile-intro-video" src="assets/agh.30.mp4" autoplay muted playsinline></video>
+        <img class="hero-mobile-intro-video" src="assets/agh.36.png" alt="AGH intro">
       </div>
 
       <!-- DESKTOP: logo izquierda, render derecha, fondo fondoval -->
       <div class="hero-desktop-layout">
         <div class="hero-desktop-logo">
-          <video class="video-section-gif" autoplay loop muted playsinline>
-            <source src="assets/video.webm" type="video/webm">
-            <source src="assets/video.mp4" type="video/mp4">
-          </video>
+          <img class="video-section-gif" src="assets/agh.36.png" alt="AGH logo">
         </div>
         <div class="hero-desktop-render">
           <video class="video-section-player" autoplay muted playsinline>
@@ -341,11 +338,17 @@
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="main.js"></script>
   <script>
-    window.addEventListener('load', () => {
+    document.addEventListener('DOMContentLoaded', () => {
       const mainPlayer = document.querySelector('.video-section-player');
+      const introWrap = document.getElementById('hero-mobile-intro');
+
+      const isMobileHero = window.matchMedia('(max-width: 768px)').matches && introWrap;
+      // Ocultamos el logo del header hasta que termine la primera reproducción del render del hero.
+      // Esto aplica tanto en móvil como en web/desktop.
+      if (mainPlayer) document.body.classList.add('hero-intro-pending');
 
       // En móvil usar siempre .mp4 para el render principal (mejor compatibilidad)
-      if (mainPlayer && window.matchMedia('(max-width: 768px)').matches) {
+      if (mainPlayer && isMobileHero) {
         mainPlayer.src = 'assets/animacion_rapida.mp4';
       }
       if (mainPlayer) {
@@ -363,23 +366,48 @@
       }
 
       // Mobile intro logic
-      const introWrap = document.getElementById('hero-mobile-intro');
-      const introVideo = document.querySelector('.hero-mobile-intro-video');
+      const introMedia = document.querySelector('.hero-mobile-intro-video');
       const sectionInner = document.querySelector('.hero-desktop-layout');
-      if (introWrap && introVideo && mainPlayer) {
+      if (introWrap && introMedia && mainPlayer) {
         function showRender() {
           introWrap.classList.add('is-finished');
           if (sectionInner) sectionInner.classList.add('hero-intro-done');
           mainPlayer.currentTime = 0;
           mainPlayer.play().catch(function(){});
         }
-        introVideo.addEventListener('ended', showRender);
-        introVideo.addEventListener('timeupdate', function() {
-          if (introVideo.duration > 0 && introVideo.currentTime >= introVideo.duration - 0.5) {
-            introVideo.removeEventListener('timeupdate', arguments.callee);
-            showRender();
+
+        // Si el intro es un video, esperamos a que termine.
+        // Si es una imagen, hacemos un pequeño delay para mantener el efecto.
+        if (introMedia.tagName === 'VIDEO') {
+          introMedia.addEventListener('ended', showRender);
+          introMedia.addEventListener('timeupdate', function() {
+            if (introMedia.duration > 0 && introMedia.currentTime >= introMedia.duration - 0.5) {
+              introMedia.removeEventListener('timeupdate', arguments.callee);
+              showRender();
+            }
+          });
+        } else {
+          const start = () => setTimeout(showRender, 1800);
+          if (introMedia.complete) start();
+          else introMedia.addEventListener('load', start, { once: true });
+        }
+      }
+
+      // Mostrar el logo del header solo cuando llegamos a la siguiente sección
+      // (en tu landing: #maquinas, donde aparece "Sistemas de Dimensionamiento").
+      const nextSection = document.getElementById('maquinas');
+      if (nextSection) {
+        const obs = new IntersectionObserver((entries) => {
+          const entry = entries[0];
+          if (entry && entry.isIntersecting) {
+            document.body.classList.remove('hero-intro-pending');
+            obs.disconnect();
           }
-        });
+        }, { threshold: 0.25 });
+        obs.observe(nextSection);
+      } else {
+        // Fallback: si por algún motivo no existe la sección, evitamos dejar el logo oculto para siempre.
+        setTimeout(() => document.body.classList.remove('hero-intro-pending'), 12000);
       }
     });
   </script>

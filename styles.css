@@ -67,6 +67,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Ocultar el logo del header mientras el hero termina su primera reproducción */
+body.hero-intro-pending .header .logo {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 /* Overlay de ruido sutil */
 .noise {
   position: fixed;
@@ -847,14 +854,17 @@ body {
 }
 
 .video-section-gif {
-  width: 140%;
+  /* En desktop ahora es una imagen (antes era video):
+     usamos contain para que no se corte. */
+  width: 85%;
   max-width: none;
-  height: 80vh;
+  height: auto;
+  max-height: 54vh;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
   /* Subir el logo recortando la parte superior vacía */
   object-position: center 20%;
-  margin-top: -100px;
+  margin-top: -35px;
 }
 
 .hero-desktop-render {
@@ -880,7 +890,25 @@ body {
 /* =====================
    MÓVIL: intro video → fade al render
    ===================== */
+@media (max-width: 900px) {
+  /* Ocultar logo del header mientras el hero móvil (intro) no termina */
+  body.hero-intro-pending .header .logo,
+  body:has(#hero-mobile-intro:not(.is-finished)) .header .logo {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
 @media (max-width: 768px) {
+  /* Ocultar el logo del header durante el intro del hero (solo móvil) */
+  body.hero-intro-pending .header .logo,
+  body:has(#hero-mobile-intro:not(.is-finished)) .header .logo {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
   .video-section.hero {
     min-height: auto;
     display: block;
