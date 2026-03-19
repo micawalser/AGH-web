@@ -1420,6 +1420,10 @@ body.hero-intro-pending .header .logo {
   font-size: 1rem;
 }
 
+.product-metric-value--small {
+  font-size: 0.70rem;
+}
+
 .product-feature-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -2522,8 +2526,12 @@ body:has(#software:target) #productos-intro {
     letter-spacing: 0.12em;
   }
 
-  .product-metric-value {
+  .product-metric-value:not(.product-metric-value--small) {
     font-size: 0.85rem;
+  }
+
+  .product-metric-value--small {
+    font-size: 0.78rem;
   }
 
   .product-feature-grid {
