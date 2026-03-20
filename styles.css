@@ -856,15 +856,17 @@ body.hero-intro-pending .header .logo {
 .video-section-gif {
   /* En desktop ahora es una imagen (antes era video):
      usamos contain para que no se corte. */
-  width: 85%;
+  width: 121%;
   max-width: none;
   height: auto;
-  max-height: 54vh;
+  max-height: 93vh;
   display: block;
   object-fit: contain;
   /* Subir el logo recortando la parte superior vacía */
   object-position: center 20%;
-  margin-top: -35px;
+  margin-top: -80px;
+  /* Moverlo un poco hacia la derecha dentro del contenedor */
+  transform: translateX(4vw);
 }
 
 .hero-desktop-render {
@@ -1007,7 +1009,7 @@ body.hero-intro-pending .header .logo {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
-  align-items: start;
+  align-items: center;
   width: var(--container);
   margin: 0 auto 3rem;
   padding: 0 1rem;
@@ -1019,7 +1021,7 @@ body.hero-intro-pending .header .logo {
 }
 
 .machines-header-right {
-  padding-top: 0.9em;
+  padding-top: 0;
 }
 
 .machines-title {
@@ -1071,6 +1073,7 @@ body.hero-intro-pending .header .logo {
   .machines-header {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    align-items: start;
   }
 
   .machines-desc {
