@@ -19,10 +19,13 @@
   var heroSection = document.querySelector('.video-section.hero') || document.querySelector('.hero');
   function setHeaderTransparent() {
     if (!header) return;
-    header.style.setProperty('background', 'transparent', 'important');
-    header.style.setProperty('backdrop-filter', 'none', 'important');
-    header.style.setProperty('-webkit-backdrop-filter', 'none', 'important');
-    header.style.borderBottomColor = 'transparent';
+    // En el hero queremos que la barra superior tenga fondo negro.
+    // Mantenemos la lógica existente para cuándo se llama esta función,
+    // pero ahora aplicamos el mismo look "solid".
+    header.style.setProperty('background', '#0a0a0a', 'important');
+    header.style.setProperty('backdrop-filter', 'blur(12px)', 'important');
+    header.style.setProperty('-webkit-backdrop-filter', 'blur(12px)', 'important');
+    header.style.borderBottomColor = 'rgba(255,255,255,0.06)';
   }
   function setHeaderSolid() {
     if (!header) return;

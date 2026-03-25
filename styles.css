@@ -67,11 +67,14 @@ body {
   overflow-x: hidden;
 }
 
-/* Ocultar el logo del header mientras el hero termina su primera reproducción */
-body.hero-intro-pending .header .logo {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+/* Ocultar el logo del header mientras el hero termina su primera reproducción
+   (solo en escritorio; en móvil lo queremos visible). */
+@media (min-width: 901px) {
+  body.hero-intro-pending .header .logo {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 /* Overlay de ruido sutil */
@@ -893,23 +896,11 @@ body.hero-intro-pending .header .logo {
    MÓVIL: intro video → fade al render
    ===================== */
 @media (max-width: 900px) {
-  /* Ocultar logo del header mientras el hero móvil (intro) no termina */
-  body.hero-intro-pending .header .logo,
-  body:has(#hero-mobile-intro:not(.is-finished)) .header .logo {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
+  /* En móvil el logo del header debe verse desde el inicio */
 }
 
 @media (max-width: 768px) {
-  /* Ocultar el logo del header durante el intro del hero (solo móvil) */
-  body.hero-intro-pending .header .logo,
-  body:has(#hero-mobile-intro:not(.is-finished)) .header .logo {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
+  /* En móvil el logo del header debe verse desde el inicio */
 
   .video-section.hero {
     min-height: auto;
