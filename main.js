@@ -102,19 +102,23 @@
   // CTA: imagen de fondo que se revela a medida que scrolleas (scroll-driven, estilo Freshman)
   const ctaSection = document.querySelector('.cta');
   if (ctaSection) {
+    let ctaRevealMax = 0;
     function updateCtaReveal() {
       const rect = ctaSection.getBoundingClientRect();
       const windowH = window.innerHeight;
       const sectionH = rect.height;
       const sectionTop = rect.top;
       const sectionBottom = rect.bottom;
-      // Progreso 0 → 1: la imagen se revela a medida que la sección entra en vista
-      // (cuando el usuario scrollea, más sección visible = más imagen)
       const visibleH = Math.min(sectionBottom, windowH) - Math.max(sectionTop, 0);
-      const progress = Math.max(0, Math.min(1, visibleH / sectionH));
-      // En pantallas muy grandes, evitamos recortes dejando la imagen al 100%
-      const finalProgress = window.innerWidth >= 1400 ? 1 : progress;
-      ctaSection.style.setProperty('--cta-reveal', String(finalProgress));
+      // Denominador: si la sección es más alta que el viewport, visibleH nunca llega a
+      // sectionH y el clip-path dejaba la foto siempre recortada. Usamos min(sectionH, windowH).
+      const denom = Math.min(Math.max(sectionH, 1), windowH);
+      const progress = Math.max(0, Math.min(1, visibleH / denom));
+      const instant = window.innerWidth >= 1400 ? 1 : progress;
+      // Mientras scrolleás hacia abajo, visibleH puede bajar y progress también; el clip-path
+      // volvía a tapar la imagen por abajo (franja negra). El máximo alcanzado mantiene la foto completa.
+      ctaRevealMax = Math.max(ctaRevealMax, instant);
+      ctaSection.style.setProperty('--cta-reveal', String(ctaRevealMax));
     }
     window.addEventListener('scroll', updateCtaReveal, { passive: true });
     window.addEventListener('resize', updateCtaReveal);

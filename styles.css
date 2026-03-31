@@ -197,8 +197,8 @@ body {
   left: 50%;
   transform: translateX(-50%) translateY(14px);
   margin-top: 0.5rem;
-  min-width: 320px;
-  padding: 0.6rem 0;
+  min-width: 280px;
+  padding: 0.35rem 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -220,7 +220,7 @@ body {
 .nav-dropdown-menu .nav-dropdown-link {
   display: block;
   position: relative;
-  padding: 0.6rem 1.25rem;
+  padding: 0.45rem 1rem;
   color: var(--text-muted);
   font-size: 0.9rem;
   text-decoration: none;
@@ -250,6 +250,9 @@ body {
 .nav-dropdown:hover .nav-dropdown-menu .nav-dropdown-link:nth-child(5) {
   transition-delay: 0.25s;
 }
+.nav-dropdown:hover .nav-dropdown-menu .nav-dropdown-link:nth-child(6) {
+  transition-delay: 0.3s;
+}
 
 /* Línea fina verde entre productos, se difumina a los costados */
 .nav-dropdown-menu .nav-dropdown-link:not(:last-child)::after {
@@ -274,8 +277,8 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1.5rem 1.75rem;
+  gap: 0.85rem;
+  padding: 0.55rem 1rem 0.55rem 0.9rem;
 }
 
 .nav-dropdown-link--with-icon:hover .nav-dropdown-link-title,
@@ -284,8 +287,8 @@ body {
 }
 
 .nav-dropdown-icon {
-  width: 88px;
-  height: 88px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
   flex-shrink: 0;
   opacity: 0.95;
@@ -294,20 +297,22 @@ body {
 .nav-dropdown-link-content {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.12rem;
   min-width: 0;
 }
 
 .nav-dropdown-link-title {
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
+  line-height: 1.15;
   color: #fff;
 }
 
 .nav-dropdown-link-desc {
   font-family: var(--font-body);
-  font-size: 1.15rem;
+  font-size: 0.82rem;
+  line-height: 1.25;
   color: var(--text-muted);
   font-weight: 400;
 }
@@ -429,7 +434,7 @@ body {
   .nav.is-open .nav-dropdown.is-open .nav-dropdown-menu {
     opacity: 1;
     visibility: visible;
-    max-height: 500px;
+    max-height: min(72vh, 520px);
   }
 
   .nav.is-open .nav-dropdown-menu a {
@@ -446,23 +451,24 @@ body {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    padding: 0.9rem 0;
-    gap: 1.1rem;
+    padding: 0.5rem 0;
+    gap: 0.75rem;
   }
 
   .nav.is-open .nav-dropdown-icon {
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
   }
 
   .nav.is-open .nav-dropdown-link-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-align: left;
+    line-height: 1.15;
   }
 
   .nav.is-open .nav-dropdown-link-desc {
-    font-size: 0.78rem;
-    line-height: 1.4;
+    font-size: 0.72rem;
+    line-height: 1.3;
     text-align: left;
     /* Quitar sombra en los textos grises del submenú */
     text-shadow: none;
@@ -1057,7 +1063,8 @@ body {
   line-height: 1.6;
   color: var(--text-muted);
   margin: 0;
-  max-width: 420px;
+  /* Usa todo el ancho de la columna (antes 420px dejaba hueco a la derecha) */
+  max-width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -1126,11 +1133,15 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  /* Ocupa el alto entre imagen y línea inferior para alinear descripciones y “Ver más” */
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .machine-card-btn {
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
   /* Empuja el botón al fondo de la card para alinear "Ver más" entre tarjetas */
   margin-top: auto;
   font-family: 'Geist', sans-serif;
@@ -1164,6 +1175,9 @@ body {
   line-height: 1.55;
   color: #ffffff;
   margin: 0;
+  /* El texto queda arriba; el espacio libre queda debajo hasta el botón */
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 /* Línea inferior en cada card: verde al hover */
@@ -1339,6 +1353,61 @@ body {
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
   gap: 3rem;
   align-items: stretch;
+}
+
+/* Producto #producto: texto a la izquierda + card Integración a la derecha */
+.product-layout--integracion {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 2rem 2.5rem;
+  align-items: start;
+}
+
+.product-layout--integracion .product-main {
+  padding-top: 0;
+  text-align: center;
+}
+
+.product-layout--integracion .product-feature-grid {
+  margin-top: 0;
+  align-self: start;
+}
+
+.product-layout--integracion .product-main .product-title {
+  font-size: clamp(1.35rem, 2.4vw, 1.95rem);
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  max-width: 22ch;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0.85rem;
+}
+
+.product-layout--integracion .product-main .product-desc {
+  font-size: 1.02rem;
+  line-height: 1.62;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 38ch;
+  color: rgba(235, 239, 242, 0.88);
+}
+
+.product-feature-card-head {
+  padding: 1.1rem 1.35rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.product-feature-header--integracion {
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.product-feature-title-integracion {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
 }
 
 .product-pill {
@@ -1526,6 +1595,82 @@ body {
   border-radius: 999px;
   background: var(--accent);
   box-shadow: 0 0 10px rgba(149, 213, 156, 0.7);
+}
+
+/* Card “Integración TOTAL” (después de reglas base para que aplique bien) */
+.product-feature-card.product-feature-card--integracion {
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(149, 213, 156, 0.42);
+  background:
+    radial-gradient(120% 80% at 0% 0%, rgba(78, 128, 90, 0.35), transparent 55%),
+    linear-gradient(165deg, rgba(12, 14, 13, 0.98) 0%, rgba(6, 8, 7, 0.96) 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 22px 50px rgba(0, 0, 0, 0.55);
+}
+
+.product-feature-card.product-feature-card--integracion::before {
+  opacity: 0.35;
+}
+
+.product-feature-card.product-feature-card--integracion:hover {
+  transform: translateY(-3px);
+  border-color: rgba(149, 213, 156, 0.55);
+  background:
+    radial-gradient(120% 80% at 0% 0%, rgba(78, 128, 90, 0.42), transparent 55%),
+    linear-gradient(165deg, rgba(14, 20, 17, 0.99) 0%, rgba(8, 10, 9, 0.98) 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 26px 58px rgba(0, 0, 0, 0.7);
+}
+
+.product-feature-card.product-feature-card--integracion .product-feature-header {
+  margin-bottom: 0;
+}
+
+.product-feature-card.product-feature-card--integracion .product-feature-title-integracion {
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.product-feature-list--integracion {
+  padding: 1.25rem 1.25rem 1.4rem;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem 0.75rem;
+  font-size: 0.86rem;
+  line-height: 1.35;
+  color: rgba(235, 239, 242, 0.92);
+}
+
+.product-feature-list--integracion li {
+  padding: 0.65rem 0.7rem 0.65rem 1.55rem;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+}
+
+.product-feature-list--integracion li::before {
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  box-shadow: 0 0 8px rgba(149, 213, 156, 0.55);
+}
+
+@media (max-width: 520px) {
+  .product-feature-list--integracion {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ----- Beneficios – rediseño ----- */
@@ -2594,7 +2739,8 @@ body:has(#software:target) #productos-intro {
   left: max(2rem, 8vw);
   transform: translateY(-50%);
   z-index: 1;
-  max-width: 420px;
+  /* Ancho limitado para que el texto no invada la zona del video/render a la derecha */
+  max-width: min(400px, 34vw);
   margin: 0;
   padding: 0;
   text-align: left;
@@ -2611,9 +2757,13 @@ body:has(#software:target) #productos-intro {
 
 .hero-bg-desc {
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.65;
   color: #ffffff;
   margin: 0;
+}
+
+.hero-bg-desc + .hero-bg-desc {
+  margin-top: 0.85rem;
 }
 
 @media (max-width: 768px) {
