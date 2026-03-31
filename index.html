@@ -17,7 +17,7 @@
   <header class="header">
     <div class="header-inner">
       <a href="index.html" class="logo">
-        <img src="assets/agh.png" alt="AGH Dimensionadores" class="logo-img">
+        <img src="assets/aghblanco.png" alt="AGH Dimensionadores" class="logo-img">
       </a>
       <nav class="nav">
         <a href="index.html">Inicio</a>
@@ -42,7 +42,7 @@
               <img src="assets/voxelblanco.png" alt="" class="nav-dropdown-icon">
               <span class="nav-dropdown-link-content">
                 <span class="nav-dropdown-link-title">VOXEL</span>
-                <span class="nav-dropdown-link-desc">Aplicaciones</span>
+                <span class="nav-dropdown-link-desc">Aplicación de captura y gestión</span>
               </span>
             </a>
           </div>
@@ -60,18 +60,20 @@
     <section class="section video-section hero">
       <!-- MÓVIL: intro a pantalla completa, luego fade al render -->
       <div class="hero-mobile-intro" id="hero-mobile-intro">
-        <img class="hero-mobile-intro-video" src="assets/agh.36.png" alt="AGH intro">
+        <video class="hero-mobile-intro-video" autoplay muted playsinline preload="auto">
+          <source src="assets/logoheromovil.mp4" type="video/mp4">
+        </video>
       </div>
 
       <!-- DESKTOP: logo izquierda, render derecha, fondo fondoval -->
       <div class="hero-desktop-layout">
         <div class="hero-desktop-logo">
           <video class="video-section-gif" autoplay loop muted playsinline>
-            <source src="assets/output.webm" type="video/webm">
+            <source src="assets/logohero.webm" type="video/webm">
           </video>
         </div>
         <div class="hero-desktop-render">
-          <video class="video-section-player" autoplay muted playsinline>
+          <video class="video-section-player" autoplay muted playsinline preload="auto">
             <source src="assets/animacion_rapida.webm" type="video/webm">
             <source src="assets/animacion_rapida.mp4" type="video/mp4">
           </video>
@@ -294,7 +296,7 @@
     <div class="container">
       <div class="footer-inner">
         <a href="#" class="logo footer-logo">
-          <img src="assets/agh.png" alt="AGH Dimensionadores" class="logo-img">
+          <img src="assets/aghblanco.png" alt="AGH Dimensionadores" class="logo-img">
         </a>
         <p class="footer-copy">© AGH Dimensionadores. Medición precisa para tu logística.</p>
       </div>
@@ -319,25 +321,26 @@
       }
       if (mainPlayer) {
         mainPlayer.playbackRate = 0.4;
-
-        // Después de la primera reproducción, activar loop para que siga en bucle
-        let hasPlayedOnce = false;
-        mainPlayer.addEventListener('ended', () => {
-          if (!hasPlayedOnce) {
-            hasPlayedOnce = true;
-            mainPlayer.loop = true;
-            mainPlayer.play().catch(() => {});
-          }
-        });
+        // En desktop dejamos el loop activo desde el inicio para evitar el salto
+        // visible que aparece cuando el navegador cambia a loop al final del primer ciclo.
+        if (!isMobileHero) {
+          mainPlayer.loop = true;
+          mainPlayer.play().catch(() => {});
+        }
       }
 
       // Mobile intro logic
       const introMedia = document.querySelector('.hero-mobile-intro-video');
       const sectionInner = document.querySelector('.hero-desktop-layout');
       if (introWrap && introMedia && mainPlayer) {
+        let hasShownRender = false;
+
         function showRender() {
+          if (hasShownRender) return;
+          hasShownRender = true;
           introWrap.classList.add('is-finished');
           if (sectionInner) sectionInner.classList.add('hero-intro-done');
+          mainPlayer.loop = true;
           mainPlayer.currentTime = 0;
           mainPlayer.play().catch(function(){});
         }
@@ -345,13 +348,14 @@
         // Si el intro es un video, esperamos a que termine.
         // Si es una imagen, hacemos un pequeño delay para mantener el efecto.
         if (introMedia.tagName === 'VIDEO') {
-          introMedia.addEventListener('ended', showRender);
-          introMedia.addEventListener('timeupdate', function() {
+          const handleIntroTimeUpdate = function() {
             if (introMedia.duration > 0 && introMedia.currentTime >= introMedia.duration - 0.5) {
-              introMedia.removeEventListener('timeupdate', arguments.callee);
+              introMedia.removeEventListener('timeupdate', handleIntroTimeUpdate);
               showRender();
             }
-          });
+          };
+          introMedia.addEventListener('ended', showRender, { once: true });
+          introMedia.addEventListener('timeupdate', handleIntroTimeUpdate);
         } else {
           const start = () => setTimeout(showRender, 1800);
           if (introMedia.complete) start();
