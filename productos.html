@@ -603,10 +603,14 @@
         max-width: 100%;
         display: flex;
         justify-content: center;
+        width: 100%;
       }
 
       #pdc .product-visual-img-pdc {
-        transform: scale(1.2) translate(0, -10px);
+        width: 100%;
+        max-width: 100%;
+        transform: scale(0.98) translate(0, -2px);
+        transform-origin: center top;
       }
 
       #pdc .product-visual-stack {
@@ -1260,7 +1264,10 @@
         <div class="product-banner-right fade-up fade-up-d2">
           <div class="product-visual-layout">
             <div class="product-visual-wrap">
-              <img src="assets/renderpdc4.png" alt="PDC Dimensionador" class="product-visual-img product-visual-img-pdc">
+              <picture>
+                <source media="(max-width: 768px)" srcset="assets/renderpdcmovil.png">
+                <img src="assets/renderpdc4.png" alt="PDC Dimensionador" class="product-visual-img product-visual-img-pdc">
+              </picture>
             </div>
             <div class="product-visual-stack">
               <img src="assets/renderpdc3.png" alt="PDC vista 2" class="product-visual-thumb">
