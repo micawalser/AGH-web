@@ -71,6 +71,84 @@
     }
     .nav a:hover { color: var(--text); }
     .nav .nav-cta { color: var(--accent) !important; font-weight: 700; }
+    .mobile-menu-toggle,
+    .mobile-nav {
+      display: none;
+    }
+    .mobile-menu-toggle {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .mobile-menu-toggle span {
+      width: 18px;
+      height: 2px;
+      background: currentColor;
+      display: block;
+    }
+    .mobile-nav {
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      z-index: 99;
+      background: rgba(10,10,10,0.96);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem;
+    }
+    .mobile-nav.is-open {
+      display: block;
+    }
+    .mobile-nav-inner {
+      width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .mobile-nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.9rem 0.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-weight: 500;
+    }
+    .mobile-nav a:last-child {
+      border-bottom: none;
+    }
+    .mobile-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+    .mobile-nav-icon {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      flex: 0 0 34px;
+    }
+    .mobile-nav-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+    .mobile-nav-title {
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .mobile-nav-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.25;
+    }
 
     /* ====================================================
        INTRO HERO
@@ -536,8 +614,31 @@
       }
     }
     @media (max-width: 768px) {
+      .product-specs-inner {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 0 0.75rem;
+      }
+      .product-spec-item {
+        min-width: 0;
+        padding: 1.25rem 0.9rem;
+      }
+      .product-spec-label {
+        font-size: 0.56rem;
+        letter-spacing: 0.14em;
+      }
+      .product-spec-value {
+        font-size: 0.82rem;
+        line-height: 1.25;
+      }
+      .products-scroll-hint {
+        margin-top: 1.25rem;
+        margin-bottom: 0.35rem;
+      }
       #odc .product-section-banner {
-        padding-bottom: 1.5rem;
+        padding-top: 0.75rem;
+      }
+      #odc .product-section-banner {
+        padding-bottom: 0.35rem;
       }
       #odc .product-section-banner-inner {
         gap: 0;
@@ -556,7 +657,7 @@
       #odc .product-visual-wrap {
         width: 58%;
         max-width: none;
-        margin-left: 0;
+        margin-left: -10px;
       }
       #odc .product-visual-img {
         width: 100%;
@@ -571,6 +672,7 @@
         flex-direction: column;
         align-items: center;
         gap: 0.75rem;
+        margin-left: -10px;
       }
       #odc .product-odc-text-mobile {
         display: block;
@@ -593,8 +695,8 @@
         transform: none;
       }
       #odc .product-visual-thumb {
-        width: 100%;
-        max-width: 100%;
+        width: 112%;
+        max-width: 112%;
         position: relative;
         top: 0;
         transform: none;
@@ -925,6 +1027,7 @@
     ==================================================== */
     @media (max-width: 900px) {
       .nav { display: none; }
+      .mobile-menu-toggle { display: inline-flex; }
       .product-section-banner-inner,
       .pdl-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .product-bg-label { display: none; }
@@ -989,8 +1092,40 @@
         </div>
         <a href="index.html#contacto" class="nav-cta">Contacto</a>
       </nav>
+      <button class="mobile-menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
+  <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+    <div class="mobile-nav-inner">
+      <a href="index.html">Inicio</a>
+      <a href="productos.html#odc" class="mobile-nav-link">
+        <img src="assets/dibujoODC.png" alt="" class="mobile-nav-icon">
+        <span class="mobile-nav-text">
+          <span class="mobile-nav-title">ODC</span>
+          <span class="mobile-nav-desc">Object Dimensional Camera</span>
+        </span>
+      </a>
+      <a href="productos.html#pdc" class="mobile-nav-link">
+        <img src="assets/pdcdibujo.png" alt="" class="mobile-nav-icon">
+        <span class="mobile-nav-text">
+          <span class="mobile-nav-title">PDC</span>
+          <span class="mobile-nav-desc">Pallet Dimensional Camera</span>
+        </span>
+      </a>
+      <a href="productos.html#software" class="mobile-nav-link">
+        <img src="assets/voxelblanco.png" alt="" class="mobile-nav-icon">
+        <span class="mobile-nav-text">
+          <span class="mobile-nav-title">Voxel</span>
+          <span class="mobile-nav-desc">Aplicacion de captura y gestion</span>
+        </span>
+      </a>
+      <a href="index.html#contacto">Contacto</a>
+    </div>
+  </nav>
 
   <!-- HERO -->
   <section class="productos-hero">
@@ -1218,7 +1353,7 @@
       <div class="software-header">
         <div class="software-header-left">
           <img src="assets/dibujovoxel.png" alt="AGH Voxel Suite" class="software-voxel-img fade-up fade-up-d1">
-          <div class="product-name-display fade-up fade-up-d1">Software</div>
+          <div class="product-name-display fade-up fade-up-d1">Aplicación</div>
           <div class="product-name-full fade-up fade-up-d1">AGH Voxel Suite</div>
           <p class="product-headline fade-up fade-up-d2" style="max-width:620px;">
             Almacena, exporta e integra tus datos dimensionales para aumentar la rentabilidad y eficiencia en toda tu cadena de suministro.
@@ -1270,6 +1405,25 @@
   </footer>
 
   <script>
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+
+    if (mobileMenuToggle && mobileNav) {
+      mobileMenuToggle.addEventListener('click', () => {
+        const isOpen = mobileNav.classList.toggle('is-open');
+        mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+        mobileNav.setAttribute('aria-hidden', String(!isOpen));
+      });
+
+      mobileNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileNav.classList.remove('is-open');
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+          mobileNav.setAttribute('aria-hidden', 'true');
+        });
+      });
+    }
+
     // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

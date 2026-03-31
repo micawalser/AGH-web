@@ -83,6 +83,61 @@ body{
 .nav-app .nav-cta{
   color: var(--accent) !important;
 }
+.mobile-nav-app .nav-cta{
+  color: var(--text) !important;
+}
+.mobile-menu-toggle-app,
+.mobile-nav-app{
+  display:none;
+}
+.mobile-menu-toggle-app{
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.02);
+  color:var(--text);
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+}
+.mobile-menu-toggle-app span{
+  width:18px;
+  height:2px;
+  background:currentColor;
+  display:block;
+}
+.mobile-nav-app{
+  position:fixed;
+  top:var(--header-h);
+  left:0;
+  right:0;
+  z-index:998;
+  background:rgba(10,10,10,0.96);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:1rem;
+}
+.mobile-nav-app.is-open{
+  display:block;
+}
+.mobile-nav-app-inner{
+  width:min(1200px,92vw);
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:.35rem;
+}
+.mobile-nav-app a{
+  color:var(--text);
+  text-decoration:none;
+  padding:.9rem .25rem;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  font-weight:500;
+}
+.mobile-nav-app a:last-child{
+  border-bottom:none;
+}
 
 /* REVEAL ON SCROLL */
 .reveal{
@@ -566,6 +621,8 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
 
 /* RESPONSIVE */
 @media(max-width:900px){
+  .nav-app{display:none}
+  .mobile-menu-toggle-app{display:inline-flex}
   .hero{grid-template-columns:1fr;min-height:auto}
   .hero-left{padding:60px 32px 40px}
   .hero-right{padding:0 32px 60px}
@@ -649,8 +706,20 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
       <a href="productos.html">Productos</a>
       <a href="index.html#contacto" class="nav-cta">Contacto</a>
     </nav>
+    <button class="mobile-menu-toggle-app" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-nav-app">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
 </header>
+<nav class="mobile-nav-app" id="mobile-nav-app" aria-hidden="true">
+  <div class="mobile-nav-app-inner">
+    <a href="index.html">Inicio</a>
+    <a href="productos.html">Productos</a>
+    <a href="index.html#contacto" class="nav-cta">Contacto</a>
+  </div>
+</nav>
 
 <main id="voxel-cam" class="app-screen">
 
@@ -916,6 +985,25 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
     history.replaceState(null, '', window.location.pathname + window.location.search + '#voxel-cam');
   }
 })();
+
+const mobileMenuToggleApp = document.querySelector('.mobile-menu-toggle-app');
+const mobileNavApp = document.querySelector('.mobile-nav-app');
+
+if (mobileMenuToggleApp && mobileNavApp) {
+  mobileMenuToggleApp.addEventListener('click', () => {
+    const isOpen = mobileNavApp.classList.toggle('is-open');
+    mobileMenuToggleApp.setAttribute('aria-expanded', String(isOpen));
+    mobileNavApp.setAttribute('aria-hidden', String(!isOpen));
+  });
+
+  mobileNavApp.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNavApp.classList.remove('is-open');
+      mobileMenuToggleApp.setAttribute('aria-expanded', 'false');
+      mobileNavApp.setAttribute('aria-hidden', 'true');
+    });
+  });
+}
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {

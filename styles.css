@@ -348,35 +348,35 @@ body {
     align-items: center;
     gap: 1.5rem;
     width: 100%;
-    background: var(--accent);
-    font-size: 1.25rem;
-    padding: 2.5rem 1.75rem 2rem;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
+  background: rgba(10,10,10,0.96);
+  font-size: 1.25rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
   }
 
   /* Estilo de enlaces dentro del menú móvil */
   .nav.is-open a,
   .nav.is-open .nav-dropdown-trigger {
-    color: #ffffff;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    font-size: 1.1rem;
+  color: var(--text);
+  text-shadow: none;
+  font-weight: 500;
+  letter-spacing: normal;
+  font-size: 0.9rem;
   }
 
   .nav.is-open a:hover,
   .nav.is-open .nav-dropdown-trigger:hover {
-    color: #f5f5f5;
+  color: var(--text);
   }
 
   /* Forzar que el CTA de contacto también sea negro en el menú móvil */
   .nav.is-open .nav-cta {
-    color: #ffffff !important;
+  color: var(--accent) !important;
   }
 
   /* Forzar color negro específicamente en el trigger de Productos */
   .nav.is-open .nav-dropdown-trigger {
-    color: #ffffff !important;
+  color: var(--text) !important;
   }
 
   /* Líneas divisorias entre INICIO / PRODUCTOS / CONTACTO en móvil */
@@ -396,7 +396,7 @@ body {
     right: 0;
     bottom: -0.4rem;
     height: 1px;
-    background: rgba(0, 0, 0, 0.18);
+  background: rgba(255,255,255,0.06);
   }
 
   /* No dibujar línea debajo del último (CONTACTO) */
@@ -412,7 +412,7 @@ body {
   }
 
   .nav.is-open .nav-dropdown-trigger {
-    font-size: 1.25rem;
+  font-size: 0.9rem;
     color: var(--text);
   }
 
@@ -438,8 +438,8 @@ body {
   }
 
   .nav.is-open .nav-dropdown-menu a {
-    font-size: 1rem;
-    padding: 0.4rem 0;
+  font-size: 0.9rem;
+  padding: 0.9rem 0.25rem;
     opacity: 1;
     transform: none;
     transition: color 0.2s, background 0.2s;
@@ -456,22 +456,22 @@ body {
   }
 
   .nav.is-open .nav-dropdown-icon {
-    width: 48px;
-    height: 48px;
+  width: 34px;
+  height: 34px;
   }
 
   .nav.is-open .nav-dropdown-link-title {
-    font-size: 1rem;
+  font-size: 0.9rem;
     text-align: left;
     line-height: 1.15;
   }
 
   .nav.is-open .nav-dropdown-link-desc {
-    font-size: 0.72rem;
-    line-height: 1.3;
+  font-size: 0.78rem;
+  line-height: 1.25;
     text-align: left;
-    /* Quitar sombra en los textos grises del submenú */
     text-shadow: none;
+  color: var(--text-muted);
   }
 
   .menu-btn.is-open span:nth-child(1) {

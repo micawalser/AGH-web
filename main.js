@@ -13,6 +13,8 @@
   const header = document.querySelector('.header');
   const menuBtn = document.querySelector('.menu-btn');
   const nav = document.querySelector('.nav');
+  const productsDropdown = document.querySelector('.nav-dropdown');
+  const productsTrigger = productsDropdown ? productsDropdown.querySelector('.nav-dropdown-trigger') : null;
 
   // Header transparente mientras el hero (fondoval) está visible
   // Usamos la sección de video como referencia
@@ -63,6 +65,9 @@
   if (menuBtn && nav) {
     menuBtn.addEventListener('click', function () {
       const isOpen = nav.classList.toggle('is-open');
+      if (productsDropdown) {
+        productsDropdown.classList.remove('is-open');
+      }
       menuBtn.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
       menuBtn.classList.toggle('is-open', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
@@ -186,14 +191,17 @@
   });
 
   // Navegación móvil: desplegar submenú de Productos solo al tocar "Productos"
-  const productsDropdown = document.querySelector('.nav-dropdown');
-  const productsTrigger = productsDropdown ? productsDropdown.querySelector('.nav-dropdown-trigger') : null;
   if (productsDropdown && productsTrigger) {
     productsTrigger.addEventListener('click', function (e) {
-      // En móvil/tablet usamos el tap para abrir/cerrar submenú
-      if (window.innerWidth <= 900) {
+      // En móvil/tablet: primer tap despliega, segundo tap navega a productos.html
+      if (window.innerWidth <= 900 && nav && nav.classList.contains('is-open')) {
+        if (!productsDropdown.classList.contains('is-open')) {
+          e.preventDefault();
+          productsDropdown.classList.add('is-open');
+        }
+      } else if (window.innerWidth <= 900) {
         e.preventDefault();
-        productsDropdown.classList.toggle('is-open');
+        window.location.href = productsTrigger.getAttribute('href') || 'productos.html';
       }
     });
   }
