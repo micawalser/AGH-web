@@ -947,6 +947,24 @@
       color: var(--text-muted);
       font-weight: 300;
     }
+    .sw-product-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--accent);
+      opacity: 0.9;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .sw-product-more:hover {
+      opacity: 1;
+      transform: translateX(2px);
+    }
 
     /* ====================================================
        PDL — Coming soon
@@ -1341,12 +1359,6 @@
             El PDL está diseñado para entornos de alta cadencia donde la velocidad de medición es crítica.
             Tecnología láser TOF para máxima precisión incluso en movimiento. Regístrate para ser de los primeros en conocerlo.
           </p>
-          <div class="product-cta-row fade-up fade-up-d3">
-            <a href="index.html#contacto" class="btn-product-primary">
-              Notificarme cuando esté disponible
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-          </div>
         </div>
         <div class="pdl-placeholder fade-up fade-up-d2"></div>
       </div>
@@ -1376,12 +1388,14 @@
           <a class="sw-product-name" href="aplicaciones.html#voxel-cam">Voxel Cam</a>
           <div class="sw-product-type">Dimensionado por cámara</div>
           <p class="sw-product-desc">Solución principal para captura de dimensiones y peso en tiempo real. Interfaz clara, datos listos para exportar a tu sistema con máxima precisión en cada medición, apta para maquinas ODC & PDC.</p>
+          <a class="sw-product-more" href="aplicaciones.html#voxel-cam">Ver más →</a>
         </div>
 
         <div class="sw-product-card fade-up fade-up-d1">
           <div class="sw-product-index">02 / 04</div>
           <div class="sw-product-name">Voxel Cam Lite</div>
           <div class="sw-product-type">Versión ligera</div>
+          <span class="badge-soon">Próximamente</span>
           <p class="sw-product-desc">Versión más ligera y pensada para logística: captura lo esencial con una interfaz simplificada para flujos con menos requisitos.</p>
         </div>
 
@@ -1390,6 +1404,7 @@
           <a class="sw-product-name" href="aplicaciones.html#voxel-cloud">Voxel Cloud</a>
           <div class="sw-product-type">Plataforma cloud</div>
           <p class="sw-product-desc">Centraliza datos de varias estaciones en una sola plataforma. Reportes, análisis avanzados y acceso desde cualquier lugar con sincronización en tiempo real.</p>
+          <a class="sw-product-more" href="aplicaciones.html#voxel-cloud">Ver más →</a>
         </div>
 
         <div class="sw-product-card fade-up fade-up-d3">

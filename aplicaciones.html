@@ -363,11 +363,11 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
   display:flex;gap:12px;align-items:center;flex-wrap:wrap;
 }
 .btn-primary{
-  background:var(--accent);
-  color:#0a0b0d;
+  background:#6d4dff;
+  color:#ffffff;
   border:none;
   padding:14px 28px;
-  font-family:'Space Grotesk',sans-serif;
+  font-family:Arial, Helvetica, sans-serif;
   font-size:14px;
   font-weight:600;
   cursor:pointer;
@@ -642,6 +642,7 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
 /* VIDEO SECTION */
 .video-section{
   padding:0 80px 100px;
+  display:none !important; /* Oculto temporalmente */
 }
 .video-wrapper{
   background:var(--surface);
@@ -709,6 +710,97 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
 }
 .cta-text h2{font-size:32px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
 .cta-text p{font-size:15px;color:var(--muted2)}
+
+/* Contacto modal */
+.contact-modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(8,10,14,.72);
+  backdrop-filter:blur(6px);
+  z-index:1200;
+}
+.contact-modal.is-open{display:flex}
+.contact-modal-card{
+  width:min(100%, 460px);
+  background:linear-gradient(180deg, #121722 0%, #0f141f 100%);
+  border:1px solid rgba(109,77,255,.55);
+  border-radius:16px;
+  box-shadow:0 24px 70px rgba(0,0,0,.45);
+  padding:22px;
+  font-family:Arial, Helvetica, sans-serif;
+}
+.contact-modal-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:14px;
+}
+.contact-modal-head h3{
+  margin:0;
+  font-size:20px;
+  letter-spacing:-.01em;
+}
+.contact-modal-head p{
+  margin:6px 0 0;
+  color:var(--muted2);
+  font-size:14px;
+}
+.contact-close{
+  border:1px solid rgba(109,77,255,.55);
+  background:transparent;
+  color:#e6ebf2;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:18px;
+  line-height:1;
+}
+.contact-form{
+  display:grid;
+  gap:12px;
+}
+.contact-form label{
+  display:grid;
+  gap:6px;
+  font-size:13px;
+  color:#d2d8e2;
+}
+.contact-form input,
+.contact-form textarea{
+  width:100%;
+  border:1px solid var(--border-bright);
+  border-radius:10px;
+  background:#0c111a;
+  color:#ecf2ff;
+  padding:12px 13px;
+  font-family:inherit;
+  font-size:14px;
+}
+.contact-form textarea{
+  min-height:120px;
+  resize:vertical;
+}
+.contact-form input:focus,
+.contact-form textarea:focus{
+  outline:none;
+  border-color:rgba(109,77,255,.85);
+  box-shadow:0 0 0 3px rgba(109,77,255,.2);
+}
+.contact-actions{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:6px;
+}
+.contact-submit-btn{
+  font-family:'DM Mono',monospace;
+  letter-spacing:.04em;
+}
 
 /* RESPONSIVE */
 @media(max-width:900px){
@@ -820,7 +912,7 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
           </a>
         </div>
       </div>
-      <a href="index.html#contacto" class="nav-cta">Contacto</a>
+      <a href="#" class="nav-cta open-contact-modal" data-contact-modal="open" onclick="return window.openAghContactModal ? window.openAghContactModal(event) : false;">Contacto</a>
     </nav>
     <button class="mobile-menu-toggle-app" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-nav-app">
       <span></span>
@@ -836,7 +928,7 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
     <a href="productos.html#odc" class="mobile-sub-link">ODC</a>
     <a href="productos.html#pdc" class="mobile-sub-link">PDC</a>
     <a href="productos.html#software" class="mobile-sub-link">VOXEL</a>
-    <a href="index.html#contacto" class="nav-cta">Contacto</a>
+    <a href="#" class="nav-cta open-contact-modal" data-contact-modal="open" onclick="return window.openAghContactModal ? window.openAghContactModal(event) : false;">Contacto</a>
   </div>
 </nav>
 
@@ -863,8 +955,7 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
       Visualización en tiempo real de los datos capturados: dimensiones, peso e imagen. Exportación local o integración con sistemas externos
     </p>
     <div class="hero-cta reveal" style="transition-delay:.4s">
-      <a href="#video-voxel-cam" class="btn-primary">Ver demo</a>
-      <a href="#specs-voxel-cam" class="btn-ghost">Ver specs técnicas</a>
+      <a href="#specs-voxel-cam" class="btn-ghost">Ver especificaciónes técnicas</a>
     </div>
   </div>
 
@@ -955,7 +1046,7 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
     <p>Contanos tu operativa y te mostramos Voxel Cam en vivo.</p>
   </div>
   <div style="display:flex;gap:12px;flex-shrink:0">
-    <a href="index.html#contacto" class="btn-primary">Contactar</a>
+    <button type="button" class="btn-primary open-contact-modal" data-contact-modal="open" onclick="return window.openAghContactModal ? window.openAghContactModal(event) : false;">Contactar</button>
     <a href="productos.html#software" class="btn-ghost">Volver a productos</a>
   </div>
 </div>
@@ -990,7 +1081,6 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
       desde cualquier lugar con sincronización en tiempo real.
     </p>
     <div class="hero-cta reveal" style="transition-delay:.4s">
-      <a href="#video-voxel-cloud" class="btn-primary">Solicitar demo</a>
       <a href="#specs-voxel-cloud" class="btn-ghost">Ver specs técnicas</a>
     </div>
   </div>
@@ -1084,7 +1174,36 @@ body:has(#specs-voxel-cam:target) #voxel-cloud {
     <p>Contanos tu operativa y te mostramos Voxel Cloud en vivo.</p>
   </div>
   <div style="display:flex;gap:12px;flex-shrink:0">
-    <a href="index.html#contacto" class="btn-primary">Contactar</a>
+    <button type="button" class="btn-primary open-contact-modal" data-contact-modal="open" onclick="return window.openAghContactModal ? window.openAghContactModal(event) : false;">Contactar</button>
+  </div>
+</div>
+
+<div id="contact-modal" class="contact-modal" aria-hidden="true">
+  <div class="contact-modal-card" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+    <div class="contact-modal-head">
+      <div>
+        <h3 id="contact-modal-title">Contactanos</h3>
+        <p>Completá el formulario y te abrimos el correo listo para enviar.</p>
+      </div>
+      <button type="button" class="contact-close" aria-label="Cerrar formulario">×</button>
+    </div>
+    <form id="contact-mail-form" class="contact-form">
+      <label>
+        Nombre / Empresa *
+        <input type="text" name="nameCompany" required />
+      </label>
+      <label>
+        Consulta *
+        <textarea name="consulta" required></textarea>
+      </label>
+      <label>
+        Teléfono (opcional)
+        <input type="tel" name="telefono" />
+      </label>
+      <div class="contact-actions">
+        <button type="submit" class="btn-primary contact-submit-btn">Enviar consulta</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -1142,6 +1261,163 @@ window.addEventListener('hashchange', function () {
     observer.observe(el);
   });
 });
+
+const contactModal = document.getElementById('contact-modal');
+const contactForm = document.getElementById('contact-mail-form');
+const contactCloseBtn = contactModal ? contactModal.querySelector('.contact-close') : null;
+const openContactBtns = document.querySelectorAll('.open-contact-modal, [data-contact-modal="open"]');
+if (contactModal && contactModal.parentElement !== document.body) {
+  document.body.appendChild(contactModal);
+}
+
+function openContactModal() {
+  if (!contactModal) return;
+  contactModal.classList.add('is-open');
+  contactModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  const firstInput = contactModal.querySelector('input[name="nameCompany"]');
+  if (firstInput) firstInput.focus();
+}
+
+function closeContactModal() {
+  if (!contactModal) return;
+  contactModal.classList.remove('is-open');
+  contactModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+openContactBtns.forEach(btn => {
+  btn.addEventListener('click', openContactModal);
+});
+
+// Fallback robusto: si cambia el DOM o se re-renderiza, cualquier botón marcado abre modal.
+document.addEventListener('click', (event) => {
+  const trigger = event.target.closest('.open-contact-modal, [data-contact-modal="open"]');
+  if (!trigger) return;
+  event.preventDefault();
+  openContactModal();
+});
+
+if (contactCloseBtn) {
+  contactCloseBtn.addEventListener('click', closeContactModal);
+}
+
+if (contactModal) {
+  contactModal.addEventListener('click', (event) => {
+    if (event.target === contactModal) closeContactModal();
+  });
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && contactModal && contactModal.classList.contains('is-open')) {
+    closeContactModal();
+  }
+});
+
+if (contactForm) {
+  contactForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(contactForm);
+    const nameCompany = String(formData.get('nameCompany') || '').trim();
+    const consulta = String(formData.get('consulta') || '').trim();
+    const telefono = String(formData.get('telefono') || '').trim();
+
+    if (!nameCompany || !consulta) return;
+
+    const subject = encodeURIComponent('Consulta desde AGH Web');
+    const bodyLines = [
+      'Nombre / Empresa: ' + nameCompany,
+      telefono ? 'Teléfono: ' + telefono : 'Teléfono: No informado',
+      '',
+      'Consulta:',
+      consulta
+    ];
+    const body = encodeURIComponent(bodyLines.join('\n'));
+
+    window.location.href = 'mailto:info@aghdimensionadores.com?subject=' + subject + '&body=' + body;
+    closeContactModal();
+    contactForm.reset();
+  });
+}
+</script>
+<script>
+// Inicialización aislada del modal de contacto (independiente del script principal).
+(() => {
+  const contactModal = document.getElementById('contact-modal');
+  const contactForm = document.getElementById('contact-mail-form');
+  if (!contactModal || !contactForm) return;
+  if (contactModal.parentElement !== document.body) {
+    document.body.appendChild(contactModal);
+  }
+
+  function openContactModal() {
+    contactModal.classList.add('is-open');
+    contactModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    const firstInput = contactModal.querySelector('input[name="nameCompany"]');
+    if (firstInput) firstInput.focus();
+  }
+
+  window.openAghContactModal = function(event) {
+    if (event && typeof event.preventDefault === 'function') event.preventDefault();
+    openContactModal();
+    return false;
+  };
+
+  function closeContactModal() {
+    contactModal.classList.remove('is-open');
+    contactModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('.open-contact-modal, [data-contact-modal="open"]');
+    if (trigger) {
+      event.preventDefault();
+      openContactModal();
+      return;
+    }
+
+    if (event.target === contactModal) {
+      closeContactModal();
+      return;
+    }
+
+    const closeBtn = event.target.closest('.contact-close');
+    if (closeBtn) {
+      event.preventDefault();
+      closeContactModal();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && contactModal.classList.contains('is-open')) {
+      closeContactModal();
+    }
+  });
+
+  contactForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(contactForm);
+    const nameCompany = String(formData.get('nameCompany') || '').trim();
+    const consulta = String(formData.get('consulta') || '').trim();
+    const telefono = String(formData.get('telefono') || '').trim();
+    if (!nameCompany || !consulta) return;
+
+    const subject = encodeURIComponent('Consulta desde AGH Web');
+    const bodyLines = [
+      'Nombre / Empresa: ' + nameCompany,
+      telefono ? 'Teléfono: ' + telefono : 'Teléfono: No informado',
+      '',
+      'Consulta:',
+      consulta
+    ];
+    const body = encodeURIComponent(bodyLines.join('\n'));
+    window.location.href = 'mailto:info@aghdimensionadores.com?subject=' + subject + '&body=' + body;
+    closeContactModal();
+    contactForm.reset();
+  });
+})();
 </script>
 </body>
 </html>

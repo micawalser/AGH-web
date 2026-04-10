@@ -285,10 +285,39 @@
           <div class="cta-box-glow"></div>
           <h2 class="cta-title">¿Listo para dimensionar mejor?</h2>
           <p class="cta-desc">Contanos tu operación y te mostramos como AGH dimensionadores puede integrarse de forma eficiente.</p>
-          <a href="/cdn-cgi/l/email-protection#d1b8bfb7be91b0b6b9b5b8bcb4bfa2b8bebfb0b5bea3b4a2ffb2bebc" class="btn cta-btn btn-primary btn-large">Contactar</a>
+          <button type="button" class="btn cta-btn btn-primary btn-large js-open-contact-modal" data-contact-modal="open">Contactar</button>
         </div>
       </div>
     </section>
+
+    <div id="contact-modal" class="contact-modal" aria-hidden="true">
+      <div class="contact-modal-card" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+        <div class="contact-modal-head">
+          <div>
+            <h3 id="contact-modal-title">Contactanos</h3>
+            <p>Completá el formulario y te abrimos el correo listo para enviar.</p>
+          </div>
+          <button type="button" class="contact-close" aria-label="Cerrar formulario">×</button>
+        </div>
+        <form id="contact-mail-form" class="contact-form">
+          <label>
+            Nombre / Empresa *
+            <input type="text" name="nameCompany" required />
+          </label>
+          <label>
+            Consulta *
+            <textarea name="consulta" required></textarea>
+          </label>
+          <label>
+            Teléfono (opcional)
+            <input type="tel" name="telefono" />
+          </label>
+          <div class="contact-actions">
+            <button type="submit" class="btn btn-primary contact-submit-btn">Enviar consulta</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
   </main>
 
@@ -298,7 +327,7 @@
         <a href="#" class="logo footer-logo">
           <img src="assets/aghblanco.png" alt="AGH Dimensionadores" class="logo-img">
         </a>
-        <p class="footer-copy">© AGH Dimensionadores. Medición precisa para tu logística.</p>
+        <p class="footer-copy">© AGH Dimensionadores. Medición precisa para tu logística. Mail: <a href="mailto:info@aghdimensionadores.com">info@aghdimensionadores.com</a></p>
       </div>
     </div>
   </footer>
@@ -388,6 +417,73 @@
         animVideo.play();
       }
     });
+  </script>
+  <script>
+    (() => {
+      const contactModal = document.getElementById('contact-modal');
+      const openContactBtns = document.querySelectorAll('.js-open-contact-modal, [data-contact-modal="open"]');
+      const closeContactBtn = contactModal ? contactModal.querySelector('.contact-close') : null;
+      const contactForm = document.getElementById('contact-mail-form');
+
+      function openContactModal() {
+        if (!contactModal) return;
+        contactModal.classList.add('is-open');
+        contactModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        const firstInput = contactModal.querySelector('input[name="nameCompany"]');
+        if (firstInput) firstInput.focus();
+      }
+
+      function closeContactModal() {
+        if (!contactModal) return;
+        contactModal.classList.remove('is-open');
+        contactModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      openContactBtns.forEach((btn) => {
+        btn.addEventListener('click', openContactModal);
+      });
+      if (closeContactBtn) closeContactBtn.addEventListener('click', closeContactModal);
+
+      if (contactModal) {
+        contactModal.addEventListener('click', (event) => {
+          if (event.target === contactModal) closeContactModal();
+        });
+      }
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && contactModal && contactModal.classList.contains('is-open')) {
+          closeContactModal();
+        }
+      });
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const formData = new FormData(contactForm);
+          const nameCompany = String(formData.get('nameCompany') || '').trim();
+          const consulta = String(formData.get('consulta') || '').trim();
+          const telefono = String(formData.get('telefono') || '').trim();
+
+          if (!nameCompany || !consulta) return;
+
+          const subject = encodeURIComponent('Consulta desde AGH Web');
+          const bodyLines = [
+            'Nombre / Empresa: ' + nameCompany,
+            telefono ? 'Teléfono: ' + telefono : 'Teléfono: No informado',
+            '',
+            'Consulta:',
+            consulta
+          ];
+          const body = encodeURIComponent(bodyLines.join('\n'));
+
+          window.location.href = 'mailto:info@aghdimensionadores.com?subject=' + subject + '&body=' + body;
+          closeContactModal();
+          contactForm.reset();
+        });
+      }
+    })();
   </script>
 </body>
 </html>
