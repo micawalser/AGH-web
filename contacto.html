@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto | AGH Dimensionadores</title>
+  <meta name="description" content="Contactá a AGH Dimensionadores. Te orientamos a la mejor solución en minutos.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Ctext x='16' y='22' font-size='18' font-weight='bold' fill='%23A6CDAA' text-anchor='middle' font-family='sans-serif'%3EA%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* =========================================================
+       CONTACTO — Mejoras de diseño (overlay sobre styles.css)
+       ========================================================= */
+
+    /* ---- Variables locales ---- */
+    :root {
+      --accent-rgb: 166, 205, 170;
+      --glow-strong: 0 0 60px rgba(166, 205, 170, 0.18), 0 0 120px rgba(166, 205, 170, 0.08);
+      /* Misma caja en pasos 1–5: altura mínima = referencia del paso 1 (barra + título + 3 cards) */
+      --contacto-shell-min-h: clamp(26rem, 44vh, 33rem);
+    }
+
+    /* ---- Hero de contacto ---- */
+    .contacto-hero--wizard {
+      padding-top: calc(var(--header-h) + 3rem);
+      padding-bottom: 1.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Línea de acento animada en la parte superior */
+    .contacto-hero--wizard::before {
+      content: '';
+      position: absolute;
+      top: var(--header-h);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 64px;
+      background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+      opacity: 0.6;
+      animation: line-drop 1s ease-out 0.3s both;
+    }
+
+    @keyframes line-drop {
+      from { opacity: 0; transform: translateX(-50%) scaleY(0); transform-origin: top; }
+      to   { opacity: 0.6; transform: translateX(-50%) scaleY(1); }
+    }
+
+    /* Resplandor ambiental de fondo */
+    .contacto-hero--wizard::after {
+      content: '';
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse at center,
+        rgba(166, 205, 170, 0.09) 0%,
+        transparent 70%);
+      pointer-events: none;
+    }
+
+    .contacto-hero--wizard .container {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Eyebrow mejorado */
+    .contacto-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      animation: fade-up 0.6s ease-out both;
+    }
+
+    .contacto-eyebrow::before,
+    .contacto-eyebrow::after {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    .contacto-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: normal;
+      letter-spacing: 0.03em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      animation: fade-up 0.6s ease-out 0.1s both;
+    }
+
+    .contacto-hero-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- Layout ---- */
+    .contacto-section {
+      padding-top: 0;
+      padding-bottom: 3.5rem;
+    }
+
+    .container--contacto {
+      animation: fade-up 0.7s ease-out 0.25s both;
+    }
+
+    .contacto-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 1.35rem;
+      align-items: stretch;
+    }
+
+    /* ---- Info card (sidebar) mejorada ---- */
+    .contacto-info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.2rem 1.3rem;
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+      overflow: hidden;
+    }
+
+    /* Acento superior en la card */
+    .contacto-info-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+      opacity: 0.5;
+    }
+
+    .contacto-info-head {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contacto-info-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(166, 205, 170, 0.12);
+      border: 1px solid rgba(166, 205, 170, 0.25);
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+
+    .contacto-info-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: normal;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+      margin-bottom: 0.15rem;
+    }
+
+    .contacto-info-tagline {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .contacto-info-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+
+    .contacto-details {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .contacto-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .contacto-detail-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .contacto-detail-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .contacto-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .contacto-detail a,
+    .contacto-value {
+      font-size: 0.85rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contacto-detail a:hover {
+      color: var(--accent);
+    }
+
+    /* ---- Wizard mejorado ---- */
+    .contacto-form-wrap {
+      min-width: 0;
+    }
+
+    .wizard {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: clamp(1.15rem, 2.8vw, 1.85rem);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Desktop: misma altura en ambas columnas en todos los pasos (fila ≥ altura del paso 1) */
+    @media (min-width: 901px) {
+      /* --contacto-shell-row: opcional, la fija contacto.js al medir el paso 1 (evita bajar de altura en paso 2) */
+      .contacto-layout {
+        grid-template-rows: minmax(var(--contacto-shell-row, var(--contacto-shell-min-h)), auto);
+      }
+
+      .page-contacto #contacto-wizard.wizard {
+        width: 100%;
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+        box-sizing: border-box;
+      }
+
+      .contacto-info-card {
+        height: 100%;
+        min-height: 0;
+        box-sizing: border-box;
+      }
+
+      .contacto-form-wrap {
+        width: 100%;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        height: 100%;
+        align-self: stretch;
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .contacto-form-wrap > .wizard:not([hidden]) {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .contacto-form-wrap > .wizard:not([hidden]) .wizard-progress {
+        flex-shrink: 0;
+      }
+
+      .contacto-form-wrap > .wizard:not([hidden]) .wizard-panel.is-active {
+        flex: 1 1 auto;
+        min-height: 0;
+        width: 100%;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable;
+      }
+
+      /* Paso 1: intro alineada a la izquierda; grilla ocupa el resto del recuadro con cards a altura igual */
+      #contacto-wizard .wizard-panel[data-step="1"].is-active {
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: clamp(0.85rem, 2vh, 1.35rem);
+      }
+
+      #contacto-wizard .wizard-step1-intro {
+        flex-shrink: 0;
+        width: 100%;
+        text-align: left;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-title {
+        text-align: left;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 0.4rem;
+        max-width: none;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-subtitle {
+        text-align: left;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 0;
+        max-width: 42rem;
+        line-height: 1.5;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-choice-grid {
+        margin-top: 0;
+        flex: 1 1 auto;
+        min-height: 0;
+        align-self: stretch;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-auto-rows: 1fr;
+        align-items: stretch;
+        gap: clamp(0.65rem, 1.25vw, 1rem);
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-card {
+        height: 100%;
+        min-height: clamp(9.25rem, 18vh, 12.5rem);
+        padding: 1.1rem 1rem 1.35rem;
+        box-sizing: border-box;
+        justify-content: flex-start;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-card-icon {
+        font-size: 1.6rem;
+        line-height: 1;
+        margin-bottom: 0.4rem;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-card-title {
+        font-size: 0.92rem;
+        line-height: 1.28;
+        letter-spacing: 0.02em;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-card-desc {
+        flex: 1 1 auto;
+        font-size: 0.8rem;
+        line-height: 1.45;
+        margin-top: 0.1rem;
+      }
+
+      /* Progreso paso 1: misma lectura visual que el texto (izquierda) */
+      #contacto-wizard:has(.wizard-panel[data-step="1"].is-active) .wizard-progress {
+        margin-bottom: clamp(0.5rem, 1.5vh, 0.85rem);
+      }
+
+      #contacto-wizard:has(.wizard-panel[data-step="1"].is-active) .wizard-progress-header {
+        margin-bottom: 0.45rem;
+      }
+
+      .contacto-form-wrap > .contacto-success:not([hidden]) {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+    }
+
+    /* Línea de acento superior en el wizard */
+    .wizard::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent) 50%, transparent);
+      opacity: 0.4;
+    }
+
+    /* Resplandor sutil en la esquina */
+    .wizard::after {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(166, 205, 170, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Barra de progreso mejorada */
+    .wizard-progress {
+      margin-bottom: 1.2rem;
+      max-width: 100%;
+    }
+
+    .wizard-progress-header {
+      margin-bottom: 0.6rem;
+    }
+
+    .wizard-progress-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: left;
+      margin: 0;
+    }
+
+    .wizard-progress-track {
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: visible;
+      position: relative;
+    }
+
+    .wizard-progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent) 0%, rgba(166, 205, 170, 0.6) 100%);
+      transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+    }
+
+    /* Punto animado al final del fill */
+    .wizard-progress-fill::after {
+      content: '';
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(166, 205, 170, 0.8);
+    }
+
+    /* Títulos del wizard */
+    .wizard-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: normal;
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.02em;
+    }
+
+    .wizard-title--step {
+      font-size: clamp(1.3rem, 3vw, 1.65rem);
+    }
+
+    .wizard-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 1.05rem;
+      max-width: 38rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .wizard-microcopy {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.28rem;
+    }
+
+    /* Más aire: título del paso → leyenda / subtítulo / formulario */
+    #contacto-wizard .wizard-title.wizard-title--step {
+      margin-bottom: 1.25rem;
+    }
+
+    #contacto-wizard .wizard-microcopy {
+      margin-bottom: 0.7rem;
+    }
+
+    #contacto-wizard .wizard-legend {
+      margin-bottom: 0.85rem;
+    }
+
+    #contacto-wizard .wizard-final-form {
+      margin-top: 0.15rem;
+    }
+
+    /* ---- Cards de selección mejoradas ---- */
+    .wizard-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-bottom: 0;
+    }
+
+    .wizard-choice-grid--triple {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .wizard-choice-grid--quad {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1100px) {
+      .wizard-choice-grid--quad {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    .wizard-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      gap: 0.35rem;
+      padding: 1.05rem 0.95rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: inherit;
+      cursor: pointer;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wizard-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(166, 205, 170, 0.06), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .wizard-card:hover::before { opacity: 1; }
+
+    .wizard-card:hover {
+      border-color: rgba(166, 205, 170, 0.5);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(166, 205, 170, 0.08);
+      transform: translateY(-3px);
+      background: #161616;
+    }
+
+    .wizard-card:active { transform: translateY(-1px); }
+
+    .wizard-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Flecha sutil en el card */
+    .wizard-card::after {
+      content: '→';
+      position: absolute;
+      right: 0.85rem;
+      bottom: 0.85rem;
+      font-size: 0.8rem;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .wizard-card:hover::after {
+      opacity: 0.7;
+      transform: translateX(0);
+    }
+
+    .wizard-card-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      margin-bottom: 0.15rem;
+      display: block;
+    }
+
+    .wizard-card-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      letter-spacing: 0.025em;
+      line-height: 1.3;
+    }
+
+    .wizard-card-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    /* ---- Opciones radio/check mejoradas ---- */
+    .wizard-fieldset {
+      border: none;
+      padding: 0;
+      margin: 0 0 0.85rem;
+    }
+
+    .wizard-legend {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+      display: block;
+    }
+
+    .wizard-option {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.55rem 0.72rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .wizard-option:has(input:checked) {
+      border-color: rgba(166, 205, 170, 0.55);
+      background: rgba(166, 205, 170, 0.07);
+    }
+
+    .wizard-option:hover:not(:has(input:checked)) {
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    .wizard-option input {
+      accent-color: var(--accent);
+    }
+
+    .wizard-option-grid,
+    .wizard-option-grid--compact,
+    .wizard-check-grid {
+      gap: 0.5rem;
+    }
+
+    /* ---- Navegación del wizard mejorada ---- */
+    .wizard-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      margin-top: 1.15rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .wizard-nav--solo-back {
+      justify-content: center;
+    }
+
+    /* ---- Botones mejorados ---- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      border: none;
+      padding: 0.7rem 1.35rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0a0a;
+    }
+
+    .btn-primary:hover {
+      background: #b8daba;
+      box-shadow: 0 0 20px rgba(166, 205, 170, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active { transform: none; box-shadow: none; }
+
+    .btn-large {
+      padding: 0.85rem 1.75rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* ---- Formulario final mejorado ---- */
+    .wizard-final-form {
+      text-align: left;
+    }
+
+    .form-row {
+      margin-bottom: 0.85rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      padding: 0.7rem 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: rgba(166, 205, 170, 0.5);
+      box-shadow: 0 0 0 3px rgba(166, 205, 170, 0.08);
+    }
+
+    .form-input::placeholder { color: rgba(163, 163, 163, 0.45); }
+
+    .form-textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .form-textarea--sm {
+      min-height: 4.5rem;
+      line-height: 1.55;
+    }
+
+    /* Grid para formularios de 2 columnas */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* ---- Éxito mejorado ---- */
+    .contacto-success {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: clamp(2rem, 5vw, 3rem);
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      animation: fade-up 0.5s ease-out both;
+    }
+
+    .contacto-success::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent) 50%, transparent);
+    }
+
+    .wizard-success-icon {
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    /* Reemplazar emoji con SVG animado */
+    .success-check {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(166, 205, 170, 0.12);
+      border: 1px solid rgba(166, 205, 170, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+
+    .success-check svg {
+      color: var(--accent);
+    }
+
+    .contacto-success-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: normal;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.03em;
+    }
+
+    .contacto-success-text {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin-bottom: 0.75rem;
+      max-width: 36rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contacto-success-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: rgba(166, 205, 170, 0.08);
+      border: 1px solid rgba(166, 205, 170, 0.15);
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contacto-success-meta strong { color: var(--accent); font-weight: 600; }
+
+    .contacto-success-extra { margin-top: -0.25rem; }
+
+    /* ---- Mensajes de error ---- */
+    .contacto-msg--error {
+      color: #f87171;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ---- reCAPTCHA ---- */
+    .contacto-recaptcha-wrap {
+      margin: 0.55rem 0 0.85rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ---- Responsivo ---- */
+    @media (max-width: 900px) {
+      .contacto-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .contacto-info-card {
+        position: static;
+      }
+
+      .contacto-hero--wizard {
+        padding-top: calc(var(--header-h) + 2rem);
+        padding-bottom: 1.15rem;
+      }
+
+      .wizard-choice-grid,
+      .wizard-choice-grid--triple,
+      .wizard-choice-grid--quad {
+        grid-template-columns: 1fr;
+      }
+
+      #contacto-wizard .wizard-step1-intro {
+        text-align: center;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-title,
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-subtitle {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-subtitle {
+        margin-bottom: 0.35rem;
+        max-width: 36rem;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-choice-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+        flex: none;
+      }
+
+      #contacto-wizard .wizard-panel[data-step="1"] .wizard-card {
+        height: auto;
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .wizard-option-grid,
+      .wizard-option-grid--compact,
+      .wizard-check-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Aviso: file:// no permite hCaptcha ni cookies de forma fiable */
+    .contacto-local-warning {
+      position: relative;
+      z-index: 9999;
+      margin: 0;
+      padding: 0.85rem 1.25rem;
+      background: #3f1d1d;
+      border-bottom: 1px solid #f87171;
+      color: #fecaca;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .contacto-local-warning strong { color: #fff; }
+    .contacto-local-warning code {
+      font-size: 0.82em;
+      background: rgba(0,0,0,0.35);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+
+  </style>
+</head>
+<body class="page-contacto">
+  <div class="noise"></div>
+
+  <header class="header header--solid">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/aghblanco.png" alt="AGH Dimensionadores" class="logo-img">
+      </a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <div class="nav-dropdown">
+          <a href="productos.html" class="nav-dropdown-trigger">Productos</a>
+          <div class="nav-dropdown-menu">
+            <a href="productos.html#odc" class="nav-dropdown-link nav-dropdown-link--with-icon">
+              <img src="assets/dibujoODC.png" alt="" class="nav-dropdown-icon">
+              <span class="nav-dropdown-link-content">
+                <span class="nav-dropdown-link-title">ODC</span>
+                <span class="nav-dropdown-link-desc">Object Dimensional Camera</span>
+              </span>
+            </a>
+            <a href="productos.html#pdc" class="nav-dropdown-link nav-dropdown-link--with-icon">
+              <img src="assets/pdcdibujo.png" alt="" class="nav-dropdown-icon">
+              <span class="nav-dropdown-link-content">
+                <span class="nav-dropdown-link-title">PDC</span>
+                <span class="nav-dropdown-link-desc">Pallet Dimensional Camera</span>
+              </span>
+            </a>
+            <a href="productos.html#software" class="nav-dropdown-link nav-dropdown-link--with-icon">
+              <img src="assets/voxelblanco.png" alt="" class="nav-dropdown-icon">
+              <span class="nav-dropdown-link-content">
+                <span class="nav-dropdown-link-title">VOXEL</span>
+                <span class="nav-dropdown-link-desc">Aplicación de captura y gestión</span>
+              </span>
+            </a>
+          </div>
+        </div>
+        <a href="contacto.html" class="nav-cta" aria-current="page">Contacto</a>
+      </nav>
+      <button class="menu-btn" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="contacto-main">
+
+    <!-- HERO -->
+    <section class="contacto-hero section contacto-hero--wizard">
+      <div class="container">
+        <p class="contacto-eyebrow">Contacto</p>
+        <h1 class="contacto-hero-title">Hablemos de tu <em>proyecto</em></h1>
+      </div>
+    </section>
+
+    <!-- SECCIÓN PRINCIPAL -->
+    <section class="section contacto-section">
+      <div class="container container--contacto">
+        <div class="contacto-layout">
+
+          <!-- Sidebar de info -->
+          <aside class="contacto-info contacto-info-card" aria-labelledby="contacto-info-title">
+            <div class="contacto-info-head">
+              <span class="contacto-info-badge" aria-hidden="true">AGH</span>
+              <div class="contacto-info-head-text">
+                <h2 id="contacto-info-title" class="contacto-info-title">AGH Dimensionadores</h2>
+                <p class="contacto-info-tagline">Medición 3D · Logística · Integración</p>
+              </div>
+            </div>
+            <p class="contacto-info-text">
+              
+            </p>
+            <ul class="contacto-details">
+              <li class="contacto-detail">
+                <span class="contacto-detail-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+                </span>
+                <div class="contacto-detail-body">
+                  <span class="contacto-label">Correo</span>
+                  <a href="mailto:info@aghdimensionadores.com">info@aghdimensionadores.com</a>
+                </div>
+              </li>
+              <li class="contacto-detail">
+                <span class="contacto-detail-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                </span>
+                <div class="contacto-detail-body">
+                  <span class="contacto-label">Ubicación</span>
+                  <span class="contacto-value">Argentina</span>
+                </div>
+              </li>
+              <li class="contacto-detail">
+                <span class="contacto-detail-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </span>
+                <div class="contacto-detail-body">
+                  <span class="contacto-label">Respuesta</span>
+                  <span class="contacto-value">Menos de 24 hs hábiles</span>
+                </div>
+              </li>
+            </ul>
+          </aside>
+
+          <!-- Wizard + formularios -->
+          <div class="contacto-form-wrap">
+            <div id="contacto-wizard" class="wizard" data-wizard-root>
+
+              <!-- Barra de progreso -->
+              <div class="wizard-progress" aria-hidden="true">
+                <div class="wizard-progress-header">
+                  <p class="wizard-progress-label" id="wizard-progress-label">Paso 1 de 5</p>
+                </div>
+                <div class="wizard-progress-track">
+                  <div class="wizard-progress-fill" id="wizard-progress-fill" style="width:20%"></div>
+                </div>
+              </div>
+
+              <!-- Paso 1 -->
+              <div class="wizard-panel is-active" data-step="1" role="region" aria-labelledby="wizard-step1-title">
+                <div class="wizard-step1-intro">
+                  <h1 id="wizard-step1-title" class="wizard-title">¿Cómo podemos ayudarte?</h1>
+                  <p class="wizard-subtitle">En menos de 2 minutos te orientamos a la mejor solución.</p>
+                </div>
+                <div class="wizard-choice-grid wizard-choice-grid--triple" role="group" aria-label="Motivo de contacto">
+                  <button type="button" class="wizard-card" data-motivo="dimensionar" data-next>
+                    <span class="wizard-card-icon" aria-hidden="true">📦</span>
+                    <span class="wizard-card-title">Quiero dimensionar productos</span>
+                    <span class="wizard-card-desc">Paquetes, bultos o pallets en tu operación</span>
+                  </button>
+                  <button type="button" class="wizard-card" data-motivo="reunion" data-next>
+                    <span class="wizard-card-icon" aria-hidden="true">🤝</span>
+                    <span class="wizard-card-title">Quiero coordinar una reunión</span>
+                    <span class="wizard-card-desc">Charla comercial o técnica con el equipo</span>
+                  </button>
+                  <button type="button" class="wizard-card" data-motivo="mas_info" data-next>
+                    <span class="wizard-card-icon" aria-hidden="true">📋</span>
+                    <span class="wizard-card-title">Quiero recibir más información</span>
+                    <span class="wizard-card-desc">Catálogo, casos de uso o datos técnicos</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Paso 2 -->
+              <div class="wizard-panel" data-step="2" role="region" aria-labelledby="wizard-step2-title" hidden>
+                <p class="wizard-microcopy">Buenísimo, sigamos.</p>
+                <h2 id="wizard-step2-title" class="wizard-title wizard-title--step">Contanos un poco más</h2>
+                <fieldset class="wizard-fieldset">
+                  <legend class="wizard-legend">¿Qué necesitás medir o gestionar?</legend>
+                  <div class="wizard-option-grid" role="radiogroup" aria-label="Tipo de objeto">
+                    <label class="wizard-option"><input type="radio" name="tipo_objeto" value="pallets" required> <span>Pallets</span></label>
+                    <label class="wizard-option"><input type="radio" name="tipo_objeto" value="cajas"> <span>Cajas / paquetes</span></label>
+                    <label class="wizard-option"><input type="radio" name="tipo_objeto" value="irregulares"> <span>Sueltos / irregulares</span></label>
+                    <label class="wizard-option"><input type="radio" name="tipo_objeto" value="otro"> <span>Otro</span></label>
+                  </div>
+                </fieldset>
+                <fieldset class="wizard-fieldset">
+                  <legend class="wizard-legend">¿Dónde se va a usar?</legend>
+                  <div class="wizard-option-grid" role="radiogroup" aria-label="Entorno">
+                    <label class="wizard-option"><input type="radio" name="entorno" value="deposito" required> <span>Depósito</span></label>
+                    <label class="wizard-option"><input type="radio" name="entorno" value="xdocking"> <span>X-Docking</span></label>
+                    <label class="wizard-option"><input type="radio" name="entorno" value="produccion"> <span>Producción</span></label>
+                    <label class="wizard-option"><input type="radio" name="entorno" value="otro"> <span>Otro</span></label>
+                  </div>
+                </fieldset>
+                <p id="contacto-error-step2" class="contacto-msg contacto-msg--error" role="alert" hidden></p>
+                <div class="wizard-nav">
+                  <button type="button" class="btn btn-ghost wizard-back">← Atrás</button>
+                  <button type="button" class="btn btn-primary wizard-next">Siguiente →</button>
+                </div>
+              </div>
+
+              <!-- Paso 3 -->
+              <div class="wizard-panel" data-step="3" role="region" aria-labelledby="wizard-step3-title" hidden>
+                <p class="wizard-microcopy">Perfecto, un nivel más de detalle.</p>
+                <h2 id="wizard-step3-title" class="wizard-title wizard-title--step">¿Qué tenés hoy en planta?</h2>
+                <fieldset class="wizard-fieldset">
+                  <legend class="wizard-legend">Marcá todo lo que corresponda</legend>
+                  <div class="wizard-check-grid">
+                    <label class="wizard-option wizard-option--check"><input type="checkbox" name="tech" value="balanza"> <span>Balanza</span></label>
+                    <label class="wizard-option wizard-option--check"><input type="checkbox" name="tech" value="wms_erp_tms"> <span>WMS / ERP / TMS</span></label>
+                    <label class="wizard-option wizard-option--check"><input type="checkbox" name="tech" value="cinta"> <span>Cinta transportadora</span></label>
+                    <label class="wizard-option wizard-option--check"><input type="checkbox" name="tech" value="otro"> <span>Otro</span></label>
+                    <label class="wizard-option wizard-option--check"><input type="checkbox" name="tech" value="ninguno"> <span>Ninguno</span></label>
+                  </div>
+                </fieldset>
+                <fieldset class="wizard-fieldset">
+                  <legend class="wizard-legend">Volumen de operación</legend>
+                  <div class="wizard-option-grid wizard-option-grid--compact" role="radiogroup" aria-label="Volumen">
+                    <label class="wizard-option"><input type="radio" name="volumen" value="bajo" required> <span>Bajo (&lt;500 paquetes/día)</span></label>
+                    <label class="wizard-option"><input type="radio" name="volumen" value="medio"> <span>Medio (hasta 3500 paquetes/día)</span></label>
+                    <label class="wizard-option"><input type="radio" name="volumen" value="alto"> <span>Alto (&gt;3500 paquetes/día)</span></label>
+                  </div>
+                </fieldset>
+                <p id="contacto-error-step3" class="contacto-msg contacto-msg--error" role="alert" hidden></p>
+                <div class="wizard-nav">
+                  <button type="button" class="btn btn-ghost wizard-back">← Atrás</button>
+                  <button type="button" class="btn btn-primary wizard-next">Siguiente →</button>
+                </div>
+              </div>
+
+              <!-- Paso 4 -->
+              <div class="wizard-panel" data-step="4" role="region" aria-labelledby="wizard-step4-title" hidden>
+                <h2 id="wizard-step4-title" class="wizard-title wizard-title--step">¿Cómo preferís avanzar?</h2>
+                <p class="wizard-subtitle">Elegí la opción que te quede mejor; después te pedimos los datos.</p>
+                <div class="wizard-choice-grid wizard-choice-grid--quad" role="group" aria-label="Modalidad de seguimiento">
+                  <button type="button" class="wizard-card" data-accion="info_tecnica" data-next>
+                    <span class="wizard-card-icon" aria-hidden="true">📄</span>
+                    <span class="wizard-card-title">Solicitar información técnica</span>
+                    <span class="wizard-card-desc">Especificaciones, fichas o documentación</span>
+                  </button>
+                  <button type="button" class="wizard-card" data-accion="videollamada" data-next>
+                    <span class="wizard-card-icon" aria-hidden="true">📹</span>
+                    <span class="wizard-card-title">Coordinar una videollamada</span>
+                    <span class="wizard-card-desc">Te contactamos para acordar día y hora</span>
+                  </button>
+                  <button type="button" class="wizard-card" data-accion="visita" data-next>
+                    <span class="wizard-card-icon" aria-hidden="true">🏢</span>
+                    <span class="wizard-card-title">Organizar una visita</span>
+                    <span class="wizard-card-desc">Visita técnica en tu planta</span>
+                  </button>
+                  <button type="button" class="wizard-card" data-accion="consulta" data-next>
+                    <span class="wizard-card-icon" aria-hidden="true">💬</span>
+                    <span class="wizard-card-title">Hacernos una consulta en particular</span>
+                    <span class="wizard-card-desc">Contanos qué necesitás resolver</span>
+                  </button>
+                </div>
+                <div class="wizard-nav wizard-nav--solo-back">
+                  <button type="button" class="btn btn-ghost wizard-back">← Atrás</button>
+                </div>
+              </div>
+
+              <!-- Paso 5: visita -->
+              <div class="wizard-panel" data-step="5" data-variant="visita" role="region" hidden>
+                <h2 class="wizard-title wizard-title--step">Organizar una visita</h2>
+                <form id="wizard-form-visita" class="wizard-final-form" novalidate>
+                  <div class="form-grid-2">
+                    <div class="form-row">
+                      <label class="form-label" for="visita-nombre">Nombre</label>
+                      <input class="form-input" id="visita-nombre" name="nombre" required autocomplete="name" maxlength="120" placeholder="Tu nombre">
+                    </div>
+                    <div class="form-row">
+                      <label class="form-label" for="visita-empresa">Empresa</label>
+                      <input class="form-input" id="visita-empresa" name="empresa" required autocomplete="organization" maxlength="120" placeholder="Nombre de la empresa">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <label class="form-label" for="visita-direccion">Dirección / localidad</label>
+                    <input class="form-input" id="visita-direccion" name="direccion" required autocomplete="street-address" maxlength="200" placeholder="Ciudad o dirección donde se instalaría">
+                  </div>
+                  <div class="form-grid-2">
+                    <div class="form-row">
+                      <label class="form-label" for="visita-telefono">Teléfono</label>
+                      <input class="form-input" id="visita-telefono" name="telefono" required autocomplete="tel" maxlength="40" placeholder="+54 11 ...">
+                    </div>
+                    <div class="form-row">
+                      <label class="form-label" for="visita-email">Correo</label>
+                      <input class="form-input" id="visita-email" name="email" type="email" required autocomplete="email" maxlength="120" placeholder="tu@empresa.com">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <label class="form-label" for="visita-disponibilidad">Disponibilidad (días u horarios)</label>
+                    <textarea class="form-input form-textarea form-textarea--sm" id="visita-disponibilidad" name="disponibilidad" required rows="2" maxlength="1000" placeholder="Ej: lunes a viernes de 9 a 17 hs, cualquier semana de mayo..."></textarea>
+                  </div>
+                  <div class="contacto-recaptcha-wrap">
+                    <div id="recaptcha-visita"></div>
+                  </div>
+                  <p id="contacto-error" class="contacto-msg contacto-msg--error" role="alert" hidden></p>
+                  <div class="wizard-nav">
+                    <button type="button" class="btn btn-ghost wizard-back">← Atrás</button>
+                    <button type="submit" class="btn btn-primary btn-large" id="contacto-submit-visita">Confirmar solicitud</button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Paso 5: información técnica -->
+              <div class="wizard-panel" data-step="5" data-variant="info_tecnica" role="region" hidden>
+                <h2 class="wizard-title wizard-title--step">Solicitar información técnica</h2>
+                <form id="wizard-form-info" class="wizard-final-form" novalidate>
+                  <div class="form-grid-2">
+                    <div class="form-row">
+                      <label class="form-label" for="info-nombre">Nombre</label>
+                      <input class="form-input" id="info-nombre" name="nombre" required autocomplete="name" maxlength="120" placeholder="Tu nombre">
+                    </div>
+                    <div class="form-row">
+                      <label class="form-label" for="info-empresa">Empresa</label>
+                      <input class="form-input" id="info-empresa" name="empresa" required autocomplete="organization" maxlength="120" placeholder="Nombre de la empresa">
+                    </div>
+                  </div>
+                  <div class="form-grid-2">
+                    <div class="form-row">
+                      <label class="form-label" for="info-email">Correo</label>
+                      <input class="form-input" id="info-email" name="email" type="email" required autocomplete="email" maxlength="120" placeholder="tu@empresa.com">
+                    </div>
+                    <div class="form-row">
+                      <label class="form-label" for="info-telefono">Teléfono</label>
+                      <input class="form-input" id="info-telefono" name="telefono" required autocomplete="tel" maxlength="40" placeholder="+54 11 ...">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <label class="form-label" for="info-desc">Qué información necesitás</label>
+                    <textarea class="form-input form-textarea form-textarea--sm" id="info-desc" name="descripcion" required rows="3" maxlength="8000" placeholder="Modelos, integraciones, ambientes de uso, etc."></textarea>
+                  </div>
+                  <div class="contacto-recaptcha-wrap">
+                    <div id="recaptcha-info"></div>
+                  </div>
+                  <p id="contacto-error-info" class="contacto-msg contacto-msg--error" role="alert" hidden></p>
+                  <div class="wizard-nav">
+                    <button type="button" class="btn btn-ghost wizard-back">← Atrás</button>
+                    <button type="submit" class="btn btn-primary btn-large" id="contacto-submit-info">Enviar solicitud</button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Paso 5: videollamada -->
+              <div class="wizard-panel" data-step="5" data-variant="videollamada" role="region" hidden>
+                <h2 class="wizard-title wizard-title--step">Coordinar una videollamada</h2>
+                <form id="wizard-form-video" class="wizard-final-form" novalidate>
+                  <div class="form-grid-2">
+                    <div class="form-row">
+                      <label class="form-label" for="video-nombre">Nombre</label>
+                      <input class="form-input" id="video-nombre" name="nombre" required autocomplete="name" maxlength="120" placeholder="Tu nombre">
+                    </div>
+                    <div class="form-row">
+                      <label class="form-label" for="video-empresa">Empresa</label>
+                      <input class="form-input" id="video-empresa" name="empresa" required autocomplete="organization" maxlength="120" placeholder="Nombre de la empresa">
+                    </div>
+                  </div>
+                  <div class="form-grid-2">
+                    <div class="form-row">
+                      <label class="form-label" for="video-email">Correo</label>
+                      <input class="form-input" id="video-email" name="email" type="email" required autocomplete="email" maxlength="120" placeholder="tu@empresa.com">
+                    </div>
+                    <div class="form-row">
+                      <label class="form-label" for="video-telefono">Teléfono</label>
+                      <input class="form-input" id="video-telefono" name="telefono" required autocomplete="tel" maxlength="40" placeholder="+54 11 ...">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <label class="form-label" for="video-mensaje">Preferencia de horario o comentarios</label>
+                    <textarea class="form-input form-textarea form-textarea--sm" id="video-mensaje" name="mensaje" required rows="2" maxlength="2000" placeholder="Franja horaria, zona horaria, tema a tratar…"></textarea>
+                  </div>
+                  <div class="contacto-recaptcha-wrap">
+                    <div id="recaptcha-video"></div>
+                  </div>
+                  <p id="contacto-error-video" class="contacto-msg contacto-msg--error" role="alert" hidden></p>
+                  <div class="wizard-nav">
+                    <button type="button" class="btn btn-ghost wizard-back">← Atrás</button>
+                    <button type="submit" class="btn btn-primary btn-large" id="contacto-submit-video">Enviar</button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Paso 5: consulta particular -->
+              <div class="wizard-panel" data-step="5" data-variant="consulta" role="region" hidden>
+                <h2 class="wizard-title wizard-title--step">Consulta en particular</h2>
+                <form id="wizard-form-consulta" class="wizard-final-form" novalidate>
+                  <div class="form-grid-2">
+                    <div class="form-row">
+                      <label class="form-label" for="cons-nombre">Nombre</label>
+                      <input class="form-input" id="cons-nombre" name="nombre" required autocomplete="name" maxlength="120" placeholder="Tu nombre">
+                    </div>
+                    <div class="form-row">
+                      <label class="form-label" for="cons-empresa">Empresa</label>
+                      <input class="form-input" id="cons-empresa" name="empresa" required autocomplete="organization" maxlength="120" placeholder="Nombre de la empresa">
+                    </div>
+                  </div>
+                  <div class="form-grid-2">
+                    <div class="form-row">
+                      <label class="form-label" for="cons-email">Correo</label>
+                      <input class="form-input" id="cons-email" name="email" type="email" required autocomplete="email" maxlength="120" placeholder="tu@empresa.com">
+                    </div>
+                    <div class="form-row">
+                      <label class="form-label" for="cons-telefono">Teléfono</label>
+                      <input class="form-input" id="cons-telefono" name="telefono" required autocomplete="tel" maxlength="40" placeholder="+54 11 ...">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <label class="form-label" for="cons-mensaje">Tu consulta</label>
+                    <textarea class="form-input form-textarea form-textarea--sm" id="cons-mensaje" name="mensaje" required rows="3" maxlength="8000" placeholder="Contanos en detalle qué necesitás…"></textarea>
+                  </div>
+                  <div class="contacto-recaptcha-wrap">
+                    <div id="recaptcha-consulta"></div>
+                  </div>
+                  <p id="contacto-error-cons" class="contacto-msg contacto-msg--error" role="alert" hidden></p>
+                  <div class="wizard-nav">
+                    <button type="button" class="btn btn-ghost wizard-back">← Atrás</button>
+                    <button type="submit" class="btn btn-primary btn-large" id="contacto-submit-cons">Enviar consulta</button>
+                  </div>
+                </form>
+              </div>
+
+            </div><!-- /#contacto-wizard -->
+
+            <!-- Pantalla de éxito -->
+            <div id="contacto-success" class="contacto-success" hidden>
+              <div class="contacto-success-inner">
+                <div class="success-check" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+                <h2 class="contacto-success-title">¡Listo!</h2>
+                <p class="contacto-success-text">Gracias, ya estamos analizando tu caso.</p>
+                <p class="contacto-success-meta">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  Respuesta estimada en <strong>menos de 24 hs hábiles</strong>
+                </p>
+                <p id="contacto-success-email-note" class="contacto-success-text contacto-success-extra" hidden>Te enviamos un correo de confirmación a la dirección que indicaste.</p>
+                <a href="index.html" class="btn btn-primary">Volver al inicio</a>
+              </div>
+            </div>
+
+          </div><!-- /.contacto-form-wrap -->
+        </div><!-- /.contacto-layout -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <a href="index.html" class="logo footer-logo">
+          <img src="assets/aghblanco.png" alt="AGH Dimensionadores" class="logo-img">
+        </a>
+        <p class="footer-copy">© AGH Dimensionadores. Medición precisa para tu logística.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://js.hcaptcha.com/1/api.js?onload=contactoCaptchaInit&amp;render=explicit" async defer></script>
+  <script src="main.js" defer></script>
+  <script src="contacto.js" defer></script>
+</body>
+</html>

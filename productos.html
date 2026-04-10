@@ -488,19 +488,21 @@
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.85rem 2rem;
       background: transparent;
-      color: var(--text-muted);
+      color: var(--accent);
       font-family: var(--font-body);
       font-size: 0.88rem;
-      font-weight: 500;
+      font-weight: 600;
       text-decoration: none;
       border-radius: 2px;
-      border: 1px solid var(--border);
-      transition: color 0.2s, border-color 0.2s;
+      border: 1px solid rgba(166, 205, 170, 0.45);
+      transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
       cursor: pointer;
     }
     .btn-product-ghost:hover {
-      color: var(--text);
-      border-color: rgba(255,255,255,0.2);
+      color: #c5e4c8;
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
     }
     .product-banner-right {
       display: flex;
@@ -716,6 +718,9 @@
     .product-specs {
       background: var(--bg-elevated, #111);
       border-top: 1px solid var(--border);
+    }
+    .product-specs[id] {
+      scroll-margin-top: calc(var(--header-h) + 1rem);
     }
     .product-specs-inner {
       max-width: 1200px;
@@ -1112,7 +1117,7 @@
             </a>
           </div>
         </div>
-        <a href="index.html#contacto" class="nav-cta">Contacto</a>
+        <a href="contacto.html" class="nav-cta">Contacto</a>
       </nav>
       <button class="mobile-menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-nav">
         <span></span>
@@ -1145,7 +1150,7 @@
           <span class="mobile-nav-desc">Aplicacion de captura y gestion</span>
         </span>
       </a>
-      <a href="index.html#contacto">Contacto</a>
+      <a href="contacto.html">Contacto</a>
     </div>
   </nav>
 
@@ -1183,11 +1188,7 @@
             y control dimensional en tiempo real. Precisión milimétrica, integración nativa con tu WMS.
           </p>
           <div class="product-cta-row fade-up fade-up-d3">
-            <a href="index.html#contacto" class="btn-product-primary">
-              Solicitar demo
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a href="#" class="btn-product-ghost">Ver ficha técnica</a>
+            <a href="#odc-especificaciones" class="btn-product-ghost">Ver ficha técnica</a>
           </div>
         </div>
         <div class="product-banner-right fade-up fade-up-d2">
@@ -1210,7 +1211,7 @@
       </div>
     </div>
 
-    <div class="product-specs">
+    <div id="odc-especificaciones" class="product-specs">
       <div class="product-specs-inner">
         <div class="product-spec-item fade-up">
           <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h20M12 2v20M4.929 4.929l14.142 14.142M19.071 4.929L4.929 19.071"/></svg></div>
@@ -1272,11 +1273,7 @@
             y mejora la ocupación en transporte y almacén con lecturas precisas en líneas de entrada y salida.
           </p>
           <div class="product-cta-row fade-up fade-up-d3">
-            <a href="index.html#contacto" class="btn-product-primary">
-              Solicitar demo
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a href="#" class="btn-product-ghost">Ver ficha técnica</a>
+            <a href="#pdc-especificaciones" class="btn-product-ghost">Ver ficha técnica</a>
           </div>
         </div>
         <div class="product-banner-right fade-up fade-up-d2">
@@ -1295,7 +1292,7 @@
       </div>
     </div>
 
-    <div class="product-specs">
+    <div id="pdc-especificaciones" class="product-specs">
       <div class="product-specs-inner">
         <div class="product-spec-item fade-up">
           <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
