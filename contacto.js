@@ -18,7 +18,7 @@
    * CONFIG: Web3Forms, CAPTCHA (hCaptcha/reCAPTCHA), EmailJS (opcional).
    */
   var CONFIG = {
-    web3formsAccessKey: 'b2a53d25-c83d-4ff9-8045-4539b14439e8',
+    web3formsAccessKey: '7080c9b9-3aca-422d-81bd-79fce62f30e5',
     captchaProvider: 'hcaptcha', // 'hcaptcha' (free en Web3Forms) o 'recaptcha' (Pro)
     // Web3Forms (gratis): sitekey oficial para que el servidor pueda verificar el token.
     hcaptchaSiteKey: '50b2fe65-b00b-4b9e-ad62-3ba471098be2',
