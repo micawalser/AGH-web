@@ -417,6 +417,35 @@
         // Fallback: si por algún motivo no existe la sección, evitamos dejar el logo oculto para siempre.
         setTimeout(() => document.body.classList.remove('hero-intro-pending'), 12000);
       }
+
+      // WhatsApp flotante: oculto en el hero; al llegar a #maquinas queda visible el resto del scroll (no se oculta al pasar a #producto).
+      const waFloat = document.querySelector('.whatsapp-float--defer-until-machines');
+      if (waFloat) {
+        if (nextSection) {
+          let waObs = null;
+          const showWaPermanently = () => {
+            waFloat.classList.add('whatsapp-float--visible');
+            if (waObs) {
+              waObs.disconnect();
+              waObs = null;
+            }
+          };
+          const rect = nextSection.getBoundingClientRect();
+          if (rect.bottom < 0) {
+            showWaPermanently();
+          } else {
+            waObs = new IntersectionObserver((entries) => {
+              const entry = entries[0];
+              if (entry && entry.isIntersecting) {
+                showWaPermanently();
+              }
+            }, { threshold: 0.1 });
+            waObs.observe(nextSection);
+          }
+        } else {
+          waFloat.classList.add('whatsapp-float--visible');
+        }
+      }
     });
   </script>
   <script>
@@ -428,7 +457,7 @@
     });
   </script>
   <a
-    class="whatsapp-float"
+    class="whatsapp-float whatsapp-float--defer-until-machines"
     href="https://wa.link/pwhz59"
     target="_blank"
     rel="noopener noreferrer"
