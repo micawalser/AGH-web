@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
   <title>Productos ODC, PDC y Voxel | AGH Dimensionadores</title>
   <meta name="description" content="ODC y PDC: dimensionado 3D de bultos y pallets. Software Voxel Cam y Voxel Cloud. Integración WMS, API y etiquetas. Especificaciones y contacto.">
   <meta name="robots" content="index, follow">
@@ -523,6 +525,88 @@
       background: var(--accent-dim);
       border-color: var(--accent);
       box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .btn-product-ghost svg,
+    .btn-product-primary svg {
+      width: 1rem;
+      height: 1rem;
+      flex-shrink: 0;
+    }
+    .product-video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .product-video-modal.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .product-video-modal__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(6px);
+    }
+    .product-video-modal__panel {
+      position: relative;
+      width: min(720px, 92vw);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1rem 1rem 1.15rem;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+    }
+    .product-video-modal__close {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border: none;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      font-size: 1.35rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .product-video-modal__close:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--accent);
+    }
+    .product-video-modal__title {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin: 0 2.5rem 0.75rem 0;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .product-video-modal__embed {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .product-video-modal__embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
     }
     .product-banner-right {
       display: flex;
@@ -1219,6 +1303,10 @@
           </p>
           <div class="product-cta-row fade-up fade-up-d3">
             <a href="#odc-especificaciones" class="btn-product-ghost">Ver ficha técnica</a>
+            <button type="button" class="btn-product-primary" id="odc-video-open" aria-haspopup="dialog" aria-controls="odc-video-modal">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              Ver video
+            </button>
           </div>
         </div>
         <div class="product-banner-right fade-up fade-up-d2">
@@ -1445,6 +1533,23 @@
   </section>
 
   <!-- FOOTER -->
+  <div class="product-video-modal" id="odc-video-modal" role="dialog" aria-modal="true" aria-labelledby="odc-video-title" aria-hidden="true">
+    <div class="product-video-modal__backdrop" data-video-close></div>
+    <div class="product-video-modal__panel">
+      <button type="button" class="product-video-modal__close" aria-label="Cerrar video" data-video-close>&times;</button>
+      <h2 id="odc-video-title" class="product-video-modal__title">ODC</h2>
+      <div class="product-video-modal__embed">
+        <iframe
+          id="odc-video-iframe"
+          title="Video demostración ODC — AGH Dimensionadores"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
     <a href="index.html" class="logo">
       <img src="assets/aghblanco.png" alt="AGH Dimensionadores" class="logo-img" loading="lazy" decoding="async">
@@ -1479,6 +1584,65 @@
       });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    const odcVideoModal = document.getElementById('odc-video-modal');
+    const odcVideoOpen = document.getElementById('odc-video-open');
+    const odcVideoIframe = document.getElementById('odc-video-iframe');
+    const ODC_VIDEO_ID = '7x0UQdcJTZk';
+    const SITE_ORIGIN = 'https://aghdimensionadores.com';
+
+    function getOdcVideoEmbedUrl() {
+      var pageOrigin = window.location.origin;
+      if (!pageOrigin || pageOrigin === 'null' || window.location.protocol === 'file:') {
+        pageOrigin = SITE_ORIGIN;
+      }
+      var pageUrl = window.location.protocol === 'file:'
+        ? SITE_ORIGIN + '/productos.html'
+        : window.location.href.split('#')[0];
+
+      var params = new URLSearchParams({
+        autoplay: '1',
+        rel: '0',
+        modestbranding: '1',
+        playsinline: '1',
+        origin: pageOrigin,
+        widget_referrer: pageUrl
+      });
+
+      return 'https://www.youtube.com/embed/' + ODC_VIDEO_ID + '?' + params.toString();
+    }
+
+    function openOdcVideo() {
+      if (!odcVideoModal || !odcVideoIframe) return;
+      odcVideoIframe.src = getOdcVideoEmbedUrl();
+      odcVideoModal.classList.add('is-open');
+      odcVideoModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeOdcVideo() {
+      if (!odcVideoModal || !odcVideoIframe) return;
+      odcVideoModal.classList.remove('is-open');
+      odcVideoModal.setAttribute('aria-hidden', 'true');
+      odcVideoIframe.src = '';
+      document.body.style.overflow = '';
+    }
+
+    if (odcVideoOpen) {
+      odcVideoOpen.addEventListener('click', openOdcVideo);
+    }
+
+    if (odcVideoModal) {
+      odcVideoModal.querySelectorAll('[data-video-close]').forEach(function (el) {
+        el.addEventListener('click', closeOdcVideo);
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && odcVideoModal && odcVideoModal.classList.contains('is-open')) {
+        closeOdcVideo();
+      }
+    });
 
   </script>
   <a
