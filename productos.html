@@ -898,12 +898,17 @@
     .product-features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, auto);
       gap: 1px;
       background: var(--border);
       border: 1px solid var(--border);
       max-width: 1200px;
+      align-items: start;
     }
     .product-feature-card {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
       background: var(--bg);
       padding: 2rem;
       transition: background 0.25s;
@@ -922,6 +927,7 @@
       color: var(--text);
       margin-bottom: 0.55rem;
       line-height: 1.3;
+      min-height: calc(0.92rem * 1.3 * 2);
     }
     .product-feature-desc {
       font-size: 0.85rem;
@@ -1165,12 +1171,22 @@
       .product-specs-inner { grid-template-columns: repeat(2, 1fr); }
       .product-spec-item:nth-child(2n) { border-right: none; }
       .product-spec-item:nth-child(3) { border-right: 1px solid var(--border); }
-      .product-features-grid { grid-template-columns: 1fr 1fr; }
       .software-products-grid { grid-template-columns: 1fr; }
       .products-scroll-hint { margin-top: 2.5rem; }
     }
     @media (max-width: 600px) {
-      .product-features-grid { grid-template-columns: 1fr; }
+      .product-features-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+      }
+      .product-feature-card {
+        grid-row: auto;
+        grid-template-rows: none;
+        display: block;
+      }
+      .product-feature-title {
+        min-height: 0;
+      }
       .product-tab { padding: 0.8rem 1rem; font-size: 0.75rem; }
     }
 
@@ -1299,7 +1315,7 @@
           </p>
           <p class="product-description fade-up fade-up-d2">
             Sistema de dimensionado por visión 3D diseñado para líneas de picking, estaciones de empaque
-            y control Dimensioner en tiempo real. Precisión milimétrica, integración nativa con tu WMS.
+            y expedición en tiempo real. Precisión milimétrica, integración nativa con tu WMS/ERP/CRM/TMS.
           </p>
           <div class="product-cta-row fade-up fade-up-d3">
             <a href="#odc-especificaciones" class="btn-product-ghost">Ver ficha técnica</a>
@@ -1334,22 +1350,22 @@
         <div class="product-spec-item fade-up">
           <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h20M12 2v20M4.929 4.929l14.142 14.142M19.071 4.929L4.929 19.071"/></svg></div>
           <div class="product-spec-label">Tecnología</div>
-          <div class="product-spec-value">Visión 3D estereoscópica</div>
+          <div class="product-spec-value">Cámara 3D y RGB</div>
         </div>
         <div class="product-spec-item fade-up fade-up-d1">
           <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
           <div class="product-spec-label">Rango de medición</div>
-          <div class="product-spec-value">Hasta 120 × 80 × 80 cm</div>
+          <div class="product-spec-value">Hasta 120 × 120 × 160 cm</div>
         </div>
         <div class="product-spec-item fade-up fade-up-d2">
           <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
           <div class="product-spec-label">Velocidad</div>
-          <div class="product-spec-value">&lt; 1 seg por medición</div>
+          <div class="product-spec-value">&lt; 3 seg por medición</div>
         </div>
         <div class="product-spec-item fade-up fade-up-d3">
           <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
           <div class="product-spec-label">Integración</div>
-          <div class="product-spec-value">WMS / API REST / CSV</div>
+          <div class="product-spec-value">WMS / ERP / CRM / TMS</div>
         </div>
       </div>
     </div>
@@ -1359,8 +1375,8 @@
       <div class="product-features-grid">
         <div class="product-feature-card fade-up">
           <div class="product-feature-num">01</div>
-          <div class="product-feature-title">Dimensionado sin contacto</div>
-          <div class="product-feature-desc">Medición por cámara 3D sin manipulación del producto, ideal para flujos de alta velocidad.</div>
+          <div class="product-feature-title">Aplicación Voxel Cam</div>
+          <div class="product-feature-desc">Interfaz moderna e intuitiva para la gestión de la información obtenida y la posterior integración con sistemas logísticos.</div>
         </div>
         <div class="product-feature-card fade-up fade-up-d1">
           <div class="product-feature-num">02</div>
@@ -1369,8 +1385,8 @@
         </div>
         <div class="product-feature-card fade-up fade-up-d2">
           <div class="product-feature-num">03</div>
-          <div class="product-feature-title">Software Voxel Cam</div>
-          <div class="product-feature-desc">Interfaz con historial de mediciones, reportes y exportación nativa a sistemas logísticos.</div>
+          <div class="product-feature-title">Aplicación Voxel Cam</div>
+          <div class="product-feature-desc">Interfaz moderna e intuitiva para la gestión de la información obtenida y la posterior integración con sistemas logísticos.</div>
         </div>
       </div>
     </div>
