@@ -175,6 +175,17 @@ body {
   position: relative;
 }
 
+/* Puente invisible entre el trigger y el menú (evita que se cierre al bajar el mouse) */
+.nav-dropdown::after {
+  content: '';
+  position: absolute;
+  left: -24px;
+  right: -24px;
+  top: calc(100% - 6px);
+  height: 28px;
+  z-index: 49;
+}
+
 .nav-dropdown-trigger {
   color: rgba(240, 244, 248, 0.88);
   font-size: 1.05rem;
@@ -193,10 +204,9 @@ body {
 
 .nav-dropdown-menu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 6px);
   left: 50%;
-  transform: translateX(-50%) translateY(14px);
-  margin-top: 0.5rem;
+  transform: translateX(-50%);
   min-width: 280px;
   padding: 0.35rem 0;
   background: var(--surface);
@@ -206,14 +216,14 @@ body {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.35s ease-out, visibility 0.35s ease-out, transform 0.35s ease-out;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
   z-index: 50;
 }
 
-.nav-dropdown:hover .nav-dropdown-menu {
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
   pointer-events: auto;
 }
 
@@ -2934,6 +2944,16 @@ body:has(#software:target) #productos-intro {
 .footer-copy {
   color: var(--text-muted);
   font-size: 0.9rem;
+}
+
+.footer-copy a,
+.footer-copy a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-copy a:hover {
+  color: inherit;
 }
 
 /* ----- Responsive ----- */
