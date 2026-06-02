@@ -898,30 +898,48 @@
     .product-features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, auto);
       gap: 1px;
       background: var(--border);
       border: 1px solid var(--border);
       max-width: 1200px;
-      align-items: start;
+      align-items: stretch;
     }
-    .product-feature-card {
-      display: grid;
-      grid-row: span 3;
-      grid-template-rows: subgrid;
+    .product-features-section .product-feature-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: static;
+      height: 100%;
       background: var(--bg);
       padding: 2rem;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: visible;
+      transform: none;
       transition: background 0.25s;
     }
-    .product-feature-card:hover { background: rgba(52,201,138,0.04); }
-    .product-feature-num {
+    .product-features-section .product-feature-card::before {
+      display: none;
+    }
+    .product-features-section .product-feature-card:hover {
+      background: rgba(52,201,138,0.04);
+      transform: none;
+      box-shadow: none;
+      border: none;
+    }
+    .product-features-section .product-feature-num {
+      flex: 0 0 auto;
       font-family: var(--font-mono);
       font-size: 0.62rem;
+      line-height: 1;
       color: var(--accent);
       opacity: 0.45;
       margin-bottom: 1.25rem;
     }
-    .product-feature-title {
+    .product-features-section .product-feature-title {
+      flex: 0 0 auto;
+      width: 100%;
       font-size: 0.92rem;
       font-weight: 700;
       color: var(--text);
@@ -929,7 +947,9 @@
       line-height: 1.3;
       min-height: calc(0.92rem * 1.3 * 2);
     }
-    .product-feature-desc {
+    .product-features-section .product-feature-desc {
+      flex: 1 1 auto;
+      width: 100%;
       font-size: 0.85rem;
       line-height: 1.7;
       color: var(--text-muted);
@@ -1177,14 +1197,11 @@
     @media (max-width: 600px) {
       .product-features-grid {
         grid-template-columns: 1fr;
-        grid-template-rows: none;
       }
-      .product-feature-card {
-        grid-row: auto;
-        grid-template-rows: none;
-        display: block;
+      .product-features-section .product-feature-card {
+        display: flex;
       }
-      .product-feature-title {
+      .product-features-section .product-feature-title {
         min-height: 0;
       }
       .product-tab { padding: 0.8rem 1rem; font-size: 0.75rem; }
@@ -1385,8 +1402,8 @@
         </div>
         <div class="product-feature-card fade-up fade-up-d2">
           <div class="product-feature-num">03</div>
-          <div class="product-feature-title">Aplicación Voxel Cam</div>
-          <div class="product-feature-desc">Interfaz moderna e intuitiva para la gestión de la información obtenida y la posterior integración con sistemas logísticos.</div>
+          <div class="product-feature-title">Trazabilidad</div>
+          <div class="product-feature-desc">Lectura de códigos de barras e impresión de etiquetas de control y QR con toda la información del bulto sincronizada en Voxel Cloud.</div>
         </div>
       </div>
     </div>
@@ -1400,14 +1417,17 @@
         <div class="product-banner-left">
           <img src="assets/pdclogo.png" alt="PDC Dimensionado de pallets" class="product-pdc-logo fade-up" loading="lazy" decoding="async">
           <p class="product-headline fade-up fade-up-d2">
-            Medición avanzada para pallets completos y cargas voluminosas.
+            El volumen real de cada pallet, medido en segundos.
           </p>
           <p class="product-description fade-up fade-up-d2">
-            Captura volumen y peso de cada unidad logística en segundos. Reduce errores de facturación
-            y mejora la ocupación en transporte y almacén con lecturas precisas en líneas de entrada y salida.
+            Sistema estático de dimensionado 3D con 4 cámaras para pallets y cargas voluminosas. Captura medidas, peso e imagen de cada unidad, incluso en cargas irregulares o con sobresalientes. Optimiza la facturación por cubicaje real y la ocupación en transporte y almacén.
           </p>
           <div class="product-cta-row fade-up fade-up-d3">
             <a href="#pdc-especificaciones" class="btn-product-ghost">Ver ficha técnica</a>
+            <button type="button" class="btn-product-primary" id="pdc-video-open" aria-haspopup="dialog" aria-controls="pdc-video-modal">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              Ver video
+            </button>
           </div>
         </div>
         <div class="product-banner-right fade-up fade-up-d2">
@@ -1431,7 +1451,7 @@
         <div class="product-spec-item fade-up">
           <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
           <div class="product-spec-label">Objeto</div>
-          <div class="product-spec-value">Pallets y cargas voluminosas</div>
+          <div class="product-spec-value">Pallets y objetos irregulares</div>
         </div>
         <div class="product-spec-item fade-up fade-up-d1">
           <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
@@ -1439,14 +1459,14 @@
           <div class="product-spec-value">Hasta 250 cm</div>
         </div>
         <div class="product-spec-item fade-up fade-up-d2">
-          <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-          <div class="product-spec-label">Rendimiento</div>
-          <div class="product-spec-value">120+ pallets / hora</div>
+          <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div class="product-spec-label">Velocidad</div>
+          <div class="product-spec-value">&lt; 4 seg por medición</div>
         </div>
         <div class="product-spec-item fade-up fade-up-d3">
-          <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
-          <div class="product-spec-label">Salida</div>
-          <div class="product-spec-value">WMS / TMS / ERP</div>
+          <div class="product-spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <div class="product-spec-label">Integración</div>
+          <div class="product-spec-value">WMS / ERP / CRM / TMS</div>
         </div>
       </div>
     </div>
@@ -1456,18 +1476,18 @@
       <div class="product-features-grid">
         <div class="product-feature-card fade-up">
           <div class="product-feature-num">01</div>
-          <div class="product-feature-title">Medición 3D de pallets</div>
-          <div class="product-feature-desc">Escaneo volumétrico completo, incluyendo cargas irregulares y elementos sobresalientes.</div>
+          <div class="product-feature-title">Aplicación Voxel Cam</div>
+          <div class="product-feature-desc">Interfaz para gestionar mediciones, imágenes y datos de cada pallet desde una sola pantalla, con posibilidad de elegir qué cámara visualizar.</div>
         </div>
         <div class="product-feature-card fade-up fade-up-d1">
           <div class="product-feature-num">02</div>
-          <div class="product-feature-title">Lectura en línea</div>
-          <div class="product-feature-desc">Integrado en el flujo logístico para medir sin detener la operación ni requerir operarios adicionales.</div>
+          <div class="product-feature-title">Cuatro cámaras 3D</div>
+          <div class="product-feature-desc">Escaneo volumétrico con 4 cámaras para capturar el volumen real del pallet, incluso en cargas irregulares o con sobresalientes.</div>
         </div>
         <div class="product-feature-card fade-up fade-up-d2">
           <div class="product-feature-num">03</div>
-          <div class="product-feature-title">Integración WMS, TMS y operadores</div>
-          <div class="product-feature-desc">Conecta automáticamente con tus sistemas de gestión para una operativa sin fricciones.</div>
+          <div class="product-feature-title">Pesaje integrado</div>
+          <div class="product-feature-desc">Balanza incorporada para registrar peso, volumen e imagen en una sola estación, en menos de 4 segundos por medición.</div>
         </div>
       </div>
     </div>
@@ -1483,11 +1503,11 @@
           <div class="product-name-display fade-up fade-up-d1">PDL</div>
           <div class="product-name-full fade-up fade-up-d1">Pallet Dimensioner Laser</div>
           <p class="product-headline fade-up fade-up-d2">
-            Medición láser de alta velocidad para líneas de producción continua.
+            Escaneo LiDAR de alta precisión para líneas de producción continua.
           </p>
           <p class="product-description fade-up fade-up-d2">
-            El PDL está diseñado para entornos de alta cadencia donde la velocidad de medición es crítica.
-            Tecnología láser TOF para máxima precisión incluso en movimiento.
+            El PDL utiliza sensores LiDAR montados en un sistema motorizado que recorre el bulto de un lado a otro,
+            generando una nube de puntos hiperprecisa para capturar su volumen real.
           </p>
         </div>
         <div class="pdl-placeholder fade-up fade-up-d2"></div>
@@ -1505,7 +1525,7 @@
           <div class="product-name-display fade-up fade-up-d1">Aplicaciones</div>
           <div class="product-name-full fade-up fade-up-d1">AGH Voxel Suite</div>
           <p class="product-headline fade-up fade-up-d2" style="max-width:620px;">
-            Almacena, exporta e integra tus datos Dimensioneres para aumentar la rentabilidad y eficiencia en toda tu cadena de suministro.
+            Almacena, exporta e integra los datos de tus dimensionadores para visualizar cada medición, centralizar la información y conectar tus equipos con tu operación logística.
           </p>
         </div>
         <div class="software-header-right fade-up fade-up-d2">
@@ -1558,6 +1578,23 @@
         <iframe
           id="odc-video-iframe"
           title="Video demostración ODC — AGH Dimensionadores"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-video-modal" id="pdc-video-modal" role="dialog" aria-modal="true" aria-labelledby="pdc-video-title" aria-hidden="true">
+    <div class="product-video-modal__backdrop" data-video-close></div>
+    <div class="product-video-modal__panel">
+      <button type="button" class="product-video-modal__close" aria-label="Cerrar video" data-video-close>&times;</button>
+      <h2 id="pdc-video-title" class="product-video-modal__title">PDC</h2>
+      <div class="product-video-modal__embed">
+        <iframe
+          id="pdc-video-iframe"
+          title="Video demostración PDC — AGH Dimensionadores"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen
@@ -1654,9 +1691,64 @@
       });
     }
 
+    const pdcVideoModal = document.getElementById('pdc-video-modal');
+    const pdcVideoOpen = document.getElementById('pdc-video-open');
+    const pdcVideoIframe = document.getElementById('pdc-video-iframe');
+    const PDC_VIDEO_ID = 'd1QK0JrGTrM';
+
+    function getPdcVideoEmbedUrl() {
+      var pageOrigin = window.location.origin;
+      if (!pageOrigin || pageOrigin === 'null' || window.location.protocol === 'file:') {
+        pageOrigin = SITE_ORIGIN;
+      }
+      var pageUrl = window.location.protocol === 'file:'
+        ? SITE_ORIGIN + '/productos.html'
+        : window.location.href.split('#')[0];
+
+      var params = new URLSearchParams({
+        autoplay: '1',
+        rel: '0',
+        modestbranding: '1',
+        playsinline: '1',
+        origin: pageOrigin,
+        widget_referrer: pageUrl
+      });
+
+      return 'https://www.youtube.com/embed/' + PDC_VIDEO_ID + '?' + params.toString();
+    }
+
+    function openPdcVideo() {
+      if (!pdcVideoModal || !pdcVideoIframe) return;
+      pdcVideoIframe.src = getPdcVideoEmbedUrl();
+      pdcVideoModal.classList.add('is-open');
+      pdcVideoModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePdcVideo() {
+      if (!pdcVideoModal || !pdcVideoIframe) return;
+      pdcVideoModal.classList.remove('is-open');
+      pdcVideoModal.setAttribute('aria-hidden', 'true');
+      pdcVideoIframe.src = '';
+      document.body.style.overflow = '';
+    }
+
+    if (pdcVideoOpen) {
+      pdcVideoOpen.addEventListener('click', openPdcVideo);
+    }
+
+    if (pdcVideoModal) {
+      pdcVideoModal.querySelectorAll('[data-video-close]').forEach(function (el) {
+        el.addEventListener('click', closePdcVideo);
+      });
+    }
+
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && odcVideoModal && odcVideoModal.classList.contains('is-open')) {
         closeOdcVideo();
+      }
+      if (e.key === 'Escape' && pdcVideoModal && pdcVideoModal.classList.contains('is-open')) {
+        closePdcVideo();
       }
     });
 

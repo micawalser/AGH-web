@@ -1820,14 +1820,13 @@ body {
   flex: 1;
   min-width: 0;
   line-height: 1.22;
+  font-size: clamp(0.82rem, 1.6vw, 1.05rem);
+  letter-spacing: 0.05em;
 }
 
 .benefit-card-title--lines .benefit-card-title-line {
   display: block;
-}
-
-.benefit-card-title--lines .benefit-card-title-line:first-child {
-  white-space: nowrap;
+  overflow-wrap: break-word;
 }
 
 .benefit-card p {
